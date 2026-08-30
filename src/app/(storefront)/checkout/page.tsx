@@ -182,32 +182,46 @@ function CheckoutContent() {
         name: address.name || customer.name,
         phone: address.phone || customer.phone,
       };
+      const orderPayload = {
+        items: items.map((i) => ({
+          productId: i.productId,
+          size: i.size,
+          color: i.color,
+          quantity: i.quantity,
+        })),
+        address: finalAddress,
+        paymentMethod,
+        couponCode: appliedCoupon?.code,
+      };
+
       const res = await fetch("/api/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          items: items.map((i) => ({
-            productId: i.productId,
-            size: i.size,
-            color: i.color,
-            quantity: i.quantity,
-          })),
-          address: finalAddress,
-          paymentMethod,
-          couponCode: appliedCoupon?.code,
-        }),
+        body: JSON.stringify(orderPayload),
       });
+
+      if (!res.ok) {
+        let errorMsg = "Failed to place order";
+        try {
+          const errorData = await res.json();
+          errorMsg = errorData.error || errorMsg;
+        } catch {}
+        toast.error(errorMsg);
+        return;
+      }
+
       const data = await res.json();
-      if (res.ok) {
+
+      if (data.order) {
         clear();
         sessionStorage.removeItem("ruhvique-coupon");
         setPlacedOrder(data.order);
         toast.success("Order placed successfully!");
       } else {
-        toast.error(data.error || "Failed to place order");
+        toast.error("Invalid response from server");
       }
-    } catch {
-      toast.error("Network error");
+    } catch (err: any) {
+      toast.error(err?.message || "Network error. Please check your connection and try again.");
     } finally {
       setPlacing(false);
     }
