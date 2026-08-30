@@ -48,43 +48,18 @@ export function HeroBanner({ banners }: { banners: Banner[] }) {
       >
         {banners.map((b) => (
           <div key={b.id} className="relative w-full flex-shrink-0">
-            <div className="relative aspect-[16/9] sm:aspect-[21/9] lg:aspect-[16/5] w-full">
-              { }
+            <Link
+              href={b.ctaLink || "/tshirts"}
+              className="block relative aspect-[16/9] sm:aspect-[21/9] lg:aspect-[16/5] w-full group"
+            >
               <img
                 src={b.image}
                 alt={b.title}
-                className="absolute inset-0 h-full w-full object-cover"
-                data-priority={index === 0 ? "true" : "false"}
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent" />
-              {/* Only show text overlay if there's a title, subtitle, or CTA */}
-              {(b.title?.trim() || b.subtitle?.trim() || (b.ctaText && b.ctaLink)) && (
-                <div className="absolute inset-0 flex items-center">
-                  <div className="container mx-auto max-w-7xl px-6 sm:px-10">
-                    <div className="max-w-xl">
-                      {b.title?.trim() && (
-                        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight">
-                          {b.title}
-                        </h1>
-                      )}
-                      {b.subtitle?.trim() && (
-                        <p className="mt-3 text-sm sm:text-base lg:text-lg text-white/80 max-w-md">
-                          {b.subtitle}
-                        </p>
-                      )}
-                      {b.ctaText && b.ctaLink && (
-                        <Link
-                          href={b.ctaLink}
-                          className="inline-flex items-center gap-2 mt-6 bg-white text-black px-6 py-3 text-xs sm:text-sm font-bold uppercase tracking-widest hover:bg-white/90 transition-colors"
-                        >
-                          {b.ctaText}
-                        </Link>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
+              {/* Subtle gradient for depth */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+            </Link>
           </div>
         ))}
       </div>
@@ -96,7 +71,7 @@ export function HeroBanner({ banners }: { banners: Banner[] }) {
             type="button"
             onClick={prev}
             aria-label="Previous banner"
-            className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/15 backdrop-blur hover:bg-white/25 text-white transition"
+            className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/15 backdrop-blur hover:bg-white/30 text-white transition z-10"
           >
             <ChevronLeft className="h-5 w-5" />
           </button>
@@ -104,7 +79,7 @@ export function HeroBanner({ banners }: { banners: Banner[] }) {
             type="button"
             onClick={next}
             aria-label="Next banner"
-            className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/15 backdrop-blur hover:bg-white/25 text-white transition"
+            className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/15 backdrop-blur hover:bg-white/30 text-white transition z-10"
           >
             <ChevronRight className="h-5 w-5" />
           </button>
@@ -113,7 +88,7 @@ export function HeroBanner({ banners }: { banners: Banner[] }) {
 
       {/* Dots */}
       {count > 1 && (
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
           {banners.map((_, i) => (
             <button
               key={i}
