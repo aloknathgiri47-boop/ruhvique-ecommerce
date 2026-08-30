@@ -32,6 +32,15 @@ const SORT_OPTIONS = [
   { value: "rating", label: "Best Rated" },
 ];
 
+const PRICE_RANGES = [
+  { label: "Under ₹500", min: 0, max: 500 },
+  { label: "₹500 - ₹1,000", min: 500, max: 1000 },
+  { label: "₹1,000 - ₹1,500", min: 1000, max: 1500 },
+  { label: "₹1,500 - ₹2,000", min: 1500, max: 2000 },
+  { label: "₹2,000 - ₹3,000", min: 2000, max: 3000 },
+  { label: "₹3,000+", min: 3000, max: 5000 },
+];
+
 export function FilterPanel({ category }: { category?: string }) {
   const router = useRouter();
   const sp = useSearchParams();
@@ -62,6 +71,25 @@ export function FilterPanel({ category }: { category?: string }) {
     [router, sp]
   );
 
+  const setPriceRange = useCallback(
+    (min: number, max: number) => {
+      const params = new URLSearchParams(sp.toString());
+      const currentMin = params.get("minPrice");
+      const currentMax = params.get("maxPrice");
+      // Toggle off if same range clicked
+      if (currentMin === String(min) && currentMax === String(max)) {
+        params.delete("minPrice");
+        params.delete("maxPrice");
+      } else {
+        params.set("minPrice", String(min));
+        params.set("maxPrice", String(max));
+      }
+      params.delete("page");
+      router.push(`?${params.toString()}`, { scroll: false });
+    },
+    [router, sp]
+  );
+
   const selectedSizes = sp.get("sizes")?.split(",").filter(Boolean) ?? [];
   const selectedColors = sp.get("colors")?.split(",").filter(Boolean) ?? [];
   const minPrice = sp.get("minPrice") ? Number(sp.get("minPrice")) : 0;
@@ -71,10 +99,16 @@ export function FilterPanel({ category }: { category?: string }) {
 
   const activeFilterCount =
     selectedSizes.length + selectedColors.length + (inStockOnly ? 1 : 0) +
-    (minPrice > 0 ? 1 : 0) + (maxPrice !== 5000 && maxPrice > 0 ? 1 : 0);
+    (sp.get("minPrice") ? 1 : 0);
+
+  const isPriceRangeActive = (min: number, max: number) => {
+    return minPrice === min && maxPrice === max;
+  };
+
+  const clearAll = () => router.push(category ? `/${category}` : "/search", { scroll: false });
 
   const Panel = (
-    <div className="space-y-6">
+    <div className="space-y-5">
       {/* Active filters badge */}
       {activeFilterCount > 0 && (
         <div className="flex items-center justify-between rounded-md bg-primary/5 px-3 py-2">
@@ -82,7 +116,7 @@ export function FilterPanel({ category }: { category?: string }) {
             {activeFilterCount} active {activeFilterCount === 1 ? "filter" : "filters"}
           </span>
           <button
-            onClick={() => router.push(category ? `/${category}` : "/search", { scroll: false })}
+            onClick={clearAll}
             className="text-xs font-medium text-primary hover:underline"
           >
             Clear all
@@ -92,38 +126,29 @@ export function FilterPanel({ category }: { category?: string }) {
 
       {/* Sort */}
       <div>
-        <h3 className="mb-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">Sort By</h3>
-        <div className="space-y-1">
+        <h3 className="mb-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">Sort By</h3>
+        <select
+          value={sort}
+          onChange={(e) => setParam("sort", e.target.value)}
+          className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm font-medium cursor-pointer hover:border-foreground/40 transition-colors"
+        >
           {SORT_OPTIONS.map((opt) => (
-            <button
-              key={opt.value}
-              type="button"
-              onClick={() => setParam("sort", opt.value)}
-              className={cn(
-                "flex w-full items-center justify-between rounded-md px-3 py-2 text-sm font-medium transition-colors",
-                sort === opt.value
-                  ? "bg-primary text-primary-foreground"
-                  : "hover:bg-accent"
-              )}
-            >
-              {opt.label}
-              {sort === opt.value && <Check className="h-4 w-4" />}
-            </button>
+            <option key={opt.value} value={opt.value}>{opt.label}</option>
           ))}
-        </div>
+        </select>
       </div>
 
       {/* Size */}
       <div>
-        <h3 className="mb-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">Size</h3>
-        <div className="grid grid-cols-3 gap-2">
+        <h3 className="mb-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">Size</h3>
+        <div className="flex flex-wrap gap-1.5">
           {SIZES.map((s) => (
             <button
               key={s}
               type="button"
               onClick={() => toggleParam("sizes", s)}
               className={cn(
-                "h-10 rounded-md border-2 text-sm font-bold transition-all",
+                "h-9 min-w-9 px-2.5 rounded-md border-2 text-xs font-bold transition-all",
                 selectedSizes.includes(s)
                   ? "border-primary bg-primary text-primary-foreground"
                   : "border-border hover:border-foreground/40"
@@ -137,8 +162,8 @@ export function FilterPanel({ category }: { category?: string }) {
 
       {/* Color */}
       <div>
-        <h3 className="mb-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">Color</h3>
-        <div className="flex flex-wrap gap-2">
+        <h3 className="mb-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">Color</h3>
+        <div className="flex flex-wrap gap-1.5">
           {COLORS.map((c) => (
             <button
               key={c.name}
@@ -146,68 +171,52 @@ export function FilterPanel({ category }: { category?: string }) {
               onClick={() => toggleParam("colors", c.name)}
               title={c.name}
               className={cn(
-                "flex items-center gap-2 rounded-full border-2 py-1.5 pl-1.5 pr-3 text-xs font-medium transition-all",
+                "h-8 w-8 rounded-full border-2 transition-all hover:scale-110",
                 selectedColors.includes(c.name)
-                  ? "border-primary bg-primary/5"
-                  : "border-border hover:border-foreground/40"
+                  ? "border-primary ring-2 ring-primary/20"
+                  : "border-border"
               )}
+              style={{ background: c.hex }}
             >
-              <span
-                className="h-6 w-6 rounded-full border border-black/10 flex-shrink-0"
-                style={{ background: c.hex }}
-              />
-              {c.name}
+              {selectedColors.includes(c.name) && (
+                <Check className={cn("h-4 w-4 mx-auto", c.name === "White" || c.name === "Cream" ? "text-black" : "text-white")} />
+              )}
             </button>
           ))}
         </div>
       </div>
 
-      {/* Price */}
+      {/* Price - preset ranges (no scroll needed) */}
       <div>
-        <h3 className="mb-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">
-          Price Range
-        </h3>
-        <div className="space-y-3">
-          <div className="flex items-center justify-between text-xs font-medium">
-            <span>₹{minPrice || 0}</span>
-            <span>₹{maxPrice || 5000}</span>
-          </div>
-          <input
-            type="range"
-            min={0}
-            max={5000}
-            step={100}
-            value={maxPrice}
-            onChange={(e) => setParam("maxPrice", e.target.value)}
-            className="w-full accent-primary cursor-pointer"
-          />
-          <div className="flex gap-2">
-            <input
-              type="number"
-              placeholder="Min ₹"
-              value={minPrice || ""}
-              onChange={(e) => setParam("minPrice", e.target.value || null)}
-              className="w-1/2 rounded-md border border-border bg-background px-2 py-1.5 text-sm"
-            />
-            <input
-              type="number"
-              placeholder="Max ₹"
-              value={maxPrice === 5000 ? "" : maxPrice}
-              onChange={(e) => setParam("maxPrice", e.target.value || null)}
-              className="w-1/2 rounded-md border border-border bg-background px-2 py-1.5 text-sm"
-            />
-          </div>
+        <h3 className="mb-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">Price Range</h3>
+        <div className="space-y-1">
+          {PRICE_RANGES.map((range) => (
+            <button
+              key={range.label}
+              type="button"
+              onClick={() => setPriceRange(range.min, range.max)}
+              className={cn(
+                "flex w-full items-center justify-between rounded-md px-3 py-1.5 text-xs font-medium transition-colors",
+                isPriceRangeActive(range.min, range.max)
+                  ? "bg-primary text-primary-foreground"
+                  : "hover:bg-accent"
+              )}
+            >
+              {range.label}
+              {isPriceRangeActive(range.min, range.max) && <Check className="h-3.5 w-3.5" />}
+            </button>
+          ))}
         </div>
       </div>
 
       {/* Availability */}
       <div>
-        <h3 className="mb-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">Availability</h3>
+        <h3 className="mb-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">Availability</h3>
         <button
           type="button"
           onClick={() => setParam("availability", !inStockOnly ? "in-stock" : null)}
           className={cn(
-            "flex w-full items-center justify-between rounded-md border-2 px-3 py-2.5 text-sm font-medium transition-all",
+            "flex w-full items-center justify-between rounded-md border-2 px-3 py-2 text-xs font-medium transition-all",
             inStockOnly
               ? "border-primary bg-primary/5"
               : "border-border hover:border-foreground/40"
@@ -224,21 +233,23 @@ export function FilterPanel({ category }: { category?: string }) {
       </div>
 
       {/* Clear all */}
-      <button
-        type="button"
-        onClick={() => router.push(category ? `/${category}` : "/search", { scroll: false })}
-        className="flex w-full items-center justify-center gap-2 rounded-md border border-border py-2.5 text-sm font-medium hover:bg-accent transition-colors"
-      >
-        <X className="h-4 w-4" /> Clear all filters
-      </button>
+      {activeFilterCount > 0 && (
+        <button
+          type="button"
+          onClick={clearAll}
+          className="flex w-full items-center justify-center gap-2 rounded-md border border-border py-2 text-xs font-medium hover:bg-accent transition-colors"
+        >
+          <X className="h-3.5 w-3.5" /> Clear all filters
+        </button>
+      )}
     </div>
   );
 
   return (
     <>
-      {/* Desktop sidebar */}
-      <aside className="hidden lg:block w-64 flex-shrink-0">
-        <div className="sticky top-20 rounded-lg border border-border bg-card p-4">
+      {/* Desktop sidebar - compact, no scroll needed */}
+      <aside className="hidden lg:block w-60 flex-shrink-0">
+        <div className="sticky top-20 rounded-lg border border-border bg-card p-4 max-h-[calc(100vh-6rem)] overflow-y-auto ru-scrollbar">
           <div className="mb-4 flex items-center gap-2">
             <SlidersHorizontal className="h-4 w-4" />
             <h2 className="text-sm font-bold uppercase tracking-wider">Filters</h2>
