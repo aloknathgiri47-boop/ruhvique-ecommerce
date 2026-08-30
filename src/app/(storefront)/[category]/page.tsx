@@ -105,7 +105,7 @@ export default async function CategoryPage({
         </div>
       </div>
 
-      <section className="container mx-auto max-w-7xl px-4 py-6 sm:py-8 overflow-x-hidden">
+      <section className="container mx-auto max-w-7xl px-4 py-6 sm:py-8">
         <div className="flex items-end justify-between mb-6">
           <div>
             <h1 className="text-2xl sm:text-3xl font-black tracking-tight">{category.name}</h1>
