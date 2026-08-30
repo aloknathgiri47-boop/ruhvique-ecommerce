@@ -105,7 +105,7 @@ export default async function CategoryPage({
         </div>
       </div>
 
-      <section className="container mx-auto max-w-7xl px-4 py-6 sm:py-8">
+      <section className="container mx-auto max-w-7xl px-4 py-6 sm:py-8 overflow-x-hidden">
         <div className="flex items-end justify-between mb-6">
           <div>
             <h1 className="text-2xl sm:text-3xl font-black tracking-tight">{category.name}</h1>
@@ -133,9 +133,9 @@ export default async function CategoryPage({
             ) : (
               <>
                 {/* Mobile: horizontal scroll | Desktop: grid */}
-                <div className="flex lg:grid lg:grid-cols-3 gap-3 sm:gap-5 overflow-x-auto ru-no-scrollbar pb-2 lg:pb-0 -mx-4 px-4 lg:mx-0 lg:px-0 snap-x snap-mandatory">
+                <div className="flex lg:grid lg:grid-cols-3 gap-3 sm:gap-5 overflow-x-auto ru-no-scrollbar pb-2 lg:pb-0 lg:overflow-visible snap-x snap-mandatory">
                   {items.map((p) => (
-                    <div key={p.id} className="flex-shrink-0 w-[65%] xs:w-[50%] sm:w-[40%] lg:w-auto snap-start">
+                    <div key={p.id} className="flex-shrink-0 w-[60%] xs:w-[48%] sm:w-[40%] lg:w-auto snap-start">
                       <ProductCard p={p} />
                     </div>
                   ))}

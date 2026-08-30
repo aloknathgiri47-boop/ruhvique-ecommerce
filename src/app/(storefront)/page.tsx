@@ -309,7 +309,7 @@ function ProductRow({
         </Link>
       </div>
       {/* Mobile: horizontal scroll | Desktop: grid */}
-      <div className="flex sm:grid sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5 overflow-x-auto ru-no-scrollbar pb-2 sm:pb-0 -mx-4 px-4 snap-x snap-mandatory">
+      <div className="flex sm:grid sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5 overflow-x-auto ru-no-scrollbar pb-2 sm:pb-0 sm:overflow-visible snap-x snap-mandatory">
         {products.slice(0, 8).map((p) => (
           <div key={p.id} className="flex-shrink-0 w-[60%] xs:w-[45%] sm:w-auto snap-start">
             <ProductCard p={p} />
