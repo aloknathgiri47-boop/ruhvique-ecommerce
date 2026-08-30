@@ -13,15 +13,15 @@ export default function AboutPage() {
       {/* Hero */}
       <section className="ru-hero text-white">
         <div className="container mx-auto max-w-4xl px-4 py-20 sm:py-28 text-center">
-          <div className="group inline-flex items-center gap-3 mb-6">
+          <div className="group inline-flex items-center gap-4 mb-6">
             <div className="ru-logo-shine ru-logo-ring ru-logo-glow-dark ru-logo-enter rounded-lg overflow-hidden">
               <img
                 src="/ruhvique-logo.jpeg"
                 alt="RUHVIQUE"
-                className="h-16 w-16 rounded-lg object-cover"
+                className="h-20 w-20 rounded-lg object-cover"
               />
             </div>
-            <span className="text-3xl font-black tracking-[0.2em] group-hover:tracking-[0.28em] transition-all">RUHVIQUE</span>
+            <span className="text-4xl font-black tracking-[0.2em] group-hover:tracking-[0.28em] transition-all">RUHVIQUE</span>
           </div>
           <p className="text-xs uppercase tracking-[0.3em] text-white/60 mb-4">Est. 2024</p>
           <h1 className="text-4xl sm:text-6xl font-black tracking-tight">
