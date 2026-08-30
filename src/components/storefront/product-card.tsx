@@ -137,17 +137,17 @@ export function ProductCard({ p }: { p: ProductCardData }) {
           )}
         </div>
 
-        {/* Sizes */}
-        <div className="mt-2.5 flex items-center gap-1 flex-wrap">
-          {p.sizes.slice(0, 5).map((s) => (
-            <span
-              key={s}
-              className="rounded border border-border px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground group-hover:border-foreground/30 transition-colors"
-            >
-              {s}
-            </span>
-          ))}
-        </div>
+        {/* Buy Now button */}
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            router.push(`/product/${p.slug}`);
+          }}
+          className="mt-2.5 w-full rounded-md bg-primary py-2 text-xs font-bold uppercase tracking-wider text-primary-foreground hover:bg-primary/90 transition-colors"
+        >
+          Buy Now
+        </button>
       </div>
     </Link>
   );
