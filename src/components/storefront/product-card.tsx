@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { formatCurrency, discountPercent } from "@/lib/format";
-import { Heart, ShoppingBag, Star, Eye } from "lucide-react";
+import { Heart, Star, Eye, ShoppingBag } from "lucide-react";
 import { useWishlist } from "@/lib/store";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -29,45 +29,39 @@ export function ProductCard({ p }: { p: ProductCardData }) {
   const [loading, setLoading] = useState(false);
   const inWishlist = has(p.id);
 
-  const onQuickAdd = async (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setLoading(true);
-    router.push(`/product/${p.slug}`);
-    setLoading(false);
-  };
-
   const hasDiscount = p.discountPrice && p.discountPrice < p.price;
 
   return (
     <Link
       href={`/product/${p.slug}`}
-      className="group block overflow-hidden rounded-xl border border-border bg-card ru-card-lift"
+      className="group block overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
     >
-      <div className="ru-zoom relative aspect-[4/5] overflow-hidden bg-muted">
-        { }
+      <div className="relative aspect-[4/5] overflow-hidden bg-muted">
         <img
           src={p.image}
           alt={p.name}
           loading="lazy"
-          className="h-full w-full object-cover"
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
         />
 
-        {/* Discount badge - top left */}
+        {/* Gradient overlay on hover */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+        {/* Discount badge */}
         {hasDiscount && (
-          <span className="absolute left-3 top-3 rounded-md bg-destructive px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow-sm">
+          <span className="absolute left-3 top-3 rounded-full bg-red-500 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow-md">
             -{discountPercent(p.price, p.discountPrice)}%
           </span>
         )}
 
-        {/* NEW badge if no discount */}
+        {/* NEW badge */}
         {!hasDiscount && (
-          <span className="absolute left-3 top-3 rounded-md bg-primary px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-primary-foreground shadow-sm">
+          <span className="absolute left-3 top-3 rounded-full bg-black px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow-md">
             NEW
           </span>
         )}
 
-        {/* Wishlist button - top right */}
+        {/* Wishlist button */}
         <button
           type="button"
           aria-label={inWishlist ? "Remove from wishlist" : "Add to wishlist"}
@@ -77,65 +71,72 @@ export function ProductCard({ p }: { p: ProductCardData }) {
             toggle(p.id);
             toast.success(inWishlist ? "Removed from wishlist" : "Added to wishlist");
           }}
-          className="absolute right-3 top-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-background/90 backdrop-blur hover:bg-background hover:scale-110 transition-all shadow-sm"
+          className="absolute right-3 top-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/90 backdrop-blur shadow-md hover:bg-white hover:scale-110 transition-all"
         >
           <Heart
             className={cn(
               "h-4 w-4 transition-all",
-              inWishlist ? "fill-destructive text-destructive scale-110" : "text-foreground"
+              inWishlist ? "fill-red-500 text-red-500 scale-110" : "text-black"
             )}
           />
         </button>
 
-        {/* Quick view eye icon - appears on hover, middle */}
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-          <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-background/90 backdrop-blur shadow-lg">
-            <Eye className="h-5 w-5 text-foreground" />
+        {/* Quick view — center on hover */}
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
+          <div className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-white/90 backdrop-blur shadow-xl scale-50 group-hover:scale-100 transition-transform duration-300">
+            <Eye className="h-6 w-6 text-black" />
           </div>
         </div>
 
-        {/* Hover quick add - bottom slide up */}
+        {/* Slide up "View Product" on hover */}
         <div className="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
           <button
-            onClick={onQuickAdd}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setLoading(true);
+              router.push(`/product/${p.slug}`);
+              setLoading(false);
+            }}
             disabled={loading}
-            className="ru-btn-shine flex w-full items-center justify-center gap-2 bg-primary py-3.5 text-xs font-bold uppercase tracking-wider text-primary-foreground hover:bg-primary/90"
+            className="flex w-full items-center justify-center gap-2 bg-black/90 backdrop-blur py-3 text-xs font-bold uppercase tracking-wider text-white hover:bg-black"
           >
             <ShoppingBag className="h-4 w-4" /> View Product
           </button>
         </div>
       </div>
 
-      <div className="p-3 sm:p-4">
-        <h3 className="line-clamp-1 text-sm font-semibold group-hover:text-primary transition-colors">
+      {/* Product info */}
+      <div className="p-4">
+        <h3 className="line-clamp-1 text-sm font-bold text-foreground group-hover:text-black transition-colors">
           {p.name}
         </h3>
 
         {/* Rating */}
-        <div className="mt-1 flex items-center gap-1">
-          <div className="flex items-center gap-0.5">
-            <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
-            <span className="text-xs font-semibold">{p.rating.toFixed(1)}</span>
-          </div>
+        <div className="mt-1.5 flex items-center gap-1">
+          <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+          <span className="text-xs font-bold">{p.rating.toFixed(1)}</span>
           <span className="text-xs text-muted-foreground">({p.reviewCount})</span>
         </div>
 
         {/* Price */}
-        <div className="mt-1.5 flex items-center gap-2 flex-wrap">
-          <span className="text-sm font-bold">
+        <div className="mt-2 flex items-center gap-2 flex-wrap">
+          <span className="text-base font-black text-foreground">
             {formatCurrency(p.discountPrice ?? p.price)}
           </span>
           {hasDiscount && (
-            <>
-              <span className="text-xs text-muted-foreground line-through">
-                {formatCurrency(p.price)}
-              </span>
-              <span className="text-[10px] font-bold text-emerald-600">
-                Save {formatCurrency(p.price - (p.discountPrice as number))}
-              </span>
-            </>
+            <span className="text-xs text-muted-foreground line-through">
+              {formatCurrency(p.price)}
+            </span>
           )}
         </div>
+
+        {/* Save amount */}
+        {hasDiscount && (
+          <p className="mt-0.5 text-[10px] font-bold text-emerald-600">
+            You save {formatCurrency(p.price - (p.discountPrice as number))}
+          </p>
+        )}
 
         {/* Buy Now button */}
         <button
@@ -144,7 +145,7 @@ export function ProductCard({ p }: { p: ProductCardData }) {
             e.stopPropagation();
             router.push(`/product/${p.slug}`);
           }}
-          className="mt-2.5 w-full rounded-md bg-primary py-2 text-xs font-bold uppercase tracking-wider text-primary-foreground hover:bg-primary/90 transition-colors"
+          className="mt-3 w-full rounded-lg bg-black py-2.5 text-xs font-bold uppercase tracking-wider text-white hover:bg-gray-800 transition-all hover:shadow-md"
         >
           Buy Now
         </button>
