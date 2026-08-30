@@ -14,19 +14,13 @@ export async function POST(req: Request) {
   if (!admin) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const body = await req.json();
   const { title, subtitle, image, ctaText, ctaLink, displayOrder, active } = body;
-  if (!title || !title.trim()) {
-    return NextResponse.json({ error: "Title is required" }, { status: 400 });
-  }
-  if (!subtitle || !subtitle.trim()) {
-    return NextResponse.json({ error: "Subtitle is required" }, { status: 400 });
-  }
   if (!image) {
     return NextResponse.json({ error: "Banner image is required" }, { status: 400 });
   }
   const banner = await db.banner.create({
     data: {
-      title: title.trim(),
-      subtitle: subtitle.trim(),
+      title: (title && title.trim()) ? title.trim() : "Untitled Banner",
+      subtitle: subtitle && subtitle.trim() ? subtitle.trim() : null,
       image,
       ctaText: ctaText || null,
       ctaLink: ctaLink || null,

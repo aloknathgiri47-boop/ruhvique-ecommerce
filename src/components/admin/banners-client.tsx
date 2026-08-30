@@ -38,15 +38,6 @@ export function BannersClient({ banners, sampleImage }: { banners: Banner[]; sam
 
   const handleUpload = async (files: FileList | null) => {
     if (!files || files.length === 0) return;
-    // Block image upload until title and subtitle are filled
-    if (!form.title.trim()) {
-      toast.error("Please enter Title first");
-      return;
-    }
-    if (!form.subtitle.trim()) {
-      toast.error("Please enter Subtitle first");
-      return;
-    }
     setUploading(true);
     const fd = new FormData();
     Array.from(files).forEach((f) => fd.append("files", f));
@@ -70,14 +61,6 @@ export function BannersClient({ banners, sampleImage }: { banners: Banner[]; sam
   };
 
   const handleSave = async () => {
-    if (!form.title.trim()) {
-      toast.error("Title is required");
-      return;
-    }
-    if (!form.subtitle.trim()) {
-      toast.error("Subtitle is required");
-      return;
-    }
     if (!form.image) {
       toast.error("Banner image is required");
       return;
@@ -207,37 +190,24 @@ export function BannersClient({ banners, sampleImage }: { banners: Banner[]; sam
           </DialogHeader>
           <div className="space-y-4">
             <div>
-              <Label>Image {!form.title.trim() || !form.subtitle.trim() ? <span className="text-xs text-destructive ml-2">(Enter Title & Subtitle first)</span> : null}</Label>
+              <Label>Image</Label>
               <div className="mt-1.5 flex gap-2">
                 <Input
                   value={form.image}
                   onChange={(e) => setForm({ ...form, image: e.target.value })}
-                  placeholder={!form.title.trim() || !form.subtitle.trim() ? "Enter Title & Subtitle first" : "/uploads/... or URL"}
-                  disabled={!form.title.trim() || !form.subtitle.trim()}
+                  placeholder="/uploads/... or URL"
                 />
                 <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={(e) => handleUpload(e.target.files)} />
                 <Button
                   variant="outline"
                   onClick={() => fileRef.current?.click()}
-                  disabled={uploading || !form.title.trim() || !form.subtitle.trim()}
-                  title={!form.title.trim() || !form.subtitle.trim() ? "Enter Title and Subtitle first" : "Upload image"}
+                  disabled={uploading}
                 >
                   <Upload className="h-3.5 w-3.5 mr-1" /> {uploading ? "..." : "Upload"}
                 </Button>
                 <Button
                   variant="ghost"
-                  onClick={() => {
-                    if (!form.title.trim()) {
-                      toast.error("Please enter Title first");
-                      return;
-                    }
-                    if (!form.subtitle.trim()) {
-                      toast.error("Please enter Subtitle first");
-                      return;
-                    }
-                    setForm({ ...form, image: sampleImage });
-                  }}
-                  disabled={!form.title.trim() || !form.subtitle.trim()}
+                  onClick={() => setForm({ ...form, image: sampleImage })}
                 >Sample</Button>
               </div>
               {form.image && (
@@ -249,30 +219,22 @@ export function BannersClient({ banners, sampleImage }: { banners: Banner[]; sam
             </div>
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
-                <Label>Title <span className="text-destructive">*</span></Label>
-                <Input 
-                  value={form.title} 
-                  onChange={(e) => setForm({ ...form, title: e.target.value })} 
-                  className="mt-1.5" 
+                <Label>Title</Label>
+                <Input
+                  value={form.title}
+                  onChange={(e) => setForm({ ...form, title: e.target.value })}
+                  className="mt-1.5"
                   placeholder="Winter Drop 2026"
-                  required
                 />
-                {!form.title.trim() && (
-                  <p className="mt-1 text-xs text-destructive">Title is required</p>
-                )}
               </div>
               <div>
-                <Label>Subtitle <span className="text-destructive">*</span></Label>
-                <Input 
-                  value={form.subtitle} 
-                  onChange={(e) => setForm({ ...form, subtitle: e.target.value })} 
-                  className="mt-1.5" 
+                <Label>Subtitle</Label>
+                <Input
+                  value={form.subtitle}
+                  onChange={(e) => setForm({ ...form, subtitle: e.target.value })}
+                  className="mt-1.5"
                   placeholder="Premium heavyweight essentials"
-                  required
                 />
-                {!form.subtitle.trim() && (
-                  <p className="mt-1 text-xs text-destructive">Subtitle is required</p>
-                )}
               </div>
               <div>
                 <Label>CTA Text</Label>
@@ -288,9 +250,9 @@ export function BannersClient({ banners, sampleImage }: { banners: Banner[]; sam
               <Switch checked={form.active} onCheckedChange={(v) => setForm({ ...form, active: v })} />
             </div>
             <div className="flex gap-2 pt-2">
-              <Button 
-                onClick={handleSave} 
-                disabled={saving || !form.title.trim() || !form.subtitle.trim() || !form.image} 
+              <Button
+                onClick={handleSave}
+                disabled={saving}
                 className="flex-1"
               >
                 <Save className="h-4 w-4 mr-2" /> {saving ? "Saving..." : "Create Banner"}
