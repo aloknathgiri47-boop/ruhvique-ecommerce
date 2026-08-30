@@ -481,6 +481,10 @@ function OrderSuccess({ order }: { order: any }) {
   return (
     <div className="container mx-auto max-w-2xl px-4 py-12">
       <div className="text-center">
+        <Link href="/" className="inline-flex items-center gap-2 mb-6">
+          <span className="inline-flex h-10 w-10 items-center justify-center rounded-md bg-primary text-primary-foreground font-black text-lg">R</span>
+          <span className="text-xl font-black tracking-[0.2em]">RUHVIQUE</span>
+        </Link>
         <div className="inline-flex h-20 w-20 items-center justify-center rounded-full bg-emerald-100">
           <CheckCircle2 className="h-10 w-10 text-emerald-600" />
         </div>

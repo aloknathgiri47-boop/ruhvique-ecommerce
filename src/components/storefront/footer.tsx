@@ -7,8 +7,13 @@ export function Footer() {
       <div className="container mx-auto max-w-7xl px-4 py-12">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           <div className="col-span-2 md:col-span-1">
-            <Link href="/" className="text-2xl font-black tracking-[0.2em]">
-              RUHVIQUE
+            <Link href="/" className="inline-flex items-center gap-2">
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-primary-foreground text-primary font-black text-lg">
+                R
+              </span>
+              <span className="text-2xl font-black tracking-[0.2em]">
+                RUHVIQUE
+              </span>
             </Link>
             <p className="mt-3 text-sm text-primary-foreground/70 max-w-xs">
               Premium modern fashion & streetwear designed for those who refuse to blend in.

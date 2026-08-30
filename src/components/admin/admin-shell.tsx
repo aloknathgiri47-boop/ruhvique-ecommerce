@@ -129,8 +129,11 @@ function SidebarContent({
   return (
     <>
       <div className="h-14 flex items-center px-5 border-b border-sidebar-border">
-        <Link href="/admin" className="text-lg font-black tracking-[0.2em]" onClick={onNavigate}>
-          RUHVIQUE
+        <Link href="/admin" className="inline-flex items-center gap-2" onClick={onNavigate}>
+          <span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground font-black text-sm">
+            R
+          </span>
+          <span className="text-lg font-black tracking-[0.2em]">RUHVIQUE</span>
         </Link>
         <span className="ml-2 text-[10px] font-bold uppercase tracking-wider bg-sidebar-accent px-1.5 py-0.5 rounded">
           Admin

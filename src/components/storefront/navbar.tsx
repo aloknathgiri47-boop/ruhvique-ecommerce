@@ -68,8 +68,11 @@ export function Navbar() {
               </SheetTrigger>
               <SheetContent side="left" className="w-[300px] sm:w-[360px]">
                 <SheetHeader>
-                  <SheetTitle className="text-left text-2xl font-black tracking-[0.2em]">
-                    RUHVIQUE
+                  <SheetTitle className="text-left flex items-center gap-2">
+                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground font-black text-base">
+                      R
+                    </span>
+                    <span className="text-xl font-black tracking-[0.2em]">RUHVIQUE</span>
                   </SheetTitle>
                 </SheetHeader>
                 <nav className="mt-8 flex flex-col gap-1">
@@ -120,7 +123,10 @@ export function Navbar() {
             className="flex items-center"
             aria-label="RUHVIQUE home"
           >
-            <span className="text-xl sm:text-2xl font-black tracking-[0.2em]">
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground font-black text-base flex-shrink-0">
+              R
+            </span>
+            <span className="ml-2 text-xl sm:text-2xl font-black tracking-[0.2em]">
               RUHVIQUE
             </span>
           </Link>

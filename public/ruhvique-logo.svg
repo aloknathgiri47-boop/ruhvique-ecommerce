@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 40" width="200" height="40">
+  <style>
+    .ru-letter { font-family: 'Inter', 'Arial Black', sans-serif; font-weight: 900; font-size: 28px; letter-spacing: 4px; }
+  </style>
+  <!-- R -->
+  <text x="0" y="30" class="ru-letter" fill="currentColor">R</text>
+  <!-- U -->
+  <text x="28" y="30" class="ru-letter" fill="currentColor">U</text>
+  <!-- H -->
+  <text x="56" y="30" class="ru-letter" fill="currentColor">H</text>
+  <!-- V -->
+  <text x="84" y="30" class="ru-letter" fill="currentColor">V</text>
+  <!-- I -->
+  <text x="112" y="30" class="ru-letter" fill="currentColor">I</text>
+  <!-- Q -->
+  <text x="140" y="30" class="ru-letter" fill="currentColor">Q</text>
+  <!-- U -->
+  <text x="168" y="30" class="ru-letter" fill="currentColor">U</text>
+  <!-- E -->
+  <text x="196" y="30" class="ru-letter" fill="currentColor">E</text>
+</svg>

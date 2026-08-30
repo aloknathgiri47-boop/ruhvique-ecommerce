@@ -67,7 +67,10 @@ function SignUpForm() {
   return (
     <div className="grid lg:grid-cols-2 min-h-[calc(100vh-4rem)]">
       <div className="hidden lg:flex flex-col justify-between bg-primary text-primary-foreground p-12">
-        <Link href="/" className="text-2xl font-black tracking-[0.2em]">RUHVIQUE</Link>
+        <Link href="/" className="inline-flex items-center gap-2">
+          <span className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-primary-foreground text-primary font-black text-lg">R</span>
+          <span className="text-2xl font-black tracking-[0.2em]">RUHVIQUE</span>
+        </Link>
         <div>
           <h1 className="text-4xl font-black tracking-tight leading-tight">
             Join the Ruhvique circle.

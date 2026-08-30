@@ -13,6 +13,10 @@ export default function AboutPage() {
       {/* Hero */}
       <section className="ru-hero text-white">
         <div className="container mx-auto max-w-4xl px-4 py-20 sm:py-28 text-center">
+          <div className="inline-flex items-center gap-2 mb-6">
+            <span className="inline-flex h-12 w-12 items-center justify-center rounded-lg bg-white text-black font-black text-xl">R</span>
+            <span className="text-2xl font-black tracking-[0.2em]">RUHVIQUE</span>
+          </div>
           <p className="text-xs uppercase tracking-[0.3em] text-white/60 mb-4">Est. 2024</p>
           <h1 className="text-4xl sm:text-6xl font-black tracking-tight">
             About Ruhvique
