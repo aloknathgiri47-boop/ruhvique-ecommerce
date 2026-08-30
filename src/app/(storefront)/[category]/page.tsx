@@ -96,7 +96,7 @@ export default async function CategoryPage({
     <>
       {/* Breadcrumb */}
       <div className="border-b bg-muted/30">
-        <div className="container mx-auto max-w-7xl px-4 py-3">
+        <div className="px-4 sm:px-6 py-3">
           <nav className="flex items-center gap-1.5 text-xs text-muted-foreground">
             <Link href="/" className="hover:text-foreground">Home</Link>
             <ChevronRight className="h-3 w-3" />
@@ -105,7 +105,7 @@ export default async function CategoryPage({
         </div>
       </div>
 
-      <section className="container mx-auto max-w-7xl px-3 sm:px-4 py-6 sm:py-8">
+      <section className="px-4 sm:px-6 py-6 sm:py-8">
         {/* Category header */}
         <div className="mb-6">
           <h1 className="text-2xl sm:text-3xl font-black tracking-tight">{category.name}</h1>
@@ -131,9 +131,8 @@ export default async function CategoryPage({
               </div>
             ) : (
               <>
-                {/* Desktop: 3 products per row grid (vertical scroll) */}
-                {/* Mobile: 2 per row grid */}
-                <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5">
+                {/* Desktop: 4 products per row | Tablet: 3 | Mobile: 2 */}
+                <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-5">
                   {items.map((p) => (
                     <ProductCard key={p.id} p={p} />
                   ))}
