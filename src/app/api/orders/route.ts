@@ -54,13 +54,31 @@ export async function POST(req: Request) {
 
   for (const item of items) {
     const product = productMap.get(item.productId);
-    if (!product) continue;
+    if (!product) {
+      return NextResponse.json(
+        { error: `Product not found: ${item.productId}` },
+        { status: 400 }
+      );
+    }
     const variant = product.variants.find(
       (v) => v.size === item.size && v.color === item.color
     );
-    if (!variant || variant.stock < item.quantity) {
+    if (!variant) {
+      // Try to find any variant with this size
+      const sizeVariant = product.variants.find((v) => v.size === item.size);
+      if (!sizeVariant) {
+        return NextResponse.json(
+          { error: `Size ${item.size} not available for ${product.name}` },
+          { status: 400 }
+        );
+      }
+      // Use the first available variant
+      const firstVariant = product.variants[0];
+      item.color = firstVariant.color;
+      item.size = firstVariant.size;
+    } else if (variant.stock < item.quantity) {
       return NextResponse.json(
-        { error: `Insufficient stock for ${product.name} (${item.size}, ${item.color})` },
+        { error: `Insufficient stock for ${product.name} (${item.size}, ${item.color}). Only ${variant.stock} left.` },
         { status: 400 }
       );
     }
