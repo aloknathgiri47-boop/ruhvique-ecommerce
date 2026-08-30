@@ -19,7 +19,7 @@ export async function POST(req: Request) {
   }
   const banner = await db.banner.create({
     data: {
-      title: (title && title.trim()) ? title.trim() : "Untitled Banner",
+      title: (title && title.trim()) ? title.trim() : "",
       subtitle: subtitle && subtitle.trim() ? subtitle.trim() : null,
       image,
       ctaText: ctaText || null,

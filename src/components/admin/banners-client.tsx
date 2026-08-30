@@ -215,7 +215,7 @@ export function BannersClient({ banners, sampleImage }: { banners: Banner[]; sam
         {banners.map((b, idx) => (
           <Card key={b.id} className="overflow-hidden">
             <div className="aspect-[16/7] relative bg-muted">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
+              { }
               <img src={b.image} alt={b.title} className="h-full w-full object-cover" />
               <div className="absolute top-2 left-2 flex gap-1">
                 <Badge variant={b.active ? "default" : "secondary"}>{b.active ? "Active" : "Disabled"}</Badge>
@@ -231,8 +231,12 @@ export function BannersClient({ banners, sampleImage }: { banners: Banner[]; sam
               </div>
             </div>
             <div className="p-4">
-              <h3 className="font-bold line-clamp-1">{b.title}</h3>
-              {b.subtitle && <p className="text-xs text-muted-foreground line-clamp-1">{b.subtitle}</p>}
+              {b.title?.trim() ? (
+                <h3 className="font-bold line-clamp-1">{b.title}</h3>
+              ) : (
+                <h3 className="font-bold line-clamp-1 text-muted-foreground italic">No title</h3>
+              )}
+              {b.subtitle?.trim() && <p className="text-xs text-muted-foreground line-clamp-1">{b.subtitle}</p>}
               {b.ctaText && (
                 <p className="text-xs mt-1 text-muted-foreground">
                   CTA: <span className="font-medium text-foreground">{b.ctaText}</span> → {b.ctaLink || "/"}
@@ -322,7 +326,7 @@ export function BannersClient({ banners, sampleImage }: { banners: Banner[]; sam
               {form.image && !uploading && (
                 <div className="mt-1.5 relative rounded-lg overflow-hidden border-2 border-emerald-500/30 bg-muted group">
                   <div className="aspect-[16/5] relative">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    { }
                     <img src={form.image} alt="preview" className="h-full w-full object-cover" />
                   </div>
                   <div className="absolute top-2 left-2 inline-flex items-center gap-1.5 rounded-full bg-emerald-500 text-white px-2.5 py-1 text-xs font-bold">

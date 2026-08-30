@@ -57,28 +57,33 @@ export function HeroBanner({ banners }: { banners: Banner[] }) {
                 data-priority={index === 0 ? "true" : "false"}
               />
               <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent" />
-              <div className="absolute inset-0 flex items-center">
-                <div className="container mx-auto max-w-7xl px-6 sm:px-10">
-                  <div className="max-w-xl">
-                    <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight">
-                      {b.title}
-                    </h1>
-                    {b.subtitle && (
-                      <p className="mt-3 text-sm sm:text-base lg:text-lg text-white/80 max-w-md">
-                        {b.subtitle}
-                      </p>
-                    )}
-                    {b.ctaText && b.ctaLink && (
-                      <Link
-                        href={b.ctaLink}
-                        className="inline-flex items-center gap-2 mt-6 bg-white text-black px-6 py-3 text-xs sm:text-sm font-bold uppercase tracking-widest hover:bg-white/90 transition-colors"
-                      >
-                        {b.ctaText}
-                      </Link>
-                    )}
+              {/* Only show text overlay if there's a title, subtitle, or CTA */}
+              {(b.title?.trim() || b.subtitle?.trim() || (b.ctaText && b.ctaLink)) && (
+                <div className="absolute inset-0 flex items-center">
+                  <div className="container mx-auto max-w-7xl px-6 sm:px-10">
+                    <div className="max-w-xl">
+                      {b.title?.trim() && (
+                        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight">
+                          {b.title}
+                        </h1>
+                      )}
+                      {b.subtitle?.trim() && (
+                        <p className="mt-3 text-sm sm:text-base lg:text-lg text-white/80 max-w-md">
+                          {b.subtitle}
+                        </p>
+                      )}
+                      {b.ctaText && b.ctaLink && (
+                        <Link
+                          href={b.ctaLink}
+                          className="inline-flex items-center gap-2 mt-6 bg-white text-black px-6 py-3 text-xs sm:text-sm font-bold uppercase tracking-widest hover:bg-white/90 transition-colors"
+                        >
+                          {b.ctaText}
+                        </Link>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         ))}
