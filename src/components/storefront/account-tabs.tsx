@@ -279,7 +279,7 @@ export function AccountTabs({ user, orders, addresses }: AccountTabsProps) {
         <div className="mt-6">
           <Button
             variant="outline"
-            onClick={() => signOut({ callbackUrl: "/" })}
+            onClick={() => signOut({ callbackUrl: "/signin" })}
             className="text-destructive hover:text-destructive"
           >
             <LogOut className="h-4 w-4 mr-2" /> Sign Out
