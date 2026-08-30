@@ -3,10 +3,18 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Menu, Search, User, ShoppingBag } from "lucide-react";
+import { Menu, Search, User, ShoppingBag, LogOut, Package, Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/lib/store";
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Sheet,
   SheetContent,
@@ -154,13 +162,68 @@ export function Navbar() {
             >
               <Search className="h-5 w-5" />
             </Link>
-            <Link
-              href={session ? "/account" : "/signin"}
-              aria-label="Account"
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full hover:bg-accent"
-            >
-              <User className="h-5 w-5" />
-            </Link>
+            {/* Account / Profile */}
+            {session ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button
+                    aria-label="Account"
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-full hover:bg-accent overflow-hidden"
+                  >
+                    {session.user?.image ? (
+                      <img
+                        src={session.user.image}
+                        alt={session.user.name || "Profile"}
+                        className="h-8 w-8 rounded-full object-cover"
+                      />
+                    ) : (
+                      <div className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-bold">
+                        {(session.user?.name || session.user?.email || "U").slice(0, 1).toUpperCase()}
+                      </div>
+                    )}
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuLabel className="font-normal">
+                    <div className="flex flex-col space-y-1">
+                      <p className="text-sm font-medium leading-none">{session.user?.name || "User"}</p>
+                      <p className="text-xs leading-none text-muted-foreground">{session.user?.email}</p>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link href="/account" className="flex items-center gap-2 cursor-pointer">
+                      <User className="h-4 w-4" /> My Account
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/account" className="flex items-center gap-2 cursor-pointer">
+                      <Package className="h-4 w-4" /> My Orders
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/wishlist" className="flex items-center gap-2 cursor-pointer">
+                      <Heart className="h-4 w-4" /> Wishlist
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={() => signOut({ callbackUrl: "/signin" })}
+                    className="flex items-center gap-2 cursor-pointer text-destructive"
+                  >
+                    <LogOut className="h-4 w-4" /> Sign Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Link
+                href="/signin"
+                aria-label="Sign In"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full hover:bg-accent"
+              >
+                <User className="h-5 w-5" />
+              </Link>
+            )}
             <Link
               href="/cart"
               aria-label="Cart"
