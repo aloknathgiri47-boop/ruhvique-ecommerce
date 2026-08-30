@@ -25,9 +25,17 @@ export async function POST(req: Request) {
     const uploadDir = path.join(process.cwd(), "public", "uploads");
     await mkdir(uploadDir, { recursive: true });
 
+    const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
     const urls: string[] = [];
     for (const file of files) {
       if (!file.size) continue;
+      // Server-side size validation
+      if (file.size > MAX_FILE_SIZE) {
+        return NextResponse.json(
+          { error: `File "${file.name}" is too large. Max size is 5 MB. Your file is ${(file.size / (1024 * 1024)).toFixed(1)} MB` },
+          { status: 400 }
+        );
+      }
       const ext = path.extname(file.name || ".jpg").toLowerCase() || ".jpg";
       const filename = `${randomUUID()}${ext}`;
       const buffer = Buffer.from(await file.arrayBuffer());

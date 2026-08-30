@@ -49,7 +49,7 @@ const RECOMMENDED_WIDTH = 1600;
 const RECOMMENDED_HEIGHT = 500;
 const RECOMMENDED_SIZE = `${RECOMMENDED_WIDTH} × ${RECOMMENDED_HEIGHT} px`;
 const RECOMMENDED_ASPECT = "16:5";
-const MAX_FILE_SIZE = "2 MB";
+const MAX_FILE_SIZE = "5 MB";
 const SUPPORTED_FORMATS = "JPG, PNG, WebP";
 
 export function BannersClient({ banners, sampleImage }: { banners: Banner[]; sampleImage: string }) {
@@ -66,8 +66,8 @@ export function BannersClient({ banners, sampleImage }: { banners: Banner[]; sam
     if (!files || files.length === 0) return;
     const file = files[0];
 
-    // File size check (2 MB max)
-    if (file.size > 2 * 1024 * 1024) {
+    // File size check (5 MB max)
+    if (file.size > 5 * 1024 * 1024) {
       toast.error(`File too large. Max size is ${MAX_FILE_SIZE}. Your file is ${(file.size / (1024 * 1024)).toFixed(1)} MB`);
       return;
     }
