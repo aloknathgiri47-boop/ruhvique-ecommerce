@@ -194,6 +194,7 @@ function CheckoutContent() {
         couponCode: appliedCoupon?.code,
       };
 
+      // Step 1: Create order with PENDING payment status
       const res = await fetch("/api/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -212,14 +213,68 @@ function CheckoutContent() {
 
       const data = await res.json();
 
-      if (data.order) {
+      if (!data.order) {
+        toast.error("Invalid response from server");
+        return;
+      }
+
+      // Step 2: For COD — show success immediately
+      if (paymentMethod === "COD") {
         clear();
         sessionStorage.removeItem("ruhvique-coupon");
         setPlacedOrder(data.order);
         toast.success("Order placed successfully!");
-      } else {
-        toast.error("Invalid response from server");
+        return;
       }
+
+      // Step 3: For CARD/UPI — redirect to Cashfree payment
+      if (paymentMethod === "CARD" || paymentMethod === "UPI") {
+        toast.info("Redirecting to secure payment page...");
+        try {
+          const cfRes = await fetch("/api/payments/cashfree/create", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              orderId: data.order.id,
+              amount: data.order.total,
+              customerName: finalAddress.name,
+              customerEmail: customer.email,
+              customerPhone: finalAddress.phone,
+            }),
+          });
+
+          const cfData = await cfRes.json();
+
+          if (cfData.sessionId && cfData.cfOrderId) {
+            // Redirect to Cashfree payment page
+            clear();
+            sessionStorage.removeItem("ruhvique-coupon");
+            const cfUrl = `https://api.cashfree.com/pg/orders/${cfData.cfOrderId}/payments?order_id=${cfData.orderId}`;
+            window.location.href = cfUrl;
+            return;
+          } else {
+            // Cashfree failed — show order as pending
+            clear();
+            sessionStorage.removeItem("ruhvique-coupon");
+            setPlacedOrder(data.order);
+            toast.error("Payment gateway unavailable. Your order is placed but payment is pending. Please try payment from your account.");
+            return;
+          }
+        } catch {
+          // Cashfree network error — show order as pending
+          clear();
+          sessionStorage.removeItem("ruhvique-coupon");
+          setPlacedOrder(data.order);
+          toast.error("Payment gateway unavailable. Your order is placed but payment is pending.");
+          return;
+        }
+      }
+
+      // Fallback
+      clear();
+      sessionStorage.removeItem("ruhvique-coupon");
+      setPlacedOrder(data.order);
+      toast.success("Order placed successfully!");
     } catch (err: any) {
       toast.error(err?.message || "Network error. Please check your connection and try again.");
     } finally {
@@ -426,8 +481,8 @@ function CheckoutContent() {
                 ))}
               </div>
               {(paymentMethod === "CARD" || paymentMethod === "UPI") && (
-                <div className="rounded-md bg-amber-50 border border-amber-200 p-3 text-xs text-amber-800">
-                  Payment gateway integration is ready. For this demo, the order will be created with payment status "PAID" and a generated Payment ID.
+                <div className="rounded-md bg-blue-50 border border-blue-200 p-3 text-xs text-blue-800">
+                  You will be redirected to Cashfree secure payment page to complete your payment. After successful payment, your order will be confirmed automatically.
                 </div>
               )}
             </div>
