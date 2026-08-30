@@ -336,10 +336,10 @@ export function FilterPanel({ category }: { category?: string }) {
 
   return (
     <>
-      {/* Desktop sidebar - fixed, does NOT scroll */}
+      {/* Desktop sidebar - fully fixed, never moves */}
       <aside className="hidden lg:block w-[320px] flex-shrink-0">
-        <div className="sticky top-20 h-[calc(100vh-6rem)] flex flex-col gap-3">
-          {/* Filters panel — all content visible */}
+        <div className="fixed top-20 left-4 w-[320px] h-[calc(100vh-6rem)] flex flex-col gap-3 z-30">
+          {/* Filters panel */}
           <div className="rounded-xl border border-border bg-card p-5 shadow-sm flex-1 overflow-y-auto ru-scrollbar">
             {/* Header */}
             <div className="mb-4 flex items-center gap-2 pb-3 border-b">
