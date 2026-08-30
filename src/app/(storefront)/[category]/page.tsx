@@ -106,18 +106,21 @@ export default async function CategoryPage({
       </div>
 
       <section className="container mx-auto max-w-7xl px-4 py-6 sm:py-8">
-        <div className="flex items-end justify-between mb-6">
-          <div>
-            <h1 className="text-2xl sm:text-3xl font-black tracking-tight">{category.name}</h1>
-            <p className="mt-1 text-sm text-muted-foreground">
-              {total} {total === 1 ? "product" : "products"}
-              {category.description && ` · ${category.description}`}
-            </p>
-          </div>
+        {/* Category header */}
+        <div className="mb-6">
+          <h1 className="text-2xl sm:text-3xl font-black tracking-tight">{category.name}</h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {total} {total === 1 ? "product" : "products"}
+            {category.description && ` · ${category.description}`}
+          </p>
         </div>
 
-        <div className="flex gap-8">
+        {/* Layout: Filters sidebar (left, sticky) + Products grid (right, 3 per row) */}
+        <div className="flex gap-6">
+          {/* Filters Sidebar - 280px sticky on desktop */}
           <FilterPanel category={slug} />
+
+          {/* Products area */}
           <div className="flex-1 min-w-0">
             {items.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-20 text-center">
@@ -132,15 +135,15 @@ export default async function CategoryPage({
               </div>
             ) : (
               <>
-                {/* Mobile: horizontal scroll | Desktop: grid */}
-                <div className="flex lg:grid lg:grid-cols-3 gap-3 sm:gap-5 overflow-x-auto ru-no-scrollbar pb-2 lg:pb-0 lg:overflow-visible snap-x snap-mandatory">
+                {/* Desktop: 3 products per row grid (vertical scroll) */}
+                {/* Mobile: 2 per row grid */}
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5">
                   {items.map((p) => (
-                    <div key={p.id} className="flex-shrink-0 w-[60%] xs:w-[48%] sm:w-[40%] lg:w-auto snap-start">
-                      <ProductCard p={p} />
-                    </div>
+                    <ProductCard key={p.id} p={p} />
                   ))}
                 </div>
 
+                {/* Pagination */}
                 {totalPages > 1 && (
                   <div className="mt-10 flex items-center justify-center gap-2">
                     {Array.from({ length: totalPages }).map((_, i) => {

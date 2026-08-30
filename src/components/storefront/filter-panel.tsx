@@ -336,9 +336,9 @@ export function FilterPanel({ category }: { category?: string }) {
 
   return (
     <>
-      {/* Desktop sidebar */}
-      <aside className="hidden lg:block w-64 flex-shrink-0">
-        <div className="sticky top-20 rounded-xl border border-border bg-background/50 backdrop-blur p-4 max-h-[calc(100vh-6rem)] overflow-y-auto ru-scrollbar shadow-sm">
+      {/* Desktop sidebar - 280px sticky */}
+      <aside className="hidden lg:block w-[280px] flex-shrink-0">
+        <div className="sticky top-20 rounded-xl border border-border bg-card p-4 max-h-[calc(100vh-6rem)] overflow-y-auto ru-scrollbar shadow-sm">
           {/* Header */}
           <div className="mb-4 flex items-center gap-2 pb-3 border-b">
             <div className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
