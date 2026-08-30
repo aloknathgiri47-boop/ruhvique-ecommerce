@@ -117,7 +117,7 @@ export default async function OrderDetailPage({
             <div className="divide-y">
               {order.items.map((item) => (
                 <div key={item.id} className="p-4 flex gap-4">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  { }
                   <img src={item.image} alt={item.name} className="h-20 w-16 sm:h-24 sm:w-20 object-cover rounded-md bg-muted" />
                   <div className="flex-1">
                     <Link href={`/product/${item.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`} className="text-sm font-semibold hover:underline">

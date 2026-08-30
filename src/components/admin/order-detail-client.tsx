@@ -122,7 +122,7 @@ export function OrderDetailClient({ order }: { order: Order }) {
             <div className="divide-y">
               {order.items.map((item) => (
                 <div key={item.id} className="py-3 flex gap-3">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  { }
                   <img src={item.image} alt={item.name} className="h-16 w-14 object-cover rounded-md bg-muted" />
                   <div className="flex-1">
                     <p className="text-sm font-semibold">{item.name}</p>

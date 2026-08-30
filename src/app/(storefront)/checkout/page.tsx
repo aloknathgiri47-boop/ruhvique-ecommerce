@@ -341,7 +341,7 @@ function CheckoutContent() {
               <div className="divide-y">
                 {items.map((item) => (
                   <div key={`${item.productId}-${item.size}-${item.color}`} className="py-3 flex gap-3">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    { }
                     <img src={item.image} alt={item.name} className="h-16 w-14 object-cover rounded-md bg-muted" />
                     <div className="flex-1">
                       <p className="text-sm font-semibold line-clamp-1">{item.name}</p>

@@ -49,12 +49,12 @@ export function HeroBanner({ banners }: { banners: Banner[] }) {
         {banners.map((b) => (
           <div key={b.id} className="relative w-full flex-shrink-0">
             <div className="relative aspect-[16/9] sm:aspect-[21/9] lg:aspect-[16/5] w-full">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
+              { }
               <img
                 src={b.image}
                 alt={b.title}
                 className="absolute inset-0 h-full w-full object-cover"
-                priority={index === 0}
+                data-priority={index === 0 ? "true" : "false"}
               />
               <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent" />
               <div className="absolute inset-0 flex items-center">

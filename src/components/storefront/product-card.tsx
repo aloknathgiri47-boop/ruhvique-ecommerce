@@ -44,7 +44,7 @@ export function ProductCard({ p }: { p: ProductCardData }) {
       className="group block overflow-hidden rounded-lg border border-border bg-card transition-all hover:shadow-lg"
     >
       <div className="ru-zoom relative aspect-[4/5] overflow-hidden bg-muted">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
+        { }
         <img
           src={p.image}
           alt={p.name}

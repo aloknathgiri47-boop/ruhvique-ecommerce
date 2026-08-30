@@ -139,7 +139,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
                   activeImage === i ? "border-primary" : "border-border hover:border-foreground"
                 )}
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
+                { }
                 <img src={img.url} alt={img.alt || product.name} className="h-full w-full object-cover" />
               </button>
             ))}
@@ -160,7 +160,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
               t.style.setProperty("--y", `${y}%`);
             }}
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
+            { }
             <img
               src={product.images[activeImage]?.url}
               alt={product.name}

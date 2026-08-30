@@ -77,7 +77,7 @@ export default function WishlistPage() {
           {items.map((item) => (
             <div key={item.id} className="overflow-hidden rounded-lg border border-border bg-card">
               <Link href={`/product/${item.slug}`} className="block aspect-[4/5] overflow-hidden bg-muted">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
+                { }
                 <img src={item.image} alt={item.name} className="h-full w-full object-cover hover:scale-105 transition-transform" />
               </Link>
               <div className="p-3 sm:p-4">

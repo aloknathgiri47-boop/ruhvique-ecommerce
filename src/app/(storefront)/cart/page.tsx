@@ -127,7 +127,7 @@ export default function CartPage() {
                 href={`/product/${item.slug}`}
                 className="flex-shrink-0 w-20 h-24 sm:w-24 sm:h-28 overflow-hidden rounded-md bg-muted"
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
+                { }
                 <img src={item.image} alt={item.name} className="h-full w-full object-cover" />
               </Link>
               <div className="flex-1 min-w-0">

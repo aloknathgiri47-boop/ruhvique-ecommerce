@@ -145,7 +145,7 @@ export function BannersClient({ banners, sampleImage }: { banners: Banner[]; sam
         {banners.map((b, idx) => (
           <Card key={b.id} className="overflow-hidden">
             <div className="aspect-[16/7] relative bg-muted">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
+              { }
               <img src={b.image} alt={b.title} className="h-full w-full object-cover" />
               <div className="absolute top-2 left-2 flex gap-1">
                 <Badge variant={b.active ? "default" : "secondary"}>{b.active ? "Active" : "Disabled"}</Badge>
@@ -205,7 +205,7 @@ export function BannersClient({ banners, sampleImage }: { banners: Banner[]; sam
               </div>
               {form.image && (
                 <div className="mt-2 aspect-[16/7] relative rounded-md overflow-hidden bg-muted">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  { }
                   <img src={form.image} alt="preview" className="h-full w-full object-cover" />
                 </div>
               )}

@@ -314,7 +314,7 @@ export function ProductForm({
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {images.map((url, i) => (
                   <div key={i} className="relative group aspect-square rounded-md overflow-hidden border">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    { }
                     <img src={url} alt={`Image ${i + 1}`} className="h-full w-full object-cover" />
                     {i === 0 && (
                       <span className="absolute top-1 left-1 bg-primary text-primary-foreground text-[10px] font-bold uppercase px-1.5 py-0.5 rounded">

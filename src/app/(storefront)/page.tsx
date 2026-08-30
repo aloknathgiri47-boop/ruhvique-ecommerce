@@ -63,7 +63,7 @@ export default async function HomePage() {
               href={`/${c.slug}`}
               className="group relative overflow-hidden rounded-lg aspect-[4/5] bg-muted"
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
+              { }
               <img
                 src={c.image || placeholderImage(c.name, 600, 750, idx)}
                 alt={c.name}

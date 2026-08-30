@@ -47,7 +47,7 @@ export default function AboutPage() {
             </p>
           </div>
           <div className="aspect-[4/5] overflow-hidden rounded-lg">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
+            { }
             <img src={placeholderImage("Ruhvique Philosophy", 800, 1000, 1)} alt="Ruhvique" className="h-full w-full object-cover" />
           </div>
         </div>
@@ -84,7 +84,7 @@ export default function AboutPage() {
       <section className="container mx-auto max-w-5xl px-4 py-16 sm:py-20">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="aspect-[4/5] overflow-hidden rounded-lg order-2 lg:order-1">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
+            { }
             <img src={placeholderImage("Streetwear Identity", 800, 1000, 2)} alt="Ruhvique streetwear" className="h-full w-full object-cover" />
           </div>
           <div className="order-1 lg:order-2">

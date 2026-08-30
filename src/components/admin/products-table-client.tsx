@@ -143,7 +143,7 @@ export function ProductsTableClient({
                   <tr key={p.id} className="border-t hover:bg-muted/30">
                     <td className="py-3 px-4">
                       <div className="flex items-center gap-3">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        { }
                         <img src={p.image} alt={p.name} className="h-12 w-10 object-cover rounded bg-muted" />
                         <div className="min-w-0">
                           <p className="font-medium line-clamp-1">{p.name}</p>
