@@ -1,8 +1,19 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback } from "react";
-import { SlidersHorizontal, X, Check } from "lucide-react";
+import { useCallback, useState } from "react";
+import {
+  SlidersHorizontal,
+  X,
+  Check,
+  ChevronDown,
+  ArrowUpDown,
+  Shirt,
+  Palette,
+  IndianRupee,
+  PackageCheck,
+  Sparkles,
+} from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -25,11 +36,11 @@ const COLORS = [
 ];
 
 const SORT_OPTIONS = [
-  { value: "newest", label: "Newest" },
-  { value: "price_asc", label: "Price: Low to High" },
-  { value: "price_desc", label: "Price: High to Low" },
-  { value: "popular", label: "Popular" },
-  { value: "rating", label: "Best Rated" },
+  { value: "newest", label: "Newest", icon: Sparkles },
+  { value: "price_asc", label: "Price: Low to High", icon: ArrowUpDown },
+  { value: "price_desc", label: "Price: High to Low", icon: ArrowUpDown },
+  { value: "popular", label: "Popular", icon: Sparkles },
+  { value: "rating", label: "Best Rated", icon: Sparkles },
 ];
 
 const PRICE_RANGES = [
@@ -41,9 +52,50 @@ const PRICE_RANGES = [
   { label: "₹3,000+", min: 3000, max: 5000 },
 ];
 
+function SectionHeader({
+  icon: Icon,
+  title,
+  section,
+  count,
+  expandedSection,
+  onToggle,
+}: {
+  icon: any;
+  title: string;
+  section: string;
+  count?: number;
+  expandedSection: string | null;
+  onToggle: (section: string) => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={() => onToggle(section)}
+      className="flex w-full items-center gap-2 py-1"
+    >
+      <div className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-primary/10 text-primary">
+        <Icon className="h-3.5 w-3.5" />
+      </div>
+      <span className="text-xs font-bold uppercase tracking-wider text-foreground">{title}</span>
+      {count && count > 0 ? (
+        <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1.5 text-[10px] font-bold text-primary-foreground">
+          {count}
+        </span>
+      ) : null}
+      <ChevronDown
+        className={cn(
+          "ml-auto h-4 w-4 text-muted-foreground transition-transform",
+          expandedSection === section && "rotate-180"
+        )}
+      />
+    </button>
+  );
+}
+
 export function FilterPanel({ category }: { category?: string }) {
   const router = useRouter();
   const sp = useSearchParams();
+  const [expandedSection, setExpandedSection] = useState<string | null>("sort");
 
   const toggleParam = useCallback(
     (key: string, value: string) => {
@@ -76,7 +128,6 @@ export function FilterPanel({ category }: { category?: string }) {
       const params = new URLSearchParams(sp.toString());
       const currentMin = params.get("minPrice");
       const currentMax = params.get("maxPrice");
-      // Toggle off if same range clicked
       if (currentMin === String(min) && currentMax === String(max)) {
         params.delete("minPrice");
         params.delete("maxPrice");
@@ -107,139 +158,177 @@ export function FilterPanel({ category }: { category?: string }) {
 
   const clearAll = () => router.push(category ? `/${category}` : "/search", { scroll: false });
 
+  const toggleSection = (section: string) => {
+    setExpandedSection(expandedSection === section ? null : section);
+  };
+
   const Panel = (
-    <div className="space-y-5">
-      {/* Active filters badge */}
+    <div className="space-y-4">
+      {/* Active filters bar */}
       {activeFilterCount > 0 && (
-        <div className="flex items-center justify-between rounded-md bg-primary/5 px-3 py-2">
-          <span className="text-xs font-semibold">
-            {activeFilterCount} active {activeFilterCount === 1 ? "filter" : "filters"}
-          </span>
+        <div className="flex items-center justify-between rounded-lg bg-gradient-to-r from-primary/5 to-primary/10 px-3 py-2.5 border border-primary/20">
+          <div className="flex items-center gap-2">
+            <div className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-primary text-primary-foreground text-[10px] font-bold">
+              {activeFilterCount}
+            </div>
+            <span className="text-xs font-semibold">
+              {activeFilterCount} {activeFilterCount === 1 ? "filter" : "filters"} active
+            </span>
+          </div>
           <button
             onClick={clearAll}
-            className="text-xs font-medium text-primary hover:underline"
+            className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-[11px] font-semibold text-primary hover:bg-primary/10 transition-colors"
           >
-            Clear all
+            <X className="h-3 w-3" /> Clear
           </button>
         </div>
       )}
 
-      {/* Sort */}
-      <div>
-        <h3 className="mb-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">Sort By</h3>
-        <select
-          value={sort}
-          onChange={(e) => setParam("sort", e.target.value)}
-          className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm font-medium cursor-pointer hover:border-foreground/40 transition-colors"
-        >
-          {SORT_OPTIONS.map((opt) => (
-            <option key={opt.value} value={opt.value}>{opt.label}</option>
-          ))}
-        </select>
+      {/* Sort Section */}
+      <div className="rounded-lg border border-border p-3 bg-card">
+        <SectionHeader icon={ArrowUpDown} title="Sort By" section="sort" expandedSection={expandedSection} onToggle={toggleSection} />
+        {expandedSection === "sort" && (
+          <div className="mt-3 space-y-1">
+            {SORT_OPTIONS.map((opt) => (
+              <button
+                key={opt.value}
+                type="button"
+                onClick={() => setParam("sort", opt.value)}
+                className={cn(
+                  "flex w-full items-center justify-between rounded-md px-3 py-2 text-xs font-medium transition-all",
+                  sort === opt.value
+                    ? "bg-primary text-primary-foreground shadow-sm"
+                    : "hover:bg-accent text-foreground/80"
+                )}
+              >
+                <span className="flex items-center gap-2">
+                  <opt.icon className="h-3.5 w-3.5" />
+                  {opt.label}
+                </span>
+                {sort === opt.value && <Check className="h-3.5 w-3.5" />}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
-      {/* Size */}
-      <div>
-        <h3 className="mb-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">Size</h3>
-        <div className="flex flex-wrap gap-1.5">
-          {SIZES.map((s) => (
+      {/* Size Section */}
+      <div className="rounded-lg border border-border p-3 bg-card">
+        <SectionHeader icon={Shirt} title="Size" section="size" count={selectedSizes.length} expandedSection={expandedSection} onToggle={toggleSection} />
+        {expandedSection === "size" && (
+          <div className="mt-3 grid grid-cols-3 gap-2">
+            {SIZES.map((s) => (
+              <button
+                key={s}
+                type="button"
+                onClick={() => toggleParam("sizes", s)}
+                className={cn(
+                  "h-10 rounded-md border-2 text-xs font-bold transition-all",
+                  selectedSizes.includes(s)
+                    ? "border-primary bg-primary text-primary-foreground shadow-sm scale-105"
+                    : "border-border hover:border-foreground/40 hover:bg-accent/50"
+                )}
+              >
+                {s}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Color Section */}
+      <div className="rounded-lg border border-border p-3 bg-card">
+        <SectionHeader icon={Palette} title="Color" section="color" count={selectedColors.length} expandedSection={expandedSection} onToggle={toggleSection} />
+        {expandedSection === "color" && (
+          <div className="mt-3 flex flex-wrap gap-2">
+            {COLORS.map((c) => (
+              <button
+                key={c.name}
+                type="button"
+                onClick={() => toggleParam("colors", c.name)}
+                title={c.name}
+                className={cn(
+                  "group relative h-10 w-10 rounded-full border-2 transition-all hover:scale-110",
+                  selectedColors.includes(c.name)
+                    ? "border-primary ring-2 ring-primary/20 scale-110"
+                    : "border-border"
+                )}
+                style={{ background: c.hex }}
+              >
+                {selectedColors.includes(c.name) && (
+                  <Check className={cn(
+                    "h-5 w-5 absolute inset-0 m-auto",
+                    c.name === "White" || c.name === "Cream" ? "text-black" : "text-white"
+                  )} />
+                )}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Price Section */}
+      <div className="rounded-lg border border-border p-3 bg-card">
+        <SectionHeader icon={IndianRupee} title="Price Range" section="price" count={sp.get("minPrice") ? 1 : 0} expandedSection={expandedSection} onToggle={toggleSection} />
+        {expandedSection === "price" && (
+          <div className="mt-3 grid grid-cols-2 gap-1.5">
+            {PRICE_RANGES.map((range) => (
+              <button
+                key={range.label}
+                type="button"
+                onClick={() => setPriceRange(range.min, range.max)}
+                className={cn(
+                  "rounded-md px-2.5 py-2 text-[11px] font-semibold transition-all",
+                  isPriceRangeActive(range.min, range.max)
+                    ? "bg-primary text-primary-foreground shadow-sm"
+                    : "bg-accent/50 hover:bg-accent text-foreground/80"
+                )}
+              >
+                {range.label}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Availability Section */}
+      <div className="rounded-lg border border-border p-3 bg-card">
+        <SectionHeader icon={PackageCheck} title="Availability" section="availability" count={inStockOnly ? 1 : 0} expandedSection={expandedSection} onToggle={toggleSection} />
+        {expandedSection === "availability" && (
+          <div className="mt-3">
             <button
-              key={s}
               type="button"
-              onClick={() => toggleParam("sizes", s)}
+              onClick={() => setParam("availability", !inStockOnly ? "in-stock" : null)}
               className={cn(
-                "h-9 min-w-9 px-2.5 rounded-md border-2 text-xs font-bold transition-all",
-                selectedSizes.includes(s)
-                  ? "border-primary bg-primary text-primary-foreground"
+                "flex w-full items-center justify-between rounded-md border-2 px-3 py-2.5 text-xs font-semibold transition-all",
+                inStockOnly
+                  ? "border-primary bg-primary/5"
                   : "border-border hover:border-foreground/40"
               )}
             >
-              {s}
+              <span className="flex items-center gap-2">
+                <PackageCheck className={cn("h-4 w-4", inStockOnly ? "text-primary" : "text-muted-foreground")} />
+                In stock only
+              </span>
+              <div className={cn(
+                "flex h-5 w-5 items-center justify-center rounded border-2 transition-all",
+                inStockOnly ? "border-primary bg-primary text-primary-foreground" : "border-border"
+              )}>
+                {inStockOnly && <Check className="h-3 w-3" />}
+              </div>
             </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Color */}
-      <div>
-        <h3 className="mb-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">Color</h3>
-        <div className="flex flex-wrap gap-1.5">
-          {COLORS.map((c) => (
-            <button
-              key={c.name}
-              type="button"
-              onClick={() => toggleParam("colors", c.name)}
-              title={c.name}
-              className={cn(
-                "h-8 w-8 rounded-full border-2 transition-all hover:scale-110",
-                selectedColors.includes(c.name)
-                  ? "border-primary ring-2 ring-primary/20"
-                  : "border-border"
-              )}
-              style={{ background: c.hex }}
-            >
-              {selectedColors.includes(c.name) && (
-                <Check className={cn("h-4 w-4 mx-auto", c.name === "White" || c.name === "Cream" ? "text-black" : "text-white")} />
-              )}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Price - preset ranges (no scroll needed) */}
-      <div>
-        <h3 className="mb-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">Price Range</h3>
-        <div className="space-y-1">
-          {PRICE_RANGES.map((range) => (
-            <button
-              key={range.label}
-              type="button"
-              onClick={() => setPriceRange(range.min, range.max)}
-              className={cn(
-                "flex w-full items-center justify-between rounded-md px-3 py-1.5 text-xs font-medium transition-colors",
-                isPriceRangeActive(range.min, range.max)
-                  ? "bg-primary text-primary-foreground"
-                  : "hover:bg-accent"
-              )}
-            >
-              {range.label}
-              {isPriceRangeActive(range.min, range.max) && <Check className="h-3.5 w-3.5" />}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Availability */}
-      <div>
-        <h3 className="mb-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">Availability</h3>
-        <button
-          type="button"
-          onClick={() => setParam("availability", !inStockOnly ? "in-stock" : null)}
-          className={cn(
-            "flex w-full items-center justify-between rounded-md border-2 px-3 py-2 text-xs font-medium transition-all",
-            inStockOnly
-              ? "border-primary bg-primary/5"
-              : "border-border hover:border-foreground/40"
-          )}
-        >
-          <span>In stock only</span>
-          <div className={cn(
-            "flex h-5 w-5 items-center justify-center rounded border-2 transition-all",
-            inStockOnly ? "border-primary bg-primary text-primary-foreground" : "border-border"
-          )}>
-            {inStockOnly && <Check className="h-3 w-3" />}
           </div>
-        </button>
+        )}
       </div>
 
-      {/* Clear all */}
+      {/* Clear all button */}
       {activeFilterCount > 0 && (
         <button
           type="button"
           onClick={clearAll}
-          className="flex w-full items-center justify-center gap-2 rounded-md border border-border py-2 text-xs font-medium hover:bg-accent transition-colors"
+          className="flex w-full items-center justify-center gap-2 rounded-lg border-2 border-dashed border-border py-2.5 text-xs font-bold uppercase tracking-wider hover:border-primary hover:text-primary transition-all"
         >
-          <X className="h-3.5 w-3.5" /> Clear all filters
+          <X className="h-3.5 w-3.5" /> Clear All Filters
         </button>
       )}
     </div>
@@ -247,14 +336,17 @@ export function FilterPanel({ category }: { category?: string }) {
 
   return (
     <>
-      {/* Desktop sidebar - compact, no scroll needed */}
-      <aside className="hidden lg:block w-60 flex-shrink-0">
-        <div className="sticky top-20 rounded-lg border border-border bg-card p-4 max-h-[calc(100vh-6rem)] overflow-y-auto ru-scrollbar">
-          <div className="mb-4 flex items-center gap-2">
-            <SlidersHorizontal className="h-4 w-4" />
-            <h2 className="text-sm font-bold uppercase tracking-wider">Filters</h2>
+      {/* Desktop sidebar */}
+      <aside className="hidden lg:block w-64 flex-shrink-0">
+        <div className="sticky top-20 rounded-xl border border-border bg-background/50 backdrop-blur p-4 max-h-[calc(100vh-6rem)] overflow-y-auto ru-scrollbar shadow-sm">
+          {/* Header */}
+          <div className="mb-4 flex items-center gap-2 pb-3 border-b">
+            <div className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+              <SlidersHorizontal className="h-4 w-4" />
+            </div>
+            <h2 className="text-sm font-black uppercase tracking-wider">Filters</h2>
             {activeFilterCount > 0 && (
-              <span className="ml-auto inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1.5 text-[10px] font-bold text-primary-foreground">
+              <span className="ml-auto inline-flex h-6 min-w-6 items-center justify-center rounded-full bg-primary px-2 text-[10px] font-bold text-primary-foreground">
                 {activeFilterCount}
               </span>
             )}
@@ -267,8 +359,9 @@ export function FilterPanel({ category }: { category?: string }) {
       <div className="lg:hidden flex items-center justify-between mb-4">
         <Sheet>
           <SheetTrigger asChild>
-            <button className="inline-flex items-center gap-2 rounded-md border border-border px-4 py-2 text-sm font-medium hover:bg-accent transition-colors">
-              <SlidersHorizontal className="h-4 w-4" /> Filters
+            <button className="inline-flex items-center gap-2 rounded-lg border-2 border-border bg-card px-4 py-2.5 text-sm font-bold hover:border-primary hover:bg-accent transition-all shadow-sm">
+              <SlidersHorizontal className="h-4 w-4" />
+              Filters
               {activeFilterCount > 0 && (
                 <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1.5 text-[10px] font-bold text-primary-foreground">
                   {activeFilterCount}
@@ -276,10 +369,18 @@ export function FilterPanel({ category }: { category?: string }) {
               )}
             </button>
           </SheetTrigger>
-          <SheetContent side="left" className="w-[300px] sm:w-[360px] overflow-y-auto">
+          <SheetContent side="left" className="w-[320px] sm:w-[380px] overflow-y-auto">
             <SheetHeader>
               <SheetTitle className="flex items-center gap-2">
-                <SlidersHorizontal className="h-4 w-4" /> Filters
+                <div className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+                  <SlidersHorizontal className="h-4 w-4" />
+                </div>
+                <span className="text-base font-black uppercase tracking-wider">Filters</span>
+                {activeFilterCount > 0 && (
+                  <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1.5 text-[10px] font-bold text-primary-foreground">
+                    {activeFilterCount}
+                  </span>
+                )}
               </SheetTitle>
             </SheetHeader>
             <div className="mt-6">{Panel}</div>
