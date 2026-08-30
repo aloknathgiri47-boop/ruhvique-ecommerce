@@ -163,7 +163,7 @@ export function FilterPanel({ category }: { category?: string }) {
   };
 
   const Panel = (
-    <div className="space-y-4">
+    <div className="space-y-3">
       {/* Active filters bar */}
       {activeFilterCount > 0 && (
         <div className="flex items-center justify-between rounded-lg bg-gradient-to-r from-primary/5 to-primary/10 px-3 py-2.5 border border-primary/20">
@@ -185,7 +185,7 @@ export function FilterPanel({ category }: { category?: string }) {
       )}
 
       {/* Sort Section */}
-      <div className="rounded-lg border border-border p-3 bg-card">
+      <div className="rounded-lg border border-border p-2.5 bg-card">
         <SectionHeader icon={ArrowUpDown} title="Sort By" section="sort" expandedSection={expandedSection} onToggle={toggleSection} />
         {expandedSection === "sort" && (
           <div className="mt-3 space-y-1">
@@ -213,7 +213,7 @@ export function FilterPanel({ category }: { category?: string }) {
       </div>
 
       {/* Size Section */}
-      <div className="rounded-lg border border-border p-3 bg-card">
+      <div className="rounded-lg border border-border p-2.5 bg-card">
         <SectionHeader icon={Shirt} title="Size" section="size" count={selectedSizes.length} expandedSection={expandedSection} onToggle={toggleSection} />
         {expandedSection === "size" && (
           <div className="mt-3 grid grid-cols-3 gap-2">
@@ -237,7 +237,7 @@ export function FilterPanel({ category }: { category?: string }) {
       </div>
 
       {/* Color Section */}
-      <div className="rounded-lg border border-border p-3 bg-card">
+      <div className="rounded-lg border border-border p-2.5 bg-card">
         <SectionHeader icon={Palette} title="Color" section="color" count={selectedColors.length} expandedSection={expandedSection} onToggle={toggleSection} />
         {expandedSection === "color" && (
           <div className="mt-3 flex flex-wrap gap-2">
@@ -268,7 +268,7 @@ export function FilterPanel({ category }: { category?: string }) {
       </div>
 
       {/* Price Section */}
-      <div className="rounded-lg border border-border p-3 bg-card">
+      <div className="rounded-lg border border-border p-2.5 bg-card">
         <SectionHeader icon={IndianRupee} title="Price Range" section="price" count={sp.get("minPrice") ? 1 : 0} expandedSection={expandedSection} onToggle={toggleSection} />
         {expandedSection === "price" && (
           <div className="mt-3 grid grid-cols-2 gap-1.5">
@@ -292,7 +292,7 @@ export function FilterPanel({ category }: { category?: string }) {
       </div>
 
       {/* Availability Section */}
-      <div className="rounded-lg border border-border p-3 bg-card">
+      <div className="rounded-lg border border-border p-2.5 bg-card">
         <SectionHeader icon={PackageCheck} title="Availability" section="availability" count={inStockOnly ? 1 : 0} expandedSection={expandedSection} onToggle={toggleSection} />
         {expandedSection === "availability" && (
           <div className="mt-3">
@@ -338,7 +338,7 @@ export function FilterPanel({ category }: { category?: string }) {
     <>
       {/* Desktop sidebar - 280px sticky */}
       <aside className="hidden lg:block w-[280px] flex-shrink-0">
-        <div className="sticky top-20 rounded-xl border border-border bg-card p-4 max-h-[calc(100vh-6rem)] overflow-y-auto ru-scrollbar shadow-sm">
+        <div className="sticky top-[4.5rem] rounded-xl border border-border bg-card p-4 max-h-[calc(100vh-5.5rem)] overflow-y-auto ru-scrollbar shadow-sm">
           {/* Header */}
           <div className="mb-4 flex items-center gap-2 pb-3 border-b">
             <div className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
