@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Menu, Search, User, ShoppingBag } from "lucide-react";
+import { Menu, Search, User, ShoppingBag, Shield } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/lib/store";
 import { useSession } from "next-auth/react";
@@ -85,6 +85,16 @@ export function Navbar() {
                       {l.label}
                     </Link>
                   ))}
+                  <Link
+                    href="/admin/login"
+                    className={cn(
+                      "mt-2 flex items-center gap-2 rounded-md border border-border px-3 py-3 text-sm font-semibold hover:bg-accent transition-colors",
+                      pathname.startsWith("/admin") && "bg-accent border-foreground"
+                    )}
+                  >
+                    <Shield className="h-4 w-4" />
+                    Admin Panel
+                  </Link>
                 </nav>
                 <div className="mt-8 border-t pt-4">
                   <Link
@@ -129,6 +139,17 @@ export function Navbar() {
                 {l.label}
               </Link>
             ))}
+            {/* Admin link - subtle, next to Contact */}
+            <Link
+              href="/admin/login"
+              className={cn(
+                "ml-2 inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-xs font-semibold text-foreground/70 hover:text-foreground hover:border-foreground/40 transition-colors",
+                pathname.startsWith("/admin") && "border-foreground text-foreground"
+              )}
+            >
+              <Shield className="h-3.5 w-3.5" />
+              Admin
+            </Link>
           </nav>
 
           {/* Right: Actions */}
