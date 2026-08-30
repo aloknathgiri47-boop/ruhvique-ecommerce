@@ -34,9 +34,10 @@ export function ProductCard({ p }: { p: ProductCardData }) {
   return (
     <Link
       href={`/product/${p.slug}`}
-      className="group block overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+      className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
     >
-      <div className="relative aspect-[4/5] overflow-hidden bg-muted">
+      {/* Image — fixed aspect ratio, all same size */}
+      <div className="relative aspect-[4/5] overflow-hidden bg-muted flex-shrink-0">
         <img
           src={p.image}
           alt={p.name}
@@ -106,39 +107,46 @@ export function ProductCard({ p }: { p: ProductCardData }) {
         </div>
       </div>
 
-      {/* Product info */}
-      <div className="p-4">
-        <h3 className="line-clamp-1 text-sm font-bold text-foreground group-hover:text-black transition-colors">
+      {/* Product info — fixed height section, all cards equal */}
+      <div className="flex flex-col flex-1 p-4">
+        {/* Name — fixed height with line-clamp */}
+        <h3 className="line-clamp-1 text-sm font-bold text-foreground group-hover:text-black transition-colors min-h-[1.25rem]">
           {p.name}
         </h3>
 
-        {/* Rating */}
-        <div className="mt-1.5 flex items-center gap-1">
-          <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+        {/* Rating — fixed height */}
+        <div className="mt-1.5 flex items-center gap-1 min-h-[1.25rem]">
+          <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400 flex-shrink-0" />
           <span className="text-xs font-bold">{p.rating.toFixed(1)}</span>
           <span className="text-xs text-muted-foreground">({p.reviewCount})</span>
         </div>
 
-        {/* Price */}
-        <div className="mt-2 flex items-center gap-2 flex-wrap">
+        {/* Price — fixed height, always shows both lines */}
+        <div className="mt-2 flex items-center gap-2 min-h-[1.5rem]">
           <span className="text-base font-black text-foreground">
             {formatCurrency(p.discountPrice ?? p.price)}
           </span>
-          {hasDiscount && (
+          {hasDiscount ? (
             <span className="text-xs text-muted-foreground line-through">
               {formatCurrency(p.price)}
             </span>
+          ) : (
+            <span className="text-xs text-transparent">.</span>
           )}
         </div>
 
-        {/* Save amount */}
-        {hasDiscount && (
-          <p className="mt-0.5 text-[10px] font-bold text-emerald-600">
-            You save {formatCurrency(p.price - (p.discountPrice as number))}
-          </p>
-        )}
+        {/* Save amount — fixed height, empty space if no discount */}
+        <div className="mt-0.5 min-h-[1rem]">
+          {hasDiscount ? (
+            <p className="text-[10px] font-bold text-emerald-600">
+              You save {formatCurrency(p.price - (p.discountPrice as number))}
+            </p>
+          ) : (
+            <p className="text-[10px] text-transparent">.</p>
+          )}
+        </div>
 
-        {/* Buy Now button */}
+        {/* Buy Now button — at bottom, always aligned */}
         <button
           onClick={(e) => {
             e.preventDefault();
