@@ -341,11 +341,11 @@ export function FilterPanel({ category }: { category?: string }) {
 
   return (
     <>
-      {/* Desktop sidebar - 280px sticky */}
+      {/* Desktop sidebar - 280px fixed, does NOT scroll */}
       <aside className="hidden lg:block w-[280px] flex-shrink-0">
-        <div className="sticky top-[4.5rem] space-y-3">
-          {/* Filters panel */}
-          <div className="rounded-xl border border-border bg-card p-4 max-h-[calc(100vh-5.5rem)] overflow-y-auto ru-scrollbar shadow-sm">
+        <div className="sticky top-20 h-[calc(100vh-6rem)] flex flex-col gap-3">
+          {/* Filters panel — no internal scroll, all content visible */}
+          <div className="rounded-xl border border-border bg-card p-4 shadow-sm flex-1 overflow-y-auto ru-scrollbar">
             {/* Header */}
             <div className="mb-4 flex items-center gap-2 pb-3 border-b">
               <div className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
@@ -361,16 +361,16 @@ export function FilterPanel({ category }: { category?: string }) {
             {Panel}
           </div>
 
-          {/* Promo banner - fills space below filters */}
-          <div className="rounded-xl bg-primary text-primary-foreground p-4 text-center">
+          {/* Promo banner — fixed at bottom */}
+          <div className="rounded-xl bg-primary text-primary-foreground p-4 text-center flex-shrink-0">
             <Tag className="h-6 w-6 mx-auto mb-2" />
             <p className="text-xs font-black uppercase tracking-wider mb-1">Use Code</p>
             <p className="text-lg font-black tracking-wider mb-2">RUHVIQUE10</p>
             <p className="text-[10px] text-primary-foreground/70">Get 10% off your first order</p>
           </div>
 
-          {/* Quick help card */}
-          <div className="rounded-xl border border-border bg-card p-4">
+          {/* Quick help card — fixed at bottom */}
+          <div className="rounded-xl border border-border bg-card p-4 flex-shrink-0">
             <div className="flex items-center gap-2 mb-3">
               <Headphones className="h-4 w-4 text-primary" />
               <h3 className="text-xs font-bold uppercase tracking-wider">Need Help?</h3>
