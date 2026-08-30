@@ -17,25 +17,26 @@ export async function GET() {
 
 // POST — create order
 export async function POST(req: Request) {
-  const user = await getCurrentUser();
-  if (!user) {
-    return NextResponse.json(
-      { error: "Please sign in to place an order" },
-      { status: 401 }
-    );
-  }
-  const body = await req.json();
-  const { items, address, paymentMethod = "COD", couponCode, notes } = body;
+  try {
+    const user = await getCurrentUser();
+    if (!user) {
+      return NextResponse.json(
+        { error: "Please sign in to place an order" },
+        { status: 401 }
+      );
+    }
+    const body = await req.json();
+    const { items, address, paymentMethod = "COD", couponCode, notes } = body;
 
-  if (!Array.isArray(items) || items.length === 0) {
-    return NextResponse.json({ error: "Cart is empty" }, { status: 400 });
-  }
-  if (!address?.name || !address?.phone || !address?.city || !address?.pincode) {
-    return NextResponse.json(
-      { error: "Incomplete shipping address" },
-      { status: 400 }
-    );
-  }
+    if (!Array.isArray(items) || items.length === 0) {
+      return NextResponse.json({ error: "Cart is empty" }, { status: 400 });
+    }
+    if (!address?.name || !address?.phone || !address?.city || !address?.pincode) {
+      return NextResponse.json(
+        { error: "Incomplete shipping address" },
+        { status: 400 }
+      );
+    }
 
   // Validate items & fetch product info
   const productIds = items.map((i: any) => i.productId);
@@ -187,22 +188,24 @@ export async function POST(req: Request) {
     });
   }
 
-  // Coupon usage
+  // Coupon usage (non-blocking — don't fail order if coupon tracking fails)
   if (usedCouponCode) {
-    const coupon = await db.coupon.findUnique({ where: { code: usedCouponCode } });
-    if (coupon) {
-      await db.coupon.update({
-        where: { id: coupon.id },
-        data: { usedCount: { increment: 1 } },
-      });
-      await db.couponUsage.create({
-        data: {
-          couponId: coupon.id,
-          userId: user.id,
-          orderId: order.id,
-        },
-      });
-    }
+    try {
+      const coupon = await db.coupon.findUnique({ where: { code: usedCouponCode } });
+      if (coupon) {
+        await db.coupon.update({
+          where: { id: coupon.id },
+          data: { usedCount: { increment: 1 } },
+        });
+        await db.couponUsage.create({
+          data: {
+            couponId: coupon.id,
+            userId: user.id,
+            orderId: order.id,
+          },
+        }).catch(() => {}); // Ignore if already used
+      }
+    } catch {}
   }
 
   // Clear user's cart (userId is not unique on Cart, use findFirst)
@@ -212,4 +215,11 @@ export async function POST(req: Request) {
   }
 
   return NextResponse.json({ order });
+  } catch (error: any) {
+    console.error("[orders] POST error:", error);
+    return NextResponse.json(
+      { error: error?.message || "Failed to place order. Please try again." },
+      { status: 500 }
+    );
+  }
 }
