@@ -126,22 +126,10 @@ export default async function CategoryPage({
               </div>
             ) : (
               <>
-                {/* Product grid — 3 per row, row-by-row snap scroll */}
-                <div
-                  className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 ru-scrollbar pr-1"
-                  style={{
-                    scrollSnapType: "y mandatory",
-                    maxHeight: "calc(100vh - 8rem)",
-                    overflowY: "auto",
-                  }}
-                >
+                {/* Product grid — 3 per row, natural page scroll */}
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                   {items.map((p) => (
-                    <div
-                      key={p.id}
-                      style={{ scrollSnapAlign: "start" }}
-                    >
-                      <ProductCard p={p} />
-                    </div>
+                    <ProductCard key={p.id} p={p} />
                   ))}
                 </div>
 
