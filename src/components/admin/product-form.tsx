@@ -18,7 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
-import { ArrowLeft, Save, Trash2, Plus, Upload, X, Star } from "lucide-react";
+import { ArrowLeft, Save, Trash2, Plus, Upload, X, Star, ChevronLeft, ChevronRight, ImagePlus } from "lucide-react";
 
 interface Category {
   id: string;
@@ -124,6 +124,42 @@ export function ProductForm({
       setUploading(false);
       if (fileRef.current) fileRef.current.value = "";
     }
+  };
+
+  // Set image as primary (move to index 0)
+  const setPrimaryImage = (index: number) => {
+    setImages((prev) => {
+      const next = [...prev];
+      const [img] = next.splice(index, 1);
+      next.unshift(img);
+      return next;
+    });
+    toast.success("Set as primary image");
+  };
+
+  // Move image left
+  const moveImageLeft = (index: number) => {
+    if (index === 0) return;
+    setImages((prev) => {
+      const next = [...prev];
+      [next[index - 1], next[index]] = [next[index], next[index - 1]];
+      return next;
+    });
+  };
+
+  // Move image right
+  const moveImageRight = (index: number) => {
+    setImages((prev) => {
+      if (index === prev.length - 1) return prev;
+      const next = [...prev];
+      [next[index], next[index + 1]] = [next[index + 1], next[index]];
+      return next;
+    });
+  };
+
+  // Remove image
+  const removeImage = (index: number) => {
+    setImages((prev) => prev.filter((_, idx) => idx !== index));
   };
 
   const addVariant = () => {
@@ -308,31 +344,75 @@ export function ProductForm({
             </div>
             {images.length === 0 ? (
               <div className="border-2 border-dashed rounded-lg p-8 text-center text-sm text-muted-foreground">
+                <ImagePlus className="h-8 w-8 mx-auto mb-2 opacity-50" />
                 No images yet. Upload at least one image.
               </div>
             ) : (
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {images.map((url, i) => (
-                  <div key={i} className="relative group aspect-square rounded-md overflow-hidden border">
-                    { }
+                  <div key={i} className="relative group aspect-square rounded-md overflow-hidden border-2 border-border">
                     <img src={url} alt={`Image ${i + 1}`} className="h-full w-full object-cover" />
+                    {/* Primary badge */}
                     {i === 0 && (
-                      <span className="absolute top-1 left-1 bg-primary text-primary-foreground text-[10px] font-bold uppercase px-1.5 py-0.5 rounded">
-                        Primary
+                      <span className="absolute top-1 left-1 bg-primary text-primary-foreground text-[10px] font-bold uppercase px-1.5 py-0.5 rounded flex items-center gap-1">
+                        <Star className="h-2.5 w-2.5 fill-current" /> Primary
                       </span>
                     )}
-                    <button
-                      onClick={() => setImages((prev) => prev.filter((_, idx) => idx !== i))}
-                      className="absolute top-1 right-1 bg-destructive text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                    >
-                      <X className="h-3 w-3" />
-                    </button>
+                    {/* Image number */}
+                    <span className="absolute bottom-1 left-1 bg-black/60 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">
+                      {i + 1}
+                    </span>
+                    {/* Controls overlay */}
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center gap-1.5 opacity-0 group-hover:opacity-100">
+                      {/* Set primary */}
+                      {i !== 0 && (
+                        <button
+                          type="button"
+                          onClick={() => setPrimaryImage(i)}
+                          title="Set as primary"
+                          className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white text-black hover:bg-white/90 transition-colors"
+                        >
+                          <Star className="h-4 w-4" />
+                        </button>
+                      )}
+                      {/* Move left */}
+                      {i > 0 && (
+                        <button
+                          type="button"
+                          onClick={() => moveImageLeft(i)}
+                          title="Move left"
+                          className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white text-black hover:bg-white/90 transition-colors"
+                        >
+                          <ChevronLeft className="h-4 w-4" />
+                        </button>
+                      )}
+                      {/* Move right */}
+                      {i < images.length - 1 && (
+                        <button
+                          type="button"
+                          onClick={() => moveImageRight(i)}
+                          title="Move right"
+                          className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white text-black hover:bg-white/90 transition-colors"
+                        >
+                          <ChevronRight className="h-4 w-4" />
+                        </button>
+                      )}
+                      {/* Delete */}
+                      <button
+                        type="button"
+                        onClick={() => removeImage(i)}
+                        title="Delete image"
+                        className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-destructive text-white hover:bg-destructive/90 transition-colors"
+                      >
+                        <X className="h-4 w-4" />
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>
             )}
             <p className="text-xs text-muted-foreground">
-              First image is the primary. Drag to reorder (coming soon). Cloudinary-ready architecture.
+              First image is primary. Hover over images to set primary, reorder, or delete.
             </p>
           </Card>
 
