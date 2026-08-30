@@ -1,4 +1,5 @@
 import { db } from "@/lib/db";
+export const dynamic = "force-dynamic";
 import { ProductsTableClient } from "@/components/admin/products-table-client";
 
 export default async function AdminProductsPage({

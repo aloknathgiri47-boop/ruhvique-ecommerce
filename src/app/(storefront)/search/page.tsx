@@ -1,4 +1,5 @@
 import Link from "next/link";
+export const dynamic = "force-dynamic";
 import { db } from "@/lib/db";
 import { ProductCard } from "@/components/storefront/product-card";
 import { SearchBox } from "@/components/storefront/search-box";

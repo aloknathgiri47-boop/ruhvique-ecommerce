@@ -4,6 +4,8 @@ import { ProductCard } from "@/components/storefront/product-card";
 import { FilterPanel } from "@/components/storefront/filter-panel";
 import { notFound } from "next/navigation";
 
+export const dynamic = "force-dynamic";
+
 const VALID_SLUGS = ["tshirts", "apparel", "hoodies", "gym-wear"];
 
 export default async function CategoryPage({

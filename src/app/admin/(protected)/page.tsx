@@ -1,4 +1,5 @@
 import { db } from "@/lib/db";
+export const dynamic = "force-dynamic";
 import { DashboardClient } from "@/components/admin/dashboard-client";
 
 export default async function AdminDashboardPage() {

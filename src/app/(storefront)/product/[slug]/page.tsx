@@ -1,4 +1,5 @@
 import { db } from "@/lib/db";
+export const dynamic = "force-dynamic";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";

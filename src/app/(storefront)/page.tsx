@@ -2,6 +2,8 @@ import Link from "next/link";
 import { db } from "@/lib/db";
 import { HeroBanner } from "@/components/storefront/hero-banner";
 import { ProductCard } from "@/components/storefront/product-card";
+
+export const dynamic = "force-dynamic";
 import {
   ArrowRight,
   Sparkles,
