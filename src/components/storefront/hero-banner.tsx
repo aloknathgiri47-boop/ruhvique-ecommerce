@@ -50,7 +50,7 @@ export function HeroBanner({ banners }: { banners: Banner[] }) {
           <div key={b.id} className="relative w-full flex-shrink-0">
             <Link
               href={b.ctaLink || "/tshirts"}
-              className="block relative aspect-[16/9] sm:aspect-[21/9] lg:aspect-[16/5] w-full group"
+              className="block relative aspect-[16/9] sm:aspect-[2/1] lg:aspect-[3/1] w-full group"
             >
               <img
                 src={b.image}
