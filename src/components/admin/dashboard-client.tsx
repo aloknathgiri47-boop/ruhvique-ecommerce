@@ -23,6 +23,7 @@ import {
   Eye,
   Star,
   Zap,
+  BarChart3,
 } from "lucide-react";
 import {
   ResponsiveContainer,
@@ -398,7 +399,7 @@ export function DashboardClient({ data }: { data: DashboardData }) {
               <h3 className="font-bold text-base">Weekly Sales</h3>
               <p className="text-xs text-muted-foreground">Last 12 weeks</p>
             </div>
-            <BarChart className="h-4 w-4 text-muted-foreground" />
+            <BarChart3 className="h-4 w-4 text-muted-foreground" />
           </div>
           <div className="h-56">
             <ResponsiveContainer width="100%" height="100%">
