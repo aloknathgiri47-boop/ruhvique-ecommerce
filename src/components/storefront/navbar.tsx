@@ -68,13 +68,14 @@ export function Navbar() {
               </SheetTrigger>
               <SheetContent side="left" className="w-[300px] sm:w-[360px]">
                 <SheetHeader>
-                  <SheetTitle className="text-left flex items-center gap-2">
-                    { }
-                    <img
-                      src="/ruhvique-logo.jpeg"
-                      alt="RUHVIQUE"
-                      className="h-9 w-9 rounded-md object-cover"
-                    />
+                  <SheetTitle className="text-left flex items-center gap-2.5">
+                    <div className="ru-logo-shine ru-logo-ring ru-logo-shadow ru-logo-hover rounded-md overflow-hidden">
+                      <img
+                        src="/ruhvique-logo.jpeg"
+                        alt="RUHVIQUE"
+                        className="h-10 w-10 rounded-md object-cover"
+                      />
+                    </div>
                     <span className="text-xl font-black tracking-[0.2em]">RUHVIQUE</span>
                   </SheetTitle>
                 </SheetHeader>
@@ -123,16 +124,17 @@ export function Navbar() {
           {/* Center-Left: Logo */}
           <Link
             href="/"
-            className="flex items-center"
+            className="group flex items-center"
             aria-label="RUHVIQUE home"
           >
-            { }
-            <img
-              src="/ruhvique-logo.jpeg"
-              alt="RUHVIQUE"
-              className="h-9 w-9 rounded-md object-cover flex-shrink-0"
-            />
-            <span className="ml-2 text-xl sm:text-2xl font-black tracking-[0.2em]">
+            <div className="ru-logo-shine ru-logo-ring ru-logo-shadow ru-logo-hover rounded-md overflow-hidden">
+              <img
+                src="/ruhvique-logo.jpeg"
+                alt="RUHVIQUE"
+                className="h-9 w-9 rounded-md object-cover flex-shrink-0"
+              />
+            </div>
+            <span className="ml-2.5 text-xl sm:text-2xl font-black tracking-[0.2em] group-hover:tracking-[0.25em] transition-all">
               RUHVIQUE
             </span>
           </Link>

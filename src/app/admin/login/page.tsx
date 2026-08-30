@@ -41,14 +41,18 @@ export default function AdminLoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-primary p-4">
       <div className="w-full max-w-md bg-background rounded-lg shadow-2xl p-8">
         <div className="text-center mb-8">
-          <Link href="/" className="inline-flex flex-col items-center gap-3">
-            { }
-            <img
-              src="/ruhvique-logo.jpeg"
-              alt="RUHVIQUE"
-              className="h-16 w-16 rounded-lg object-cover"
-            />
-            <span className="text-2xl font-black tracking-[0.2em]">RUHVIQUE</span>
+          <Link href="/" className="group inline-flex flex-col items-center gap-3">
+            <div className="ru-logo-shine ru-logo-ring ru-logo-shadow ru-logo-hover ru-logo-enter rounded-lg overflow-hidden">
+              <img
+                src="/ruhvique-logo.jpeg"
+                alt="RUHVIQUE"
+                className="rounded-lg object-cover"
+                style={{ height: "72px", width: "72px" }}
+              />
+            </div>
+            <span className="text-2xl font-black tracking-[0.2em] group-hover:tracking-[0.28em] transition-all">
+              RUHVIQUE
+            </span>
           </Link>
           <div className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1 text-xs font-bold uppercase tracking-wider text-primary-foreground">
             <Shield className="h-3 w-3" /> Admin Panel

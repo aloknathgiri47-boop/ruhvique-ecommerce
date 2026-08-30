@@ -129,14 +129,15 @@ function SidebarContent({
   return (
     <>
       <div className="h-14 flex items-center px-5 border-b border-sidebar-border">
-        <Link href="/admin" className="inline-flex items-center gap-2" onClick={onNavigate}>
-          { }
-          <img
-            src="/ruhvique-logo.jpeg"
-            alt="RUHVIQUE"
-            className="h-8 w-8 rounded-md object-cover"
-          />
-          <span className="text-lg font-black tracking-[0.2em]">RUHVIQUE</span>
+        <Link href="/admin" className="group inline-flex items-center gap-2" onClick={onNavigate}>
+          <div className="ru-logo-shine ru-logo-glow-dark ru-logo-hover rounded-md overflow-hidden">
+            <img
+              src="/ruhvique-logo.jpeg"
+              alt="RUHVIQUE"
+              className="h-8 w-8 rounded-md object-cover"
+            />
+          </div>
+          <span className="text-lg font-black tracking-[0.2em] group-hover:tracking-[0.24em] transition-all">RUHVIQUE</span>
         </Link>
         <span className="ml-2 text-[10px] font-bold uppercase tracking-wider bg-sidebar-accent px-1.5 py-0.5 rounded">
           Admin

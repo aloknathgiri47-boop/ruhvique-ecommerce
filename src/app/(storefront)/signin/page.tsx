@@ -63,14 +63,15 @@ function SignInForm() {
     <div className="grid lg:grid-cols-2 min-h-[calc(100vh-4rem)]">
       {/* Left: brand showcase */}
       <div className="hidden lg:flex flex-col justify-between bg-primary text-primary-foreground p-12">
-        <Link href="/" className="inline-flex items-center gap-2">
-          { }
-          <img
-            src="/ruhvique-logo.jpeg"
-            alt="RUHVIQUE"
-            className="h-10 w-10 rounded-md object-cover"
-          />
-          <span className="text-2xl font-black tracking-[0.2em]">RUHVIQUE</span>
+        <Link href="/" className="group inline-flex items-center gap-2.5">
+          <div className="ru-logo-shine ru-logo-ring ru-logo-glow-dark rounded-md overflow-hidden">
+            <img
+              src="/ruhvique-logo.jpeg"
+              alt="RUHVIQUE"
+              className="h-11 w-11 rounded-md object-cover"
+            />
+          </div>
+          <span className="text-2xl font-black tracking-[0.2em] group-hover:tracking-[0.25em] transition-all">RUHVIQUE</span>
         </Link>
         <div>
           <h1 className="text-4xl font-black tracking-tight leading-tight">

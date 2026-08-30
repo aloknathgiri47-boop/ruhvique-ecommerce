@@ -481,14 +481,15 @@ function OrderSuccess({ order }: { order: any }) {
   return (
     <div className="container mx-auto max-w-2xl px-4 py-12">
       <div className="text-center">
-        <Link href="/" className="inline-flex items-center gap-2 mb-6">
-          { }
-          <img
-            src="/ruhvique-logo.jpeg"
-            alt="RUHVIQUE"
-            className="h-11 w-11 rounded-md object-cover"
-          />
-          <span className="text-xl font-black tracking-[0.2em]">RUHVIQUE</span>
+        <Link href="/" className="group inline-flex items-center gap-2.5 mb-6">
+          <div className="ru-logo-shine ru-logo-ring ru-logo-shadow ru-logo-hover rounded-md overflow-hidden">
+            <img
+              src="/ruhvique-logo.jpeg"
+              alt="RUHVIQUE"
+              className="h-12 w-12 rounded-md object-cover"
+            />
+          </div>
+          <span className="text-xl font-black tracking-[0.2em] group-hover:tracking-[0.25em] transition-all">RUHVIQUE</span>
         </Link>
         <div className="inline-flex h-20 w-20 items-center justify-center rounded-full bg-emerald-100">
           <CheckCircle2 className="h-10 w-10 text-emerald-600" />

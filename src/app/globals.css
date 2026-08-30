@@ -360,3 +360,123 @@ html {
 .ru-slide-right {
   animation: ru-slide-in-right 0.6s ease-out forwards;
 }
+
+/* ====== Premium Logo Effects ====== */
+
+/* Logo container with premium ring */
+.ru-logo {
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.ru-logo::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, #0a0a0a, #525252, #0a0a0a);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.ru-logo:hover::before {
+  opacity: 1;
+}
+
+/* Logo hover lift + rotate */
+.ru-logo-hover {
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
+}
+.ru-logo-hover:hover {
+  transform: scale(1.1) rotate(-5deg);
+  box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.3);
+}
+
+/* Logo glow on dark backgrounds */
+.ru-logo-glow-dark {
+  box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+  transition: box-shadow 0.4s ease, transform 0.4s ease;
+}
+.ru-logo-glow-dark:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 20px 2px rgba(255, 255, 255, 0.3);
+}
+
+/* Logo shine sweep effect */
+.ru-logo-shine {
+  position: relative;
+  overflow: hidden;
+}
+.ru-logo-shine::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  transform: skewX(-20deg);
+  transition: left 0.7s ease;
+  pointer-events: none;
+}
+.ru-logo-shine:hover::after {
+  left: 150%;
+}
+
+/* Logo entrance animation */
+@keyframes ru-logo-enter {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) rotate(-180deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+.ru-logo-enter {
+  animation: ru-logo-enter 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Logo gentle pulse */
+@keyframes ru-logo-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+.ru-logo-pulse {
+  animation: ru-logo-pulse 3s ease-in-out infinite;
+}
+
+/* Premium gradient ring around logo */
+.ru-logo-ring {
+  position: relative;
+}
+.ru-logo-ring::before {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: inherit;
+  padding: 3px;
+  background: linear-gradient(135deg, #0a0a0a, #737373, #0a0a0a, #525252);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.ru-logo-ring:hover::before {
+  opacity: 1;
+}
+
+/* Drop shadow for logo on light backgrounds */
+.ru-logo-shadow {
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+  transition: filter 0.4s ease;
+}
+.ru-logo-shadow:hover {
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.25));
+}
