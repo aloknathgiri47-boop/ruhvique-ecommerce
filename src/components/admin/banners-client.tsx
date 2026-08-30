@@ -61,8 +61,16 @@ export function BannersClient({ banners, sampleImage }: { banners: Banner[]; sam
   };
 
   const handleSave = async () => {
-    if (!form.title || !form.image) {
-      toast.error("Title and image required");
+    if (!form.title.trim()) {
+      toast.error("Title is required");
+      return;
+    }
+    if (!form.subtitle.trim()) {
+      toast.error("Subtitle is required");
+      return;
+    }
+    if (!form.image) {
+      toast.error("Banner image is required");
       return;
     }
     setSaving(true);
@@ -212,12 +220,30 @@ export function BannersClient({ banners, sampleImage }: { banners: Banner[]; sam
             </div>
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
-                <Label>Title</Label>
-                <Input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} className="mt-1.5" />
+                <Label>Title <span className="text-destructive">*</span></Label>
+                <Input 
+                  value={form.title} 
+                  onChange={(e) => setForm({ ...form, title: e.target.value })} 
+                  className="mt-1.5" 
+                  placeholder="Winter Drop 2026"
+                  required
+                />
+                {!form.title.trim() && (
+                  <p className="mt-1 text-xs text-destructive">Title is required</p>
+                )}
               </div>
               <div>
-                <Label>Subtitle</Label>
-                <Input value={form.subtitle} onChange={(e) => setForm({ ...form, subtitle: e.target.value })} className="mt-1.5" />
+                <Label>Subtitle <span className="text-destructive">*</span></Label>
+                <Input 
+                  value={form.subtitle} 
+                  onChange={(e) => setForm({ ...form, subtitle: e.target.value })} 
+                  className="mt-1.5" 
+                  placeholder="Premium heavyweight essentials"
+                  required
+                />
+                {!form.subtitle.trim() && (
+                  <p className="mt-1 text-xs text-destructive">Subtitle is required</p>
+                )}
               </div>
               <div>
                 <Label>CTA Text</Label>
@@ -233,7 +259,11 @@ export function BannersClient({ banners, sampleImage }: { banners: Banner[]; sam
               <Switch checked={form.active} onCheckedChange={(v) => setForm({ ...form, active: v })} />
             </div>
             <div className="flex gap-2 pt-2">
-              <Button onClick={handleSave} disabled={saving} className="flex-1">
+              <Button 
+                onClick={handleSave} 
+                disabled={saving || !form.title.trim() || !form.subtitle.trim() || !form.image} 
+                className="flex-1"
+              >
                 <Save className="h-4 w-4 mr-2" /> {saving ? "Saving..." : "Create Banner"}
               </Button>
               <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
