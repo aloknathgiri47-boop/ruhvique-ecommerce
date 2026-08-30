@@ -109,10 +109,6 @@ export default async function CategoryPage({
         {/* Category header */}
         <div className="mb-6">
           <h1 className="text-2xl sm:text-3xl font-black tracking-tight">{category.name}</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            {total} {total === 1 ? "product" : "products"}
-            {category.description && ` · ${category.description}`}
-          </p>
         </div>
 
         {/* Layout: Filters sidebar (left, sticky) + Products grid (right, 3 per row) */}
