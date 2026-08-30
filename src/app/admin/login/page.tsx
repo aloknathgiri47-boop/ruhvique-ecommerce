@@ -41,10 +41,13 @@ export default function AdminLoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-primary p-4">
       <div className="w-full max-w-md bg-background rounded-lg shadow-2xl p-8">
         <div className="text-center mb-8">
-          <Link href="/" className="inline-flex flex-col items-center gap-2">
-            <span className="inline-flex h-14 w-14 items-center justify-center rounded-lg bg-primary text-primary-foreground font-black text-2xl">
-              R
-            </span>
+          <Link href="/" className="inline-flex flex-col items-center gap-3">
+            { }
+            <img
+              src="/ruhvique-logo.jpeg"
+              alt="RUHVIQUE"
+              className="h-16 w-16 rounded-lg object-cover"
+            />
             <span className="text-2xl font-black tracking-[0.2em]">RUHVIQUE</span>
           </Link>
           <div className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1 text-xs font-bold uppercase tracking-wider text-primary-foreground">

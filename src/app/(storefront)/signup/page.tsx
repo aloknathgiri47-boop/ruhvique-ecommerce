@@ -68,7 +68,12 @@ function SignUpForm() {
     <div className="grid lg:grid-cols-2 min-h-[calc(100vh-4rem)]">
       <div className="hidden lg:flex flex-col justify-between bg-primary text-primary-foreground p-12">
         <Link href="/" className="inline-flex items-center gap-2">
-          <span className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-primary-foreground text-primary font-black text-lg">R</span>
+          { }
+          <img
+            src="/ruhvique-logo.jpeg"
+            alt="RUHVIQUE"
+            className="h-10 w-10 rounded-md object-cover"
+          />
           <span className="text-2xl font-black tracking-[0.2em]">RUHVIQUE</span>
         </Link>
         <div>

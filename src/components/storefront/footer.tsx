@@ -8,9 +8,12 @@ export function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           <div className="col-span-2 md:col-span-1">
             <Link href="/" className="inline-flex items-center gap-2">
-              <span className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-primary-foreground text-primary font-black text-lg">
-                R
-              </span>
+              { }
+              <img
+                src="/ruhvique-logo.jpeg"
+                alt="RUHVIQUE"
+                className="h-10 w-10 rounded-md object-cover"
+              />
               <span className="text-2xl font-black tracking-[0.2em]">
                 RUHVIQUE
               </span>

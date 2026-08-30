@@ -69,9 +69,12 @@ export function Navbar() {
               <SheetContent side="left" className="w-[300px] sm:w-[360px]">
                 <SheetHeader>
                   <SheetTitle className="text-left flex items-center gap-2">
-                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground font-black text-base">
-                      R
-                    </span>
+                    { }
+                    <img
+                      src="/ruhvique-logo.jpeg"
+                      alt="RUHVIQUE"
+                      className="h-9 w-9 rounded-md object-cover"
+                    />
                     <span className="text-xl font-black tracking-[0.2em]">RUHVIQUE</span>
                   </SheetTitle>
                 </SheetHeader>
@@ -123,9 +126,12 @@ export function Navbar() {
             className="flex items-center"
             aria-label="RUHVIQUE home"
           >
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground font-black text-base flex-shrink-0">
-              R
-            </span>
+            { }
+            <img
+              src="/ruhvique-logo.jpeg"
+              alt="RUHVIQUE"
+              className="h-9 w-9 rounded-md object-cover flex-shrink-0"
+            />
             <span className="ml-2 text-xl sm:text-2xl font-black tracking-[0.2em]">
               RUHVIQUE
             </span>

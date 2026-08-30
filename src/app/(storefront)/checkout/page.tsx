@@ -482,7 +482,12 @@ function OrderSuccess({ order }: { order: any }) {
     <div className="container mx-auto max-w-2xl px-4 py-12">
       <div className="text-center">
         <Link href="/" className="inline-flex items-center gap-2 mb-6">
-          <span className="inline-flex h-10 w-10 items-center justify-center rounded-md bg-primary text-primary-foreground font-black text-lg">R</span>
+          { }
+          <img
+            src="/ruhvique-logo.jpeg"
+            alt="RUHVIQUE"
+            className="h-11 w-11 rounded-md object-cover"
+          />
           <span className="text-xl font-black tracking-[0.2em]">RUHVIQUE</span>
         </Link>
         <div className="inline-flex h-20 w-20 items-center justify-center rounded-full bg-emerald-100">
