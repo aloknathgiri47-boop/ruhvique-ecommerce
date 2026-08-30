@@ -168,3 +168,195 @@
 .ru-zoom { overflow: hidden; }
 .ru-zoom img { transition: transform 0.4s ease; }
 .ru-zoom:hover img { transform: scale(1.05); }
+
+/* ====== Premium attractive effects ====== */
+
+/* Marquee animation for announcement bar */
+@keyframes ru-marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.ru-marquee {
+  animation: ru-marquee 30s linear infinite;
+}
+.ru-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Fade-in-up animation for sections */
+@keyframes ru-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.ru-fade-up {
+  animation: ru-fade-up 0.7s ease-out forwards;
+}
+
+/* Gradient text */
+.ru-gradient-text {
+  background: linear-gradient(135deg, #0a0a0a 0%, #404040 50%, #0a0a0a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% auto;
+  animation: ru-shine-text 3s linear infinite;
+}
+@keyframes ru-shine-text {
+  to { background-position: 200% center; }
+}
+
+/* Premium card hover lift */
+.ru-card-lift {
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.ru-card-lift:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
+}
+
+/* Animated underline */
+.ru-underline-anim {
+  position: relative;
+  display: inline-block;
+}
+.ru-underline-anim::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.ru-underline-anim:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Shimmer effect for badges */
+@keyframes ru-pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(220, 38, 38, 0); }
+}
+.ru-pulse-glow {
+  animation: ru-pulse-glow 2s infinite;
+}
+
+/* Floating animation */
+@keyframes ru-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.ru-float {
+  animation: ru-float 3s ease-in-out infinite;
+}
+
+/* Premium button shine effect */
+.ru-btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+.ru-btn-shine::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.25),
+    transparent
+  );
+  transition: left 0.6s ease;
+}
+.ru-btn-shine:hover::before {
+  left: 100%;
+}
+
+/* Glass morphism */
+.ru-glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Dark glass */
+.ru-glass-dark {
+  background: rgba(10, 10, 10, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom selection color */
+::selection {
+  background: #0a0a0a;
+  color: #ffffff;
+}
+
+/* Premium scrollbar (main page) */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #f5f5f5;
+}
+::-webkit-scrollbar-thumb {
+  background: #0a0a0a;
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #404040;
+}
+
+/* Tilt on hover for category cards */
+.ru-tilt {
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.ru-tilt:hover {
+  transform: perspective(1000px) rotateY(-3deg) rotateX(2deg) scale(1.02);
+}
+
+/* Number counter animation */
+@keyframes ru-count-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.ru-count {
+  animation: ru-count-up 0.8s ease-out forwards;
+}
+
+/* Slide-in from left */
+@keyframes ru-slide-in-left {
+  from { opacity: 0; transform: translateX(-40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.ru-slide-left {
+  animation: ru-slide-in-left 0.6s ease-out forwards;
+}
+
+/* Slide-in from right */
+@keyframes ru-slide-in-right {
+  from { opacity: 0; transform: translateX(40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.ru-slide-right {
+  animation: ru-slide-in-right 0.6s ease-out forwards;
+}
