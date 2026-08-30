@@ -199,37 +199,6 @@ function CheckoutContent() {
       });
       const data = await res.json();
       if (res.ok) {
-        // For Card/UPI payments, redirect to Cashfree
-        if (paymentMethod === "CARD" || paymentMethod === "UPI") {
-          try {
-            const cfRes = await fetch("/api/payments/cashfree/create", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                orderId: data.order.id,
-                amount: data.order.total,
-                customerName: finalAddress.name,
-                customerEmail: customer.email,
-                customerPhone: finalAddress.phone,
-              }),
-            });
-            const cfData = await cfRes.json();
-
-            if (cfData.sessionId) {
-              // Redirect to Cashfree payment page
-              clear();
-              sessionStorage.removeItem("ruhvique-coupon");
-              const cfUrl = `https://api.cashfree.com/pg/orders/${cfData.cfOrderId}/payments?order_id=${cfData.orderId}`;
-              window.location.href = cfUrl;
-              return;
-            } else {
-              // Cashfree failed, treat as COD
-              toast.info("Payment gateway unavailable, order placed as COD");
-            }
-          } catch {
-            toast.info("Payment gateway unavailable, order placed as COD");
-          }
-        }
         clear();
         sessionStorage.removeItem("ruhvique-coupon");
         setPlacedOrder(data.order);
