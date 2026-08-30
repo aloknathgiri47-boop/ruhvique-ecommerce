@@ -28,7 +28,7 @@ export function Logo({ variant = "full", className, textClassName, showTagline =
         <img
           src={LOGO_SRC}
           alt="RUHVIQUE"
-          className="h-12 w-12 rounded-md object-cover"
+          className="h-14 w-14 rounded-md object-cover"
         />
       </div>
     );
@@ -42,7 +42,7 @@ export function Logo({ variant = "full", className, textClassName, showTagline =
           <img
             src={LOGO_SRC}
             alt="RUHVIQUE"
-            className="h-20 w-20 rounded-lg object-cover"
+            className="h-24 w-24 rounded-lg object-cover"
           />
         </div>
         {showTagline && (
@@ -62,10 +62,10 @@ export function Logo({ variant = "full", className, textClassName, showTagline =
         <img
           src={LOGO_SRC}
           alt="RUHVIQUE"
-          className="h-12 w-12 rounded-md object-cover flex-shrink-0"
+          className="h-14 w-14 rounded-md object-cover flex-shrink-0"
         />
       </div>
-      <span className={cn("text-2xl font-black tracking-[0.2em] group-hover:tracking-[0.25em] transition-all", textClassName)}>
+      <span className={cn("text-xl font-black tracking-[0.2em] group-hover:tracking-[0.25em] transition-all", textClassName)}>
         RUHVIQUE
       </span>
     </span>

@@ -18,10 +18,10 @@ export default function AboutPage() {
               <img
                 src="/ruhvique-logo.jpeg"
                 alt="RUHVIQUE"
-                className="h-20 w-20 rounded-lg object-cover"
+                className="h-24 w-24 rounded-lg object-cover"
               />
             </div>
-            <span className="text-4xl font-black tracking-[0.2em] group-hover:tracking-[0.28em] transition-all">RUHVIQUE</span>
+            <span className="text-3xl font-black tracking-[0.2em] group-hover:tracking-[0.28em] transition-all">RUHVIQUE</span>
           </div>
           <p className="text-xs uppercase tracking-[0.3em] text-white/60 mb-4">Est. 2024</p>
           <h1 className="text-4xl sm:text-6xl font-black tracking-tight">

@@ -47,10 +47,10 @@ export default function AdminLoginPage() {
                 src="/ruhvique-logo.jpeg"
                 alt="RUHVIQUE"
                 className="rounded-lg object-cover"
-                style={{ height: "96px", width: "96px" }}
+                style={{ height: "112px", width: "112px" }}
               />
             </div>
-            <span className="text-3xl font-black tracking-[0.2em] group-hover:tracking-[0.28em] transition-all">
+            <span className="text-2xl font-black tracking-[0.2em] group-hover:tracking-[0.28em] transition-all">
               RUHVIQUE
             </span>
           </Link>

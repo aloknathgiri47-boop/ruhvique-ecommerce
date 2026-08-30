@@ -486,10 +486,10 @@ function OrderSuccess({ order }: { order: any }) {
             <img
               src="/ruhvique-logo.jpeg"
               alt="RUHVIQUE"
-              className="h-14 w-14 rounded-md object-cover"
+              className="h-16 w-16 rounded-md object-cover"
             />
           </div>
-          <span className="text-2xl font-black tracking-[0.2em] group-hover:tracking-[0.25em] transition-all">RUHVIQUE</span>
+          <span className="text-xl font-black tracking-[0.2em] group-hover:tracking-[0.25em] transition-all">RUHVIQUE</span>
         </Link>
         <div className="inline-flex h-20 w-20 items-center justify-center rounded-full bg-emerald-100">
           <CheckCircle2 className="h-10 w-10 text-emerald-600" />

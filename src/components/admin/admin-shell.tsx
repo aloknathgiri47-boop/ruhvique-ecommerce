@@ -134,10 +134,10 @@ function SidebarContent({
             <img
               src="/ruhvique-logo.jpeg"
               alt="RUHVIQUE"
-              className="h-10 w-10 rounded-md object-cover"
+              className="h-11 w-11 rounded-md object-cover"
             />
           </div>
-          <span className="text-xl font-black tracking-[0.2em] group-hover:tracking-[0.24em] transition-all">RUHVIQUE</span>
+          <span className="text-lg font-black tracking-[0.2em] group-hover:tracking-[0.24em] transition-all">RUHVIQUE</span>
         </Link>
         <span className="ml-2 text-[10px] font-bold uppercase tracking-wider bg-sidebar-accent px-1.5 py-0.5 rounded">
           Admin

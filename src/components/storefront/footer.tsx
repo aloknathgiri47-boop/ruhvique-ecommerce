@@ -12,10 +12,10 @@ export function Footer() {
                 <img
                   src="/ruhvique-logo.jpeg"
                   alt="RUHVIQUE"
-                  className="h-14 w-14 rounded-md object-cover"
+                  className="h-16 w-16 rounded-md object-cover"
                 />
               </div>
-              <span className="text-3xl font-black tracking-[0.2em] group-hover:tracking-[0.25em] transition-all">
+              <span className="text-2xl font-black tracking-[0.2em] group-hover:tracking-[0.25em] transition-all">
                 RUHVIQUE
               </span>
             </Link>

@@ -73,10 +73,10 @@ export function Navbar() {
                       <img
                         src="/ruhvique-logo.jpeg"
                         alt="RUHVIQUE"
-                        className="h-12 w-12 rounded-md object-cover"
+                        className="h-14 w-14 rounded-md object-cover"
                       />
                     </div>
-                    <span className="text-2xl font-black tracking-[0.2em]">RUHVIQUE</span>
+                    <span className="text-xl font-black tracking-[0.2em]">RUHVIQUE</span>
                   </SheetTitle>
                 </SheetHeader>
                 <nav className="mt-8 flex flex-col gap-1">
@@ -131,10 +131,10 @@ export function Navbar() {
               <img
                 src="/ruhvique-logo.jpeg"
                 alt="RUHVIQUE"
-                className="h-12 w-12 rounded-md object-cover flex-shrink-0"
+                className="h-14 w-14 rounded-md object-cover flex-shrink-0"
               />
             </div>
-            <span className="ml-3 text-2xl sm:text-3xl font-black tracking-[0.2em] group-hover:tracking-[0.25em] transition-all">
+            <span className="ml-2.5 text-xl sm:text-2xl font-black tracking-[0.2em] group-hover:tracking-[0.25em] transition-all">
               RUHVIQUE
             </span>
           </Link>
