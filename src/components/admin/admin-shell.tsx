@@ -132,9 +132,9 @@ function SidebarContent({
         <Link href="/admin" className="group inline-flex items-center gap-2.5" onClick={onNavigate}>
           <div className="ru-logo-shine ru-logo-glow-dark ru-logo-hover rounded-md overflow-hidden">
             <img
-              src="/ruhvique-logo.jpeg"
+              src="/ruhvique-logo-final.png"
               alt="RUHVIQUE"
-              className="h-11 w-11 rounded-md object-cover"
+              className="h-11 w-11 rounded-md object-contain"
             />
           </div>
           <span className="text-lg font-black tracking-[0.2em] group-hover:tracking-[0.24em] transition-all">RUHVIQUE</span>

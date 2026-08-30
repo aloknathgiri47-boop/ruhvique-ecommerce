@@ -24,9 +24,9 @@ export const metadata: Metadata = {
   keywords: ["RUHVIQUE", "Ruhvique", "fashion", "streetwear", "t-shirts", "hoodies", "gym wear"],
   authors: [{ name: "RUHVIQUE" }],
   icons: {
-    icon: "/ruhvique-logo.jpeg",
-    shortcut: "/ruhvique-logo.jpeg",
-    apple: "/ruhvique-logo.jpeg",
+    icon: "/ruhvique-logo-final.png",
+    shortcut: "/ruhvique-logo-final.png",
+    apple: "/ruhvique-logo-final.png",
   },
   openGraph: {
     title: "RUHVIQUE — Premium Fashion & Streetwear",

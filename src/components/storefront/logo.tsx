@@ -16,7 +16,7 @@ interface LogoProps {
  * - dark: Use glow effect for dark backgrounds instead of shadow
  */
 export function Logo({ variant = "full", className, textClassName, showTagline = false, dark = false }: LogoProps) {
-  const LOGO_SRC = "/ruhvique-logo.jpeg";
+  const LOGO_SRC = "/ruhvique-logo-final.png";
   const effectClasses = dark
     ? "ru-logo-shine ru-logo-ring ru-logo-glow-dark ru-logo-hover"
     : "ru-logo-shine ru-logo-ring ru-logo-shadow ru-logo-hover";
@@ -28,7 +28,7 @@ export function Logo({ variant = "full", className, textClassName, showTagline =
         <img
           src={LOGO_SRC}
           alt="RUHVIQUE"
-          className="h-14 w-14 rounded-md object-cover"
+          className="h-14 w-14 rounded-md object-contain"
         />
       </div>
     );
@@ -42,7 +42,7 @@ export function Logo({ variant = "full", className, textClassName, showTagline =
           <img
             src={LOGO_SRC}
             alt="RUHVIQUE"
-            className="h-24 w-24 rounded-lg object-cover"
+            className="h-24 w-24 rounded-lg object-contain"
           />
         </div>
         {showTagline && (
@@ -62,7 +62,7 @@ export function Logo({ variant = "full", className, textClassName, showTagline =
         <img
           src={LOGO_SRC}
           alt="RUHVIQUE"
-          className="h-14 w-14 rounded-md object-cover flex-shrink-0"
+          className="h-14 w-14 rounded-md object-contain flex-shrink-0"
         />
       </div>
       <span className={cn("text-xl font-black tracking-[0.2em] group-hover:tracking-[0.25em] transition-all", textClassName)}>

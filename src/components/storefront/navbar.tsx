@@ -71,9 +71,9 @@ export function Navbar() {
                   <SheetTitle className="text-left flex items-center gap-2.5">
                     <div className="ru-logo-shine ru-logo-ring ru-logo-shadow ru-logo-hover rounded-md overflow-hidden">
                       <img
-                        src="/ruhvique-logo.jpeg"
+                        src="/ruhvique-logo-final.png"
                         alt="RUHVIQUE"
-                        className="h-14 w-14 rounded-md object-cover"
+                        className="h-14 w-14 rounded-md object-contain"
                       />
                     </div>
                     <span className="text-xl font-black tracking-[0.2em]">RUHVIQUE</span>
@@ -129,9 +129,9 @@ export function Navbar() {
           >
             <div className="ru-logo-shine ru-logo-ring ru-logo-shadow ru-logo-hover rounded-md overflow-hidden">
               <img
-                src="/ruhvique-logo.jpeg"
+                src="/ruhvique-logo-final.png"
                 alt="RUHVIQUE"
-                className="h-14 w-14 rounded-md object-cover flex-shrink-0"
+                className="h-14 w-14 rounded-md object-contain flex-shrink-0"
               />
             </div>
             <span className="ml-2.5 text-xl sm:text-2xl font-black tracking-[0.2em] group-hover:tracking-[0.25em] transition-all">

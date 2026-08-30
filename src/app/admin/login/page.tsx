@@ -44,9 +44,9 @@ export default function AdminLoginPage() {
           <Link href="/" className="group inline-flex flex-col items-center gap-3">
             <div className="ru-logo-shine ru-logo-ring ru-logo-shadow ru-logo-hover ru-logo-enter rounded-lg overflow-hidden">
               <img
-                src="/ruhvique-logo.jpeg"
+                src="/ruhvique-logo-final.png"
                 alt="RUHVIQUE"
-                className="rounded-lg object-cover"
+                className="rounded-lg object-contain"
                 style={{ height: "112px", width: "112px" }}
               />
             </div>

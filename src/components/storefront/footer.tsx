@@ -10,9 +10,9 @@ export function Footer() {
             <Link href="/" className="group inline-flex items-center gap-2.5">
               <div className="ru-logo-shine ru-logo-ring ru-logo-glow-dark rounded-md overflow-hidden">
                 <img
-                  src="/ruhvique-logo.jpeg"
+                  src="/ruhvique-logo-final.png"
                   alt="RUHVIQUE"
-                  className="h-16 w-16 rounded-md object-cover"
+                  className="h-16 w-16 rounded-md object-contain"
                 />
               </div>
               <span className="text-2xl font-black tracking-[0.2em] group-hover:tracking-[0.25em] transition-all">

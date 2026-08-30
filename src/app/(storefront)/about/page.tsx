@@ -16,9 +16,9 @@ export default function AboutPage() {
           <div className="group inline-flex items-center gap-4 mb-6">
             <div className="ru-logo-shine ru-logo-ring ru-logo-glow-dark ru-logo-enter rounded-lg overflow-hidden">
               <img
-                src="/ruhvique-logo.jpeg"
+                src="/ruhvique-logo-final.png"
                 alt="RUHVIQUE"
-                className="h-24 w-24 rounded-lg object-cover"
+                className="h-24 w-24 rounded-lg object-contain"
               />
             </div>
             <span className="text-3xl font-black tracking-[0.2em] group-hover:tracking-[0.28em] transition-all">RUHVIQUE</span>
