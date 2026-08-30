@@ -544,3 +544,47 @@ html {
   width: 100%;
   animation: ru-splash-progress 1.2s ease-in-out infinite;
 }
+
+/* Logo drop in with bounce */
+@keyframes ru-splash-logo-enter {
+  0% { opacity: 0; transform: scale(0.3) translateY(-30px); }
+  60% { opacity: 1; transform: scale(1.1) translateY(0); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+.ru-splash-logo-enter {
+  animation: ru-splash-logo-enter 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Text fade up */
+@keyframes ru-splash-text-enter {
+  0% { opacity: 0; transform: translateY(15px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.ru-splash-text-enter {
+  opacity: 0;
+  animation: ru-splash-text-enter 0.5s ease-out 0.2s forwards;
+}
+
+/* Loading dots */
+@keyframes ru-splash-dots-enter {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+.ru-splash-dots-enter {
+  opacity: 0;
+  animation: ru-splash-dots-enter 0.4s ease-out 0.5s forwards;
+}
+
+/* Dot bounce */
+@keyframes ru-splash-dot {
+  0%, 80%, 100% { transform: scale(0); opacity: 0.3; }
+  40% { transform: scale(1); opacity: 1; }
+}
+.ru-splash-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #0a0a0a;
+  animation: ru-splash-dot 1s ease-in-out infinite;
+}

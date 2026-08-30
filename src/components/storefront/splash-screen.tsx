@@ -4,26 +4,23 @@ import { useEffect, useState } from "react";
 
 export function SplashScreen() {
   const [visible, setVisible] = useState(true);
-  const [fadingOut, setFadingOut] = useState(false);
+  const [fadeOut, setFadeOut] = useState(false);
 
   useEffect(() => {
-    // Hide splash after page loads
-    const handleLoad = () => {
-      // Small delay so user sees the branding
+    const hide = () => {
       setTimeout(() => {
-        setFadingOut(true);
-        setTimeout(() => setVisible(false), 600);
-      }, 800);
+        setFadeOut(true);
+        setTimeout(() => setVisible(false), 500);
+      }, 600);
     };
 
     if (document.readyState === "complete") {
-      handleLoad();
+      hide();
     } else {
-      window.addEventListener("load", handleLoad);
-      // Fallback: hide after 2.5s regardless
-      const fallback = setTimeout(handleLoad, 2500);
+      window.addEventListener("load", hide);
+      const fallback = setTimeout(hide, 2000);
       return () => {
-        window.removeEventListener("load", handleLoad);
+        window.removeEventListener("load", hide);
         clearTimeout(fallback);
       };
     }
@@ -34,35 +31,34 @@ export function SplashScreen() {
   return (
     <div
       className={`fixed inset-0 z-[9999] flex items-center justify-center bg-white transition-opacity duration-500 ${
-        fadingOut ? "opacity-0 pointer-events-none" : "opacity-100"
+        fadeOut ? "opacity-0 pointer-events-none" : "opacity-100"
       }`}
     >
-      <div className="flex flex-col items-center gap-5">
-        {/* Logo icon with entrance animation */}
-        <div className="ru-splash-logo-enter relative">
-          <div className="ru-logo-shine ru-logo-ring ru-logo-shadow rounded-lg overflow-hidden">
-            { }
-            <img
-              src="/ruhvique-logo-final.png"
-              alt="RUHVIQUE"
-              className="h-20 w-20 sm:h-24 sm:w-24 rounded-lg object-contain"
-            />
-          </div>
+      <div className="flex flex-col items-center gap-4">
+        {/* Logo */}
+        <div className="ru-splash-logo-enter">
+          <img
+            src="/ruhvique-logo-final.png"
+            alt="RUHVIQUE"
+            className="h-16 w-16 sm:h-20 sm:w-20 rounded-lg object-contain"
+          />
         </div>
 
         {/* RUHVIQUE text */}
         <div className="ru-splash-text-enter text-center">
-          <h1 className="text-3xl sm:text-4xl font-black tracking-[0.25em]">
+          <h1 className="text-2xl sm:text-3xl font-black tracking-[0.25em]">
             RUHVIQUE
           </h1>
-          <p className="mt-1.5 text-[10px] sm:text-xs uppercase tracking-[0.4em] text-muted-foreground">
+          <p className="mt-1 text-[10px] sm:text-xs uppercase tracking-[0.4em] text-muted-foreground">
             Premium Style. Perfect You.
           </p>
         </div>
 
-        {/* Loading bar */}
-        <div className="ru-splash-bar-enter mt-2 h-0.5 w-32 sm:w-40 bg-muted overflow-hidden rounded-full">
-          <div className="ru-splash-progress h-full bg-primary" />
+        {/* Loading dots */}
+        <div className="ru-splash-dots-enter flex gap-1.5 mt-2">
+          <span className="ru-splash-dot" style={{ animationDelay: "0s" }} />
+          <span className="ru-splash-dot" style={{ animationDelay: "0.15s" }} />
+          <span className="ru-splash-dot" style={{ animationDelay: "0.3s" }} />
         </div>
       </div>
     </div>
