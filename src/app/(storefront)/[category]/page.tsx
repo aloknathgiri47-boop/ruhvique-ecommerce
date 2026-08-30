@@ -2,7 +2,6 @@ import Link from "next/link";
 import { db } from "@/lib/db";
 import { ProductCard } from "@/components/storefront/product-card";
 import { FilterPanel } from "@/components/storefront/filter-panel";
-import { ChevronRight } from "lucide-react";
 import { notFound } from "next/navigation";
 
 const VALID_SLUGS = ["tshirts", "apparel", "hoodies", "gym-wear"];
@@ -94,19 +93,8 @@ export default async function CategoryPage({
 
   return (
     <>
-      {/* Breadcrumb */}
-      <div className="border-b bg-muted/30">
-        <div className="px-4 sm:px-6 py-3">
-          <nav className="flex items-center gap-1.5 text-xs text-muted-foreground">
-            <Link href="/" className="hover:text-foreground">Home</Link>
-            <ChevronRight className="h-3 w-3" />
-            <span className="text-foreground font-medium">{category.name}</span>
-          </nav>
-        </div>
-      </div>
-
-      <section className="px-4 sm:px-6 py-6 sm:py-8">
-        {/* Layout: Filters sidebar (left, sticky) + Products grid (right, 3 per row) */}
+      <section className="px-4 sm:px-6 pt-4 pb-8">
+        {/* Layout: Filters sidebar (left, fixed) + Products grid (right, 3 per row) */}
         <div className="flex gap-4">
           {/* Filters Sidebar - 280px sticky on desktop */}
           <FilterPanel category={slug} />
