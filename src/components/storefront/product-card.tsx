@@ -34,7 +34,7 @@ export function ProductCard({ p }: { p: ProductCardData }) {
   return (
     <Link
       href={`/product/${p.slug}`}
-      className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+      className="group block overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
     >
       {/* Image — fixed aspect ratio, all same size */}
       <div className="relative aspect-[4/5] overflow-hidden bg-muted flex-shrink-0">
@@ -107,8 +107,8 @@ export function ProductCard({ p }: { p: ProductCardData }) {
         </div>
       </div>
 
-      {/* Product info — fixed height section, all cards equal */}
-      <div className="flex flex-col flex-1 p-4">
+      {/* Product info — fixed layout, Buy Now always right after price */}
+      <div className="p-4">
         {/* Name — fixed height with line-clamp */}
         <h3 className="line-clamp-1 text-sm font-bold text-foreground group-hover:text-black transition-colors min-h-[1.25rem]">
           {p.name}
