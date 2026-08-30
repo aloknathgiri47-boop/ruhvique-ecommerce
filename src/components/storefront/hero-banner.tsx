@@ -29,7 +29,7 @@ export function HeroBanner({ banners }: { banners: Banner[] }) {
 
   useEffect(() => {
     if (paused || count <= 1) return;
-    const t = setInterval(next, 4000);
+    const t = setInterval(next, 2000);
     return () => clearInterval(t);
   }, [paused, count, next]);
 
