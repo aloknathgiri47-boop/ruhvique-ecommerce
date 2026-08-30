@@ -95,7 +95,7 @@ function SectionHeader({
 export function FilterPanel({ category }: { category?: string }) {
   const router = useRouter();
   const sp = useSearchParams();
-  const [expandedSection, setExpandedSection] = useState<string | null>("sort");
+  const [expandedSection, setExpandedSection] = useState<string | null>(null);
 
   const toggleParam = useCallback(
     (key: string, value: string) => {
