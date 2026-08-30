@@ -34,6 +34,24 @@ function SignInForm() {
       return;
     }
     setLoading(true);
+
+    // First, try admin login
+    const adminRes = await signIn("admin-credentials", {
+      email: form.email,
+      password: form.password,
+      redirect: false,
+    });
+
+    if (!adminRes?.error) {
+      // Admin login successful
+      setLoading(false);
+      toast.success("Welcome back, Admin");
+      router.push("/admin");
+      router.refresh();
+      return;
+    }
+
+    // Otherwise, try customer login
     const res = await signIn("customer-credentials", {
       email: form.email,
       password: form.password,
