@@ -131,10 +131,22 @@ export default async function CategoryPage({
               </div>
             ) : (
               <>
-                {/* 3 products per row on desktop, 2 on mobile */}
-                <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                {/* Product grid — 3 per row, row-by-row snap scroll */}
+                <div
+                  className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 ru-scrollbar pr-1"
+                  style={{
+                    scrollSnapType: "y mandatory",
+                    maxHeight: "calc(100vh - 8rem)",
+                    overflowY: "auto",
+                  }}
+                >
                   {items.map((p) => (
-                    <ProductCard key={p.id} p={p} />
+                    <div
+                      key={p.id}
+                      style={{ scrollSnapAlign: "start" }}
+                    >
+                      <ProductCard p={p} />
+                    </div>
                   ))}
                 </div>
 
