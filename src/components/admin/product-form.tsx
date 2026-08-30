@@ -373,17 +373,49 @@ export function ProductForm({
                           value={v.color}
                           onChange={(e) => updateVariant(i, { color: e.target.value })}
                           className="h-8 w-28"
+                          placeholder="Color name"
                         />
                       </td>
                       <td className="py-2 pr-2">
                         <div className="flex items-center gap-1.5">
+                          {/* Color picker (visual) */}
                           <input
                             type="color"
                             value={v.colorHex || "#000000"}
                             onChange={(e) => updateVariant(i, { colorHex: e.target.value })}
-                            className="h-8 w-10 rounded border cursor-pointer"
+                            className="h-8 w-9 rounded border cursor-pointer flex-shrink-0"
+                            title="Pick color"
                           />
-                          <span className="text-xs font-mono text-muted-foreground">{v.colorHex}</span>
+                          {/* Manual hex code input */}
+                          <input
+                            type="text"
+                            value={v.colorHex || ""}
+                            onChange={(e) => {
+                              let val = e.target.value;
+                              // Auto-add # prefix
+                              if (val && !val.startsWith("#")) val = "#" + val;
+                              // Allow empty or valid hex
+                              if (val === "" || /^#[0-9a-fA-F]{0,6}$/.test(val)) {
+                                updateVariant(i, { colorHex: val || null });
+                              }
+                            }}
+                            placeholder="#000000"
+                            className="h-8 w-24 rounded border px-2 text-xs font-mono"
+                            title="Type hex code (e.g. #FF5733)"
+                          />
+                        </div>
+                        {/* Quick preset swatches */}
+                        <div className="mt-1 flex flex-wrap gap-1">
+                          {COLOR_PRESETS.slice(0, 6).map((c) => (
+                            <button
+                              key={c.hex}
+                              type="button"
+                              onClick={() => updateVariant(i, { colorHex: c.hex, color: v.color || c.name })}
+                              className="h-4 w-4 rounded border border-border hover:scale-110 transition-transform"
+                              style={{ background: c.hex }}
+                              title={`${c.name} (${c.hex})`}
+                            />
+                          ))}
                         </div>
                       </td>
                       <td className="py-2 pr-2">
