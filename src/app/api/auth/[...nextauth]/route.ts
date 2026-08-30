@@ -109,11 +109,24 @@ export const authOptions: NextAuthOptions = {
       }
       return true;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user, account }) {
       if (user) {
-        token.id = user.id;
+        // For Google OAuth, the signIn callback already set the DB user ID
+        // For credentials, user.id is already the DB ID
+        token.id = (user as any).id;
         token.role = (user as any).role ?? "CUSTOMER";
         token.isAdmin = (user as any).isAdmin ?? false;
+
+        // For Google OAuth, also verify the user exists in DB and get correct ID
+        if (account?.provider === "google" && user.email) {
+          const dbUser = await db.user.findUnique({
+            where: { email: user.email.toLowerCase() },
+          });
+          if (dbUser) {
+            token.id = dbUser.id;
+            token.role = dbUser.role;
+          }
+        }
       }
       return token;
     },

@@ -25,6 +25,15 @@ export async function POST(req: Request) {
         { status: 401 }
       );
     }
+
+    // Verify user exists in database
+    const dbUser = await db.user.findUnique({ where: { id: user.id } });
+    if (!dbUser) {
+      return NextResponse.json(
+        { error: "User account not found. Please sign out and sign in again." },
+        { status: 401 }
+      );
+    }
     const body = await req.json();
     const { items, address, paymentMethod = "COD", couponCode, notes } = body;
 
