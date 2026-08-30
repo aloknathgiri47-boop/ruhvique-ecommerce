@@ -341,9 +341,9 @@ export function FilterPanel({ category }: { category?: string }) {
 
   return (
     <>
-      {/* Desktop sidebar - 280px fixed, does NOT scroll */}
-      <aside className="hidden lg:block w-[340px] flex-shrink-0">
-        <div className="sticky top-20 h-[calc(100vh-6rem)] flex flex-col gap-3">
+      {/* Desktop sidebar - fixed, does NOT scroll */}
+      <aside className="hidden lg:block w-[300px] flex-shrink-0">
+        <div className="sticky top-20 h-[calc(100vh-6rem)] flex flex-col gap-2.5">
           {/* Filters panel — no internal scroll, all content visible */}
           <div className="rounded-xl border border-border bg-card p-4 shadow-sm flex-1 overflow-y-auto ru-scrollbar">
             {/* Header */}

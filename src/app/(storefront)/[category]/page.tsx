@@ -105,7 +105,7 @@ export default async function CategoryPage({
         </div>
       </div>
 
-      <section className="container mx-auto max-w-7xl px-4 py-6 sm:py-8">
+      <section className="container mx-auto max-w-7xl px-3 sm:px-4 py-6 sm:py-8">
         {/* Category header */}
         <div className="mb-6">
           <h1 className="text-2xl sm:text-3xl font-black tracking-tight">{category.name}</h1>
@@ -116,7 +116,7 @@ export default async function CategoryPage({
         </div>
 
         {/* Layout: Filters sidebar (left, sticky) + Products grid (right, 3 per row) */}
-        <div className="flex gap-6">
+        <div className="flex gap-4">
           {/* Filters Sidebar - 280px sticky on desktop */}
           <FilterPanel category={slug} />
 
