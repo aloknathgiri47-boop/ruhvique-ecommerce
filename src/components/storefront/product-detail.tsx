@@ -96,7 +96,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
     toast.success(`${product.name} added to cart`);
 
     if (buyNow) {
-      router.push("/cart");
+      router.push("/checkout");
     }
   };
 
@@ -319,7 +319,6 @@ export function ProductDetail({ product }: ProductDetailProps) {
           <Button
             size="lg"
             onClick={() => handleAddToCart(false)}
-            disabled={stock === 0}
             className="sm:col-span-1 h-12"
           >
             <ShoppingBag className="h-4 w-4 mr-2" /> Add to Cart
@@ -328,7 +327,6 @@ export function ProductDetail({ product }: ProductDetailProps) {
             size="lg"
             variant="default"
             onClick={() => handleAddToCart(true)}
-            disabled={stock === 0}
             className="sm:col-span-1 h-12 bg-foreground text-background hover:bg-foreground/90"
           >
             <Zap className="h-4 w-4 mr-2" /> Buy Now
