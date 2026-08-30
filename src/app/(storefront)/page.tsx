@@ -13,6 +13,9 @@ import {
   Leaf,
   Instagram,
   Mail,
+  Scissors,
+  Package,
+  ThumbsUp,
 } from "lucide-react";
 import { placeholderImage } from "@/lib/placeholder";
 
@@ -47,13 +50,21 @@ async function getProductsByFlag(flag: "newArrival" | "bestseller" | "trending",
 }
 
 export default async function HomePage() {
-  const [banners, categories, newArrivals, bestSellers, trending] = await Promise.all([
+  const [banners, categories, newArrivals, bestSellers, trending, allProducts] = await Promise.all([
     db.banner.findMany({ where: { active: true }, orderBy: { displayOrder: "asc" } }),
-    db.category.findMany({ where: { active: true }, orderBy: { name: "asc" } }),
+    db.category.findMany({ where: { active: true }, orderBy: { name: "asc" }, include: { _count: { select: { products: true } } } }),
     getProductsByFlag("newArrival"),
     getProductsByFlag("bestseller"),
     getProductsByFlag("trending"),
+    db.product.findMany({
+      where: { active: true },
+      include: { images: { where: { isPrimary: true }, take: 1 } },
+      take: 6,
+    }),
   ]);
+
+  // Real product images for Instagram strip
+  const instagramImages = allProducts.map((p) => p.images[0]?.url ?? "").filter(Boolean).slice(0, 6);
 
   return (
     <>
@@ -87,7 +98,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Categories */}
+      {/* Categories with product counts */}
       <section className="container mx-auto max-w-7xl px-4 py-12 sm:py-16">
         <div className="flex items-end justify-between mb-6 sm:mb-8">
           <div>
@@ -116,11 +127,13 @@ export default async function HomePage() {
                 <h3 className="text-white font-black text-lg sm:text-xl tracking-wide">
                   {c.name}
                 </h3>
+                <p className="mt-0.5 text-xs text-white/60">
+                  {c._count.products} products
+                </p>
                 <p className="mt-1 text-xs text-white/80 inline-flex items-center gap-1 group-hover:gap-2 transition-all">
                   Shop Now <ArrowRight className="h-3 w-3" />
                 </p>
               </div>
-              {/* Number badge */}
               <div className="absolute top-3 left-3 inline-flex h-7 w-7 items-center justify-center rounded-full bg-white/20 backdrop-blur text-white text-xs font-bold">
                 {String(idx + 1).padStart(2, "0")}
               </div>
@@ -132,9 +145,36 @@ export default async function HomePage() {
       {/* New Arrivals */}
       <ProductRow title="New Arrivals" subtitle="Fresh drops every week" products={newArrivals} href="/tshirts?sort=newest" badge="NEW" />
 
+      {/* Why Ruhvique - Feature Grid */}
+      <section className="bg-secondary/50">
+        <div className="container mx-auto max-w-7xl px-4 py-16 sm:py-20">
+          <div className="text-center mb-12">
+            <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-2">Why Ruhvique</p>
+            <h2 className="text-2xl sm:text-4xl font-black tracking-tight">
+              Built different. <span className="text-muted-foreground">Built to last.</span>
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { icon: Scissors, title: "Premium Fabric", desc: "240gsm heavyweight cotton that drapes with intent. Dense, structured, built to hold its shape.", color: "bg-black text-white" },
+              { icon: Package, title: "Reinforced Seams", desc: "Double-stitched stress points. Every seam checked by hand before it ships out.", color: "bg-white text-black border-2 border-black" },
+              { icon: Leaf, title: "Pre-Washed", desc: "Garment dyed and pre-shrunk. Zero shrink surprises — consistent fit, wash after wash.", color: "bg-black text-white" },
+              { icon: ThumbsUp, title: "Quality Checked", desc: "Each unit inspected individually. If it doesn&apos;t pass, it doesn&apos;t ship.", color: "bg-white text-black border-2 border-black" },
+            ].map((f, i) => (
+              <div key={i} className="flex flex-col items-center text-center ru-fade-up" style={{ animationDelay: `${i * 0.1}s` }}>
+                <div className={`inline-flex h-14 w-14 items-center justify-center rounded-full ${f.color} mb-4 ru-float`} style={{ animationDelay: `${i * 0.3}s` }}>
+                  <f.icon className="h-6 w-6" />
+                </div>
+                <h3 className="text-base font-black mb-2">{f.title}</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed" dangerouslySetInnerHTML={{ __html: f.desc }} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Promotional section with stats */}
       <section className="relative bg-primary text-primary-foreground overflow-hidden">
-        {/* Decorative pattern */}
         <div className="absolute inset-0 opacity-5" style={{
           backgroundImage: "radial-gradient(circle, #ffffff 1px, transparent 1px)",
           backgroundSize: "24px 24px",
@@ -241,25 +281,26 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Instagram / Social strip */}
+      {/* Instagram / Social strip — using real product images */}
       <section className="container mx-auto max-w-7xl px-4 py-12 sm:py-16">
         <div className="text-center mb-8">
           <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-2">Follow us</p>
           <h2 className="text-2xl sm:text-3xl font-black tracking-tight inline-flex items-center gap-2">
             <Instagram className="h-6 w-6" /> @ruhvique
           </h2>
+          <p className="mt-1 text-xs text-muted-foreground">Tag us in your fits — #RuhviqueFam</p>
         </div>
         <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3">
-          {Array.from({ length: 6 }).map((_, i) => (
+          {instagramImages.map((img, i) => (
             <Link
               key={i}
-              href="#"
+              href="/tshirts"
               className="group relative aspect-square overflow-hidden rounded-lg bg-muted ru-zoom"
             >
               { }
               <img
-                src={placeholderImage(`RUHVIQUE ${i + 1}`, 300, 300, i + 10)}
-                alt={`Instagram post ${i + 1}`}
+                src={img}
+                alt={`Ruhvique product ${i + 1}`}
                 className="h-full w-full object-cover"
               />
               <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/40 transition-colors flex items-center justify-center">
