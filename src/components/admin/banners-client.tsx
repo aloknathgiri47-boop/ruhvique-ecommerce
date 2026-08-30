@@ -38,6 +38,15 @@ export function BannersClient({ banners, sampleImage }: { banners: Banner[]; sam
 
   const handleUpload = async (files: FileList | null) => {
     if (!files || files.length === 0) return;
+    // Block image upload until title and subtitle are filled
+    if (!form.title.trim()) {
+      toast.error("Please enter Title first");
+      return;
+    }
+    if (!form.subtitle.trim()) {
+      toast.error("Please enter Subtitle first");
+      return;
+    }
     setUploading(true);
     const fd = new FormData();
     Array.from(files).forEach((f) => fd.append("files", f));
@@ -198,18 +207,38 @@ export function BannersClient({ banners, sampleImage }: { banners: Banner[]; sam
           </DialogHeader>
           <div className="space-y-4">
             <div>
-              <Label>Image</Label>
+              <Label>Image {!form.title.trim() || !form.subtitle.trim() ? <span className="text-xs text-destructive ml-2">(Enter Title & Subtitle first)</span> : null}</Label>
               <div className="mt-1.5 flex gap-2">
                 <Input
                   value={form.image}
                   onChange={(e) => setForm({ ...form, image: e.target.value })}
-                  placeholder="/uploads/... or URL"
+                  placeholder={!form.title.trim() || !form.subtitle.trim() ? "Enter Title & Subtitle first" : "/uploads/... or URL"}
+                  disabled={!form.title.trim() || !form.subtitle.trim()}
                 />
                 <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={(e) => handleUpload(e.target.files)} />
-                <Button variant="outline" onClick={() => fileRef.current?.click()} disabled={uploading}>
+                <Button
+                  variant="outline"
+                  onClick={() => fileRef.current?.click()}
+                  disabled={uploading || !form.title.trim() || !form.subtitle.trim()}
+                  title={!form.title.trim() || !form.subtitle.trim() ? "Enter Title and Subtitle first" : "Upload image"}
+                >
                   <Upload className="h-3.5 w-3.5 mr-1" /> {uploading ? "..." : "Upload"}
                 </Button>
-                <Button variant="ghost" onClick={() => setForm({ ...form, image: sampleImage })}>Sample</Button>
+                <Button
+                  variant="ghost"
+                  onClick={() => {
+                    if (!form.title.trim()) {
+                      toast.error("Please enter Title first");
+                      return;
+                    }
+                    if (!form.subtitle.trim()) {
+                      toast.error("Please enter Subtitle first");
+                      return;
+                    }
+                    setForm({ ...form, image: sampleImage });
+                  }}
+                  disabled={!form.title.trim() || !form.subtitle.trim()}
+                >Sample</Button>
               </div>
               {form.image && (
                 <div className="mt-2 aspect-[16/7] relative rounded-md overflow-hidden bg-muted">
