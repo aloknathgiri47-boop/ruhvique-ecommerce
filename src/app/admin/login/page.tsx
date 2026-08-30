@@ -73,7 +73,7 @@ export default function AdminLoginPage() {
                 value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
                 className="pl-10"
-                placeholder="admin@ruhvique.com"
+                placeholder="info.ruhvique@gmail.com"
                 autoComplete="email"
               />
             </div>
@@ -99,9 +99,9 @@ export default function AdminLoginPage() {
         </form>
 
         <div className="mt-6 p-3 rounded-md bg-muted/50 text-xs text-muted-foreground">
-          <p className="font-semibold text-foreground">Demo admin credentials:</p>
-          <p className="mt-1">Email: <span className="font-mono">admin@ruhvique.com</span></p>
-          <p>Password: <span className="font-mono">admin123</span></p>
+          <p className="font-semibold text-foreground">Admin credentials:</p>
+          <p className="mt-1">Email: <span className="font-mono">info.ruhvique@gmail.com</span></p>
+          <p>Password: <span className="font-mono">@Ruhvique786</span></p>
         </div>
 
         <p className="mt-6 text-center text-xs text-muted-foreground">

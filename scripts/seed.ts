@@ -11,12 +11,12 @@ async function main() {
   console.log("🌱 Seeding Ruhvique...");
 
   // 1. Admin user
-  const adminPass = await bcrypt.hash("admin123", 10);
+  const adminPass = await bcrypt.hash("@Ruhvique786", 10);
   const admin = await db.admin.upsert({
-    where: { email: "admin@ruhvique.com" },
+    where: { email: "info.ruhvique@gmail.com" },
     update: {},
     create: {
-      email: "admin@ruhvique.com",
+      email: "info.ruhvique@gmail.com",
       name: "Ruhvique Admin",
       password: adminPass,
       role: "SUPER_ADMIN",
@@ -217,8 +217,8 @@ async function main() {
   console.log("🎉 Seed complete!");
   console.log("");
   console.log("Login as admin:");
-  console.log("  Email:    admin@ruhvique.com");
-  console.log("  Password: admin123");
+  console.log("  Email:    info.ruhvique@gmail.com");
+  console.log("  Password: @Ruhvique786");
   console.log("");
   console.log("Login as customer:");
   console.log("  Email:    customer@demo.com");
