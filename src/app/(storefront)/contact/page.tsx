@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Mail, Phone, MapPin, Clock, Send } from "lucide-react";
+import { Mail, Clock, Send } from "lucide-react";
 import { toast } from "sonner";
 
 export default function ContactPage() {
@@ -59,8 +59,6 @@ export default function ContactPage() {
         <div className="space-y-4">
           {[
             { icon: Mail, label: "Email", value: "hello@ruhvique.com", href: "mailto:hello@ruhvique.com" },
-            { icon: Phone, label: "Phone", value: "+91 98765 43210", href: "tel:+919876543210" },
-            { icon: MapPin, label: "Studio", value: "Indiranagar, Bengaluru, India 560038" },
             { icon: Clock, label: "Hours", value: "Mon–Sat, 10AM – 7PM IST" },
           ].map((c) => (
             <div key={c.label} className="rounded-lg border border-border p-4">
