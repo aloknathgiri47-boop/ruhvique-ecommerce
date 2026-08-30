@@ -131,8 +131,8 @@ export default async function CategoryPage({
               </div>
             ) : (
               <>
-                {/* Desktop: 4 products per row | Tablet: 3 | Mobile: 2 */}
-                <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-5">
+                {/* 3 products per row on desktop, 2 on mobile */}
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                   {items.map((p) => (
                     <ProductCard key={p.id} p={p} />
                   ))}
