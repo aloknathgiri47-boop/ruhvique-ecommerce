@@ -94,6 +94,14 @@ export default async function OrderDetailPage({
                 <div>
                   <p className="text-xs text-muted-foreground uppercase tracking-wider">Tracking Number</p>
                   <p className="font-mono font-semibold mt-1">{order.trackingNumber}</p>
+                  <a
+                    href={`https://www.delhivery.com/track/${order.trackingNumber}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-2 inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline"
+                  >
+                    Track on Delhivery →
+                  </a>
                 </div>
               )}
               {order.shippingPartner && (

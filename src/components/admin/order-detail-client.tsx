@@ -226,6 +226,7 @@ export function OrderDetailClient({ order }: { order: Order }) {
                 onChange={(e) => setShippingPartner(e.target.value)}
                 className="mt-1.5"
                 placeholder="Delhivery, Bluedart, etc."
+                defaultValue="Delhivery"
               />
             </div>
             <Button onClick={handleSave} disabled={saving} className="w-full">
