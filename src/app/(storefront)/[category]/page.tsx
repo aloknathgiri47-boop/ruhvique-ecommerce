@@ -132,9 +132,12 @@ export default async function CategoryPage({
               </div>
             ) : (
               <>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-5">
+                {/* Mobile: horizontal scroll | Desktop: grid */}
+                <div className="flex lg:grid lg:grid-cols-3 gap-3 sm:gap-5 overflow-x-auto ru-no-scrollbar pb-2 lg:pb-0 -mx-4 px-4 lg:mx-0 lg:px-0 snap-x snap-mandatory">
                   {items.map((p) => (
-                    <ProductCard key={p.id} p={p} />
+                    <div key={p.id} className="flex-shrink-0 w-[65%] xs:w-[50%] sm:w-[40%] lg:w-auto snap-start">
+                      <ProductCard p={p} />
+                    </div>
                   ))}
                 </div>
 
