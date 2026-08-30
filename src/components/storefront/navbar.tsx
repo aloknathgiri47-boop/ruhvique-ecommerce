@@ -53,7 +53,7 @@ export function Navbar() {
       )}
       style={{ minHeight: "64px" }}
     >
-      <div className="container mx-auto max-w-7xl px-4">
+      <div className="px-4 sm:px-6">
         <div className="flex h-16 items-center justify-between gap-4">
           {/* Left: Mobile hamburger */}
           <div className="flex items-center gap-2 md:hidden">
