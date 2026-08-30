@@ -79,6 +79,36 @@ export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt" },
 
   callbacks: {
+    async signIn({ user, account }) {
+      // Auto-create user in database on first Google OAuth sign-in
+      if (account?.provider === "google" && user.email) {
+        const existing = await db.user.findUnique({
+          where: { email: user.email.toLowerCase() },
+        });
+        if (!existing) {
+          const newUser = await db.user.create({
+            data: {
+              email: user.email.toLowerCase(),
+              name: user.name || null,
+              image: user.image || null,
+              role: "CUSTOMER",
+            },
+          });
+          (user as any).id = newUser.id;
+        } else {
+          (user as any).id = existing.id;
+          // Check if existing user is an admin
+          const admin = await db.admin.findUnique({
+            where: { email: user.email.toLowerCase() },
+          });
+          if (admin) {
+            (user as any).isAdmin = true;
+            (user as any).role = admin.role === "SUPER_ADMIN" ? "SUPER_ADMIN" : "ADMIN";
+          }
+        }
+      }
+      return true;
+    },
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;

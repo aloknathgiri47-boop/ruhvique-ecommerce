@@ -19,14 +19,6 @@ function SignInForm() {
   const [googleLoading, setGoogleLoading] = useState(false);
   const [form, setForm] = useState({ email: "", password: "" });
 
-  // Show OAuth error from URL
-  if (error && typeof window !== "undefined") {
-    // only client-side toast
-    setTimeout(() => {
-      toast.error("Google sign-in not configured. Use email/password for the demo.");
-    }, 100);
-  }
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.email || !form.password) {
@@ -69,12 +61,7 @@ function SignInForm() {
 
   const handleGoogle = async () => {
     setGoogleLoading(true);
-    try {
-      await signIn("google", { callbackUrl });
-    } catch {
-      setGoogleLoading(false);
-      toast.error("Google sign-in not configured. Use email/password for the demo.");
-    }
+    await signIn("google", { callbackUrl });
   };
 
   return (
