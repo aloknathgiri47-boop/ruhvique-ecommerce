@@ -13,11 +13,6 @@ import {
   IndianRupee,
   PackageCheck,
   Sparkles,
-  Truck,
-  RotateCcw,
-  Shield,
-  Tag,
-  Headphones,
 } from "lucide-react";
 import {
   Sheet,
@@ -359,36 +354,6 @@ export function FilterPanel({ category }: { category?: string }) {
               )}
             </div>
             {Panel}
-          </div>
-
-          {/* Promo banner — fixed at bottom */}
-          <div className="rounded-xl bg-primary text-primary-foreground p-5 text-center flex-shrink-0">
-            <Tag className="h-7 w-7 mx-auto mb-2" />
-            <p className="text-xs font-black uppercase tracking-wider mb-1">Use Code</p>
-            <p className="text-xl font-black tracking-wider mb-2">RUHVIQUE10</p>
-            <p className="text-[11px] text-primary-foreground/70">Get 10% off your first order</p>
-          </div>
-
-          {/* Quick help card — fixed at bottom */}
-          <div className="rounded-xl border border-border bg-card p-5 flex-shrink-0">
-            <div className="flex items-center gap-2 mb-3">
-              <Headphones className="h-4 w-4 text-primary" />
-              <h3 className="text-xs font-bold uppercase tracking-wider">Need Help?</h3>
-            </div>
-            <div className="space-y-2">
-              <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                <Truck className="h-3.5 w-3.5" />
-                <span>Free shipping over ₹1,999</span>
-              </div>
-              <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                <RotateCcw className="h-3.5 w-3.5" />
-                <span>7-day easy returns</span>
-              </div>
-              <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                <Shield className="h-3.5 w-3.5" />
-                <span>100% secure payment</span>
-              </div>
-            </div>
           </div>
         </div>
       </aside>
