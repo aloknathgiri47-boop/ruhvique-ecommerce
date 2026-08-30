@@ -236,37 +236,6 @@ export function FilterPanel({ category }: { category?: string }) {
         )}
       </div>
 
-      {/* Color Section */}
-      <div className="rounded-lg border border-border p-2.5 bg-card">
-        <SectionHeader icon={Palette} title="Color" section="color" count={selectedColors.length} expandedSection={expandedSection} onToggle={toggleSection} />
-        {expandedSection === "color" && (
-          <div className="mt-3 flex flex-wrap gap-2">
-            {COLORS.map((c) => (
-              <button
-                key={c.name}
-                type="button"
-                onClick={() => toggleParam("colors", c.name)}
-                title={c.name}
-                className={cn(
-                  "group relative h-10 w-10 rounded-full border-2 transition-all hover:scale-110",
-                  selectedColors.includes(c.name)
-                    ? "border-primary ring-2 ring-primary/20 scale-110"
-                    : "border-border"
-                )}
-                style={{ background: c.hex }}
-              >
-                {selectedColors.includes(c.name) && (
-                  <Check className={cn(
-                    "h-5 w-5 absolute inset-0 m-auto",
-                    c.name === "White" || c.name === "Cream" ? "text-black" : "text-white"
-                  )} />
-                )}
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
-
       {/* Price Section */}
       <div className="rounded-lg border border-border p-2.5 bg-card">
         <SectionHeader icon={IndianRupee} title="Price Range" section="price" count={sp.get("minPrice") ? 1 : 0} expandedSection={expandedSection} onToggle={toggleSection} />
