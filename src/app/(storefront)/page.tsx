@@ -4,12 +4,8 @@ import { HeroBanner } from "@/components/storefront/hero-banner";
 import { ProductCard } from "@/components/storefront/product-card";
 import {
   ArrowRight,
-  Truck,
-  Shield,
-  RotateCcw,
   Sparkles,
   Star,
-  Award,
   Leaf,
   Instagram,
   Mail,
@@ -69,34 +65,6 @@ export default async function HomePage() {
   return (
     <>
       <HeroBanner banners={banners} />
-
-      {/* Trust Badges */}
-      <section className="border-b bg-background">
-        <div className="container mx-auto max-w-7xl px-4 py-6 sm:py-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            {[
-              { icon: Truck, title: "Free Shipping", desc: "On orders over ₹1,999" },
-              { icon: RotateCcw, title: "Easy Returns", desc: "7-day return policy" },
-              { icon: Shield, title: "Secure Payment", desc: "100% protected checkout" },
-              { icon: Award, title: "Premium Quality", desc: "Crafted to last" },
-            ].map((b, i) => (
-              <div
-                key={b.title}
-                className="flex items-center gap-3 ru-fade-up"
-                style={{ animationDelay: `${i * 0.1}s` }}
-              >
-                <div className="inline-flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-primary/5 text-primary flex-shrink-0 ru-float" style={{ animationDelay: `${i * 0.3}s` }}>
-                  <b.icon className="h-5 w-5" />
-                </div>
-                <div>
-                  <p className="text-sm font-bold">{b.title}</p>
-                  <p className="text-xs text-muted-foreground">{b.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Categories with product counts */}
       <section className="container mx-auto max-w-7xl px-4 py-12 sm:py-16">
