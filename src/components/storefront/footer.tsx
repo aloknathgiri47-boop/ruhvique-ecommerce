@@ -1,7 +1,18 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Instagram, Twitter, Facebook, Youtube } from "lucide-react";
 
 export function Footer() {
+  const pathname = usePathname();
+
+  // Hide footer on category pages (tshirts, apparel, hoodies, gym-wear)
+  const categorySlugs = ["/tshirts", "/apparel", "/hoodies", "/gym-wear"];
+  if (categorySlugs.some((slug) => pathname.startsWith(slug))) {
+    return null;
+  }
+
   return (
     <footer className="mt-auto bg-primary text-primary-foreground">
       <div className="container mx-auto max-w-7xl px-4 py-12">
@@ -12,7 +23,7 @@ export function Footer() {
                 <img
                   src="/ruhvique-logo-final.png"
                   alt="RUHVIQUE"
-                  className="h-16 w-16 rounded-md object-contain"
+                  className="h-11 w-11 rounded-md object-contain"
                 />
               </div>
               <span className="text-2xl font-black tracking-[0.2em] group-hover:tracking-[0.25em] transition-all">
