@@ -68,17 +68,8 @@ export default async function HomePage() {
     <>
       <HeroBanner banners={banners} />
 
-      {/* Categories with product counts */}
+      {/* Categories */}
       <section className="px-4 sm:px-6 py-12 sm:py-16">
-        <div className="flex items-end justify-between mb-6 sm:mb-8">
-          <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-2">Browse</p>
-            <h2 className="text-2xl sm:text-4xl font-black tracking-tight">
-              Shop by <span className="ru-gradient-text">Category</span>
-            </h2>
-            <p className="mt-1 text-sm text-muted-foreground">Curated collections for every look</p>
-          </div>
-        </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
           {categories.map((c, idx) => (
             <Link
@@ -86,7 +77,6 @@ export default async function HomePage() {
               href={`/${c.slug}`}
               className="group relative overflow-hidden rounded-xl aspect-[4/5] bg-muted ru-tilt"
             >
-              { }
               <img
                 src={c.image || placeholderImage(c.name, 600, 750, idx)}
                 alt={c.name}
@@ -113,37 +103,9 @@ export default async function HomePage() {
       </section>
 
       {/* New Arrivals */}
-      <ProductRow title="New Arrivals" subtitle="Fresh drops every week" products={newArrivals} href="/tshirts?sort=newest" badge="NEW" />
+      <ProductRow title="New Arrivals" subtitle="" products={newArrivals} href="/tshirts?sort=newest" badge="NEW" />
 
-      {/* Why Ruhvique - Feature Grid */}
-      <section className="bg-secondary/50">
-        <div className="px-4 sm:px-6 py-16 sm:py-20">
-          <div className="text-center mb-12">
-            <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-2">Why Ruhvique</p>
-            <h2 className="text-2xl sm:text-4xl font-black tracking-tight">
-              Built different. <span className="text-muted-foreground">Built to last.</span>
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { icon: Scissors, title: "Premium Fabric", desc: "240gsm heavyweight cotton that drapes with intent. Dense, structured, built to hold its shape.", color: "bg-black text-white" },
-              { icon: Package, title: "Reinforced Seams", desc: "Double-stitched stress points. Every seam checked by hand before it ships out.", color: "bg-white text-black border-2 border-black" },
-              { icon: Leaf, title: "Pre-Washed", desc: "Garment dyed and pre-shrunk. Zero shrink surprises — consistent fit, wash after wash.", color: "bg-black text-white" },
-              { icon: ThumbsUp, title: "Quality Checked", desc: "Each unit inspected individually. If it doesn&apos;t pass, it doesn&apos;t ship.", color: "bg-white text-black border-2 border-black" },
-            ].map((f, i) => (
-              <div key={i} className="flex flex-col items-center text-center ru-fade-up" style={{ animationDelay: `${i * 0.1}s` }}>
-                <div className={`inline-flex h-14 w-14 items-center justify-center rounded-full ${f.color} mb-4 ru-float`} style={{ animationDelay: `${i * 0.3}s` }}>
-                  <f.icon className="h-6 w-6" />
-                </div>
-                <h3 className="text-base font-black mb-2">{f.title}</h3>
-                <p className="text-xs text-muted-foreground leading-relaxed" dangerouslySetInnerHTML={{ __html: f.desc }} />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Promotional section with stats */}
+      {/* Promotional section */}
       <section className="relative bg-primary text-primary-foreground overflow-hidden">
         <div className="absolute inset-0 opacity-5" style={{
           backgroundImage: "radial-gradient(circle, #ffffff 1px, transparent 1px)",
@@ -151,17 +113,6 @@ export default async function HomePage() {
         }} />
         <div className="relative px-4 sm:px-6 py-16 sm:py-24">
           <div className="text-center max-w-3xl mx-auto">
-            <p className="text-xs sm:text-sm uppercase tracking-[0.3em] text-primary-foreground/60 mb-4 inline-flex items-center gap-2">
-              <Sparkles className="h-4 w-4" /> Ruhvique Promise
-            </p>
-            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
-              Premium fabric.
-              <br />
-              <span className="text-primary-foreground/60">Uncompromising fit.</span>
-            </h2>
-            <p className="mt-6 max-w-2xl mx-auto text-sm sm:text-base text-primary-foreground/70 leading-relaxed">
-              Every piece is crafted with heavyweight fabrics, reinforced seams, and a fit that holds its shape — wash after wash. We don&apos;t cut corners, we cut silhouettes.
-            </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <Link
                 href="/tshirts"
@@ -177,47 +128,14 @@ export default async function HomePage() {
               </Link>
             </div>
           </div>
-
-          {/* Stats */}
-          <div className="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-6">
-            {[
-              { value: "240gsm", label: "Heavyweight cotton" },
-              { value: "10K+", label: "Happy customers" },
-              { value: "4.8★", label: "Average rating" },
-              { value: "48h", label: "Quick dispatch" },
-            ].map((s, i) => (
-              <div key={i} className="text-center ru-count" style={{ animationDelay: `${i * 0.15}s` }}>
-                <p className="text-3xl sm:text-4xl font-black">{s.value}</p>
-                <p className="mt-1 text-xs text-primary-foreground/60 uppercase tracking-wider">{s.label}</p>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
       {/* Best Sellers */}
-      <ProductRow title="Best Sellers" subtitle="Loved by thousands of customers" products={bestSellers} href="/tshirts?sort=popular" badge="HOT" />
-
-      {/* Testimonial / Quote section */}
-      <section className="bg-secondary/50">
-        <div className="px-4 sm:px-6 max-w-4xl mx-auto py-16 sm:py-20 text-center">
-          <div className="flex items-center justify-center gap-1 mb-4">
-            {[1, 2, 3, 4, 5].map((i) => (
-              <Star key={i} className="h-5 w-5 fill-primary text-primary" />
-            ))}
-          </div>
-          <blockquote className="text-xl sm:text-3xl font-black tracking-tight leading-snug">
-            &ldquo;The quality is unreal for the price.
-            <br />
-            <span className="text-muted-foreground">Heavyweight cotton that actually holds its shape.&rdquo;</span>
-          </blockquote>
-          <p className="mt-6 text-sm font-semibold">— Arjun M., Bengaluru</p>
-          <p className="text-xs text-muted-foreground">Verified buyer · 3 orders</p>
-        </div>
-      </section>
+      <ProductRow title="Best Sellers" subtitle="" products={bestSellers} href="/tshirts?sort=popular" badge="HOT" />
 
       {/* Trending */}
-      <ProductRow title="Trending Now" subtitle="What everyone's wearing" products={trending} href="/tshirts?sort=popular" badge="TRENDING" />
+      <ProductRow title="Trending Now" subtitle="" products={trending} href="/tshirts?sort=popular" badge="TRENDING" />
 
       {/* Newsletter Signup */}
       <section className="bg-primary text-primary-foreground">
