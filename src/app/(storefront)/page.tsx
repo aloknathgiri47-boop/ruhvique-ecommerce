@@ -103,101 +103,13 @@ export default async function HomePage() {
       </section>
 
       {/* New Arrivals */}
-      <ProductRow title="New Arrivals" subtitle="" products={newArrivals} href="/tshirts?sort=newest" badge="NEW" />
-
-      {/* Promotional section */}
-      <section className="relative bg-primary text-primary-foreground overflow-hidden">
-        <div className="absolute inset-0 opacity-5" style={{
-          backgroundImage: "radial-gradient(circle, #ffffff 1px, transparent 1px)",
-          backgroundSize: "24px 24px",
-        }} />
-        <div className="relative px-4 sm:px-6 py-16 sm:py-24">
-          <div className="text-center max-w-3xl mx-auto">
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-              <Link
-                href="/tshirts"
-                className="ru-btn-shine inline-flex items-center gap-2 bg-primary-foreground text-primary px-7 py-3.5 text-xs font-bold uppercase tracking-widest hover:bg-primary-foreground/90 transition-colors"
-              >
-                Shop T-Shirts <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link
-                href="/hoodies"
-                className="inline-flex items-center gap-2 border border-primary-foreground/40 text-primary-foreground px-7 py-3.5 text-xs font-bold uppercase tracking-widest hover:bg-primary-foreground/10 transition-colors"
-              >
-                Shop Hoodies
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      <ProductRow title="" subtitle="" products={newArrivals} href="/tshirts?sort=newest" />
 
       {/* Best Sellers */}
-      <ProductRow title="Best Sellers" subtitle="" products={bestSellers} href="/tshirts?sort=popular" badge="HOT" />
+      <ProductRow title="" subtitle="" products={bestSellers} href="/tshirts?sort=popular" />
 
       {/* Trending */}
-      <ProductRow title="Trending Now" subtitle="" products={trending} href="/tshirts?sort=popular" badge="TRENDING" />
-
-      {/* Newsletter Signup */}
-      <section className="bg-primary text-primary-foreground">
-        <div className="px-4 sm:px-6 max-w-3xl mx-auto py-16 sm:py-20 text-center">
-          <div className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-primary-foreground/10 mb-5 ru-float">
-            <Mail className="h-7 w-7" />
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-black tracking-tight">
-            Join the Ruhvique circle
-          </h2>
-          <p className="mt-3 text-sm text-primary-foreground/70 max-w-md mx-auto">
-            Be the first to know about new drops, exclusive offers, and early access. No spam, just good fits.
-          </p>
-          <form className="mt-8 flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-            <input
-              type="email"
-              required
-              placeholder="you@email.com"
-              className="flex-1 h-12 rounded-md bg-primary-foreground/10 border border-primary-foreground/20 px-4 text-sm text-primary-foreground placeholder:text-primary-foreground/40 focus:outline-none focus:ring-2 focus:ring-primary-foreground/40"
-            />
-            <button
-              type="submit"
-              className="ru-btn-shine h-12 px-6 rounded-md bg-primary-foreground text-primary text-xs font-bold uppercase tracking-widest hover:bg-primary-foreground/90 transition-colors"
-            >
-              Subscribe
-            </button>
-          </form>
-          <p className="mt-3 text-[11px] text-primary-foreground/50">
-            By subscribing you agree to our Privacy Policy
-          </p>
-        </div>
-      </section>
-
-      {/* Instagram / Social strip — using real product images */}
-      <section className="px-4 sm:px-6 py-12 sm:py-16">
-        <div className="text-center mb-8">
-          <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-2">Follow us</p>
-          <h2 className="text-2xl sm:text-3xl font-black tracking-tight inline-flex items-center gap-2">
-            <Instagram className="h-6 w-6" /> @ruhvique
-          </h2>
-          <p className="mt-1 text-xs text-muted-foreground">Tag us in your fits — #RuhviqueFam</p>
-        </div>
-        <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3">
-          {instagramImages.map((img, i) => (
-            <Link
-              key={i}
-              href="/tshirts"
-              className="group relative aspect-square overflow-hidden rounded-lg bg-muted ru-zoom"
-            >
-              { }
-              <img
-                src={img}
-                alt={`Ruhvique product ${i + 1}`}
-                className="h-full w-full object-cover"
-              />
-              <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/40 transition-colors flex items-center justify-center">
-                <Instagram className="h-6 w-6 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
+      <ProductRow title="" subtitle="" products={trending} href="/tshirts?sort=popular" />
     </>
   );
 }
@@ -217,26 +129,28 @@ function ProductRow({
 }) {
   if (products.length === 0) return null;
   return (
-    <section className="px-4 sm:px-6 py-12 sm:py-16">
-      <div className="flex items-end justify-between mb-6 sm:mb-8">
-        <div>
-          <div className="flex items-center gap-2">
-            {badge && (
-              <span className="inline-flex items-center rounded-full bg-primary text-primary-foreground px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider ru-pulse-glow">
-                {badge}
-              </span>
-            )}
-            <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">{subtitle}</p>
+    <section className="px-4 sm:px-6 py-8 sm:py-10">
+      {title && (
+        <div className="flex items-end justify-between mb-6 sm:mb-8">
+          <div>
+            <div className="flex items-center gap-2">
+              {badge && (
+                <span className="inline-flex items-center rounded-full bg-primary text-primary-foreground px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider ru-pulse-glow">
+                  {badge}
+                </span>
+              )}
+              {subtitle && <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">{subtitle}</p>}
+            </div>
+            <h2 className="mt-1 text-2xl sm:text-4xl font-black tracking-tight">{title}</h2>
           </div>
-          <h2 className="mt-1 text-2xl sm:text-4xl font-black tracking-tight">{title}</h2>
+          <Link
+            href={href}
+            className="hidden sm:inline-flex items-center gap-1 text-sm font-medium hover:gap-2 transition-all ru-underline-anim"
+          >
+            View All <ArrowRight className="h-4 w-4" />
+          </Link>
         </div>
-        <Link
-          href={href}
-          className="hidden sm:inline-flex items-center gap-1 text-sm font-medium hover:gap-2 transition-all ru-underline-anim"
-        >
-          View All <ArrowRight className="h-4 w-4" />
-        </Link>
-      </div>
+      )}
       {/* Mobile: horizontal scroll | Desktop: grid */}
       <div className="flex sm:grid sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5 overflow-x-auto ru-no-scrollbar pb-2 sm:pb-0 sm:overflow-visible snap-x snap-mandatory">
         {products.slice(0, 8).map((p) => (
