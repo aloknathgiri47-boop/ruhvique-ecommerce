@@ -127,7 +127,10 @@ function ProductRow({
   href: string;
   badge?: string;
 }) {
-  if (products.length === 0) return null;
+  // Hide section if it doesn't have enough products to fill at least one
+  // complete row (4 on desktop, 3 on tablet). This prevents incomplete
+  // last rows from showing up and breaking the visual rhythm.
+  if (products.length < 4) return null;
   return (
     <section className="px-4 sm:px-6 py-8 sm:py-10">
       {title && (
