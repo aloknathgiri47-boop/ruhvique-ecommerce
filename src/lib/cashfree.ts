@@ -13,8 +13,8 @@ interface CreateOrderParams {
 
 function getCredentials() {
   return {
-    APP_ID: process.env.CASHFREE_APP_ID,
-    CLIENT_SECRET: process.env.CASHFREE_CLIENT_SECRET,
+    APP_ID: process.env.CASHFREE_APP_ID || "133431718ec4e328c6239f2b42f7134331",
+    CLIENT_SECRET: process.env.CASHFREE_CLIENT_SECRET || "cfsk_ma_prod_5df7cb2b03f5354f113fc034c79612f4_9e05b3c7",
     BASE_URL: process.env.CASHFREE_API_BASE_URL || "https://api.cashfree.com/pg",
     RETURN_URL: process.env.CASHFREE_RETURN_URL || "https://ruhviqueee.vercel.app/api/payments/cashfree/return",
     NOTIFY_URL: process.env.CASHFREE_NOTIFY_URL || "https://ruhviqueee.vercel.app/api/payments/cashfree/webhook",
