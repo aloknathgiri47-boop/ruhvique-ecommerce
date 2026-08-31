@@ -5,6 +5,7 @@ import Link from "next/link";
 import { formatCurrency, formatDateTime } from "@/lib/format";
 import { ArrowRight, Check, Package, Truck, MapPin } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { CancelOrderButton } from "@/components/storefront/cancel-order-button";
 
 const STATUS_STEPS = [
   { key: "ORDER_PLACED", label: "Order Placed", icon: Package },
@@ -51,6 +52,13 @@ export default async function OrderDetailPage({
           <Badge variant="outline">
             Payment: {order.paymentStatus}
           </Badge>
+          {/* Cancel button — only show if order can be cancelled */}
+          {!isCancelled && ["ORDER_PLACED", "CONFIRMED", "PACKED"].includes(order.status) && (
+            <CancelOrderButton orderId={order.id} />
+          )}
+          {isCancelled && (
+            <p className="text-xs text-destructive font-medium mt-1">This order was cancelled</p>
+          )}
         </div>
       </div>
 
