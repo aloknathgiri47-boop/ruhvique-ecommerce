@@ -69,7 +69,7 @@ export default async function HomePage() {
       <HeroBanner banners={banners} />
 
       {/* Categories with product counts */}
-      <section className="container mx-auto max-w-7xl px-4 py-12 sm:py-16">
+      <section className="px-4 sm:px-6 py-12 sm:py-16">
         <div className="flex items-end justify-between mb-6 sm:mb-8">
           <div>
             <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-2">Browse</p>
@@ -117,7 +117,7 @@ export default async function HomePage() {
 
       {/* Why Ruhvique - Feature Grid */}
       <section className="bg-secondary/50">
-        <div className="container mx-auto max-w-7xl px-4 py-16 sm:py-20">
+        <div className="px-4 sm:px-6 py-16 sm:py-20">
           <div className="text-center mb-12">
             <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-2">Why Ruhvique</p>
             <h2 className="text-2xl sm:text-4xl font-black tracking-tight">
@@ -149,7 +149,7 @@ export default async function HomePage() {
           backgroundImage: "radial-gradient(circle, #ffffff 1px, transparent 1px)",
           backgroundSize: "24px 24px",
         }} />
-        <div className="relative container mx-auto max-w-7xl px-4 py-16 sm:py-24">
+        <div className="relative px-4 sm:px-6 py-16 sm:py-24">
           <div className="text-center max-w-3xl mx-auto">
             <p className="text-xs sm:text-sm uppercase tracking-[0.3em] text-primary-foreground/60 mb-4 inline-flex items-center gap-2">
               <Sparkles className="h-4 w-4" /> Ruhvique Promise
@@ -200,7 +200,7 @@ export default async function HomePage() {
 
       {/* Testimonial / Quote section */}
       <section className="bg-secondary/50">
-        <div className="container mx-auto max-w-4xl px-4 py-16 sm:py-20 text-center">
+        <div className="px-4 sm:px-6 max-w-4xl mx-auto py-16 sm:py-20 text-center">
           <div className="flex items-center justify-center gap-1 mb-4">
             {[1, 2, 3, 4, 5].map((i) => (
               <Star key={i} className="h-5 w-5 fill-primary text-primary" />
@@ -221,7 +221,7 @@ export default async function HomePage() {
 
       {/* Newsletter Signup */}
       <section className="bg-primary text-primary-foreground">
-        <div className="container mx-auto max-w-3xl px-4 py-16 sm:py-20 text-center">
+        <div className="px-4 sm:px-6 max-w-3xl mx-auto py-16 sm:py-20 text-center">
           <div className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-primary-foreground/10 mb-5 ru-float">
             <Mail className="h-7 w-7" />
           </div>
@@ -252,7 +252,7 @@ export default async function HomePage() {
       </section>
 
       {/* Instagram / Social strip — using real product images */}
-      <section className="container mx-auto max-w-7xl px-4 py-12 sm:py-16">
+      <section className="px-4 sm:px-6 py-12 sm:py-16">
         <div className="text-center mb-8">
           <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-2">Follow us</p>
           <h2 className="text-2xl sm:text-3xl font-black tracking-tight inline-flex items-center gap-2">
@@ -299,7 +299,7 @@ function ProductRow({
 }) {
   if (products.length === 0) return null;
   return (
-    <section className="container mx-auto max-w-7xl px-4 py-12 sm:py-16">
+    <section className="px-4 sm:px-6 py-12 sm:py-16">
       <div className="flex items-end justify-between mb-6 sm:mb-8">
         <div>
           <div className="flex items-center gap-2">
