@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
@@ -89,11 +89,17 @@ export function OrderDetailClient({ order }: { order: Order }) {
   const [shippingPartner, setShippingPartner] = useState(order.shippingPartner || "");
   const [saving, setSaving] = useState(false);
   // Slip download is unlocked only after admin has entered tracking info
-  // AND saved the order. On initial load, if tracking info already exists
-  // (e.g. admin saved earlier and re-opened the order), keep it unlocked.
-  const [slipReady, setSlipReady] = useState(
-    Boolean(order.trackingNumber && order.shippingPartner)
-  );
+  // AND saved the order. We track this with an explicit "hasSaved" flag so
+  // the button only appears AFTER Save Changes is clicked — not just because
+  // the form fields have values.
+  const [hasSaved, setHasSaved] = useState(false);
+
+  // Slip is ready when:
+  //   - admin just saved AND both tracking fields are filled, OR
+  //   - order already had tracking info in DB (e.g. admin re-opens a saved order)
+  const slipReady =
+    (hasSaved && Boolean(trackingNumber.trim()) && Boolean(shippingPartner.trim())) ||
+    Boolean(order.trackingNumber && order.shippingPartner);
 
   const handleSave = async () => {
     setSaving(true);
@@ -105,11 +111,12 @@ export function OrderDetailClient({ order }: { order: Order }) {
       });
       if (res.ok) {
         toast.success("Order updated");
-        // Unlock slip download only if tracking info is present
-        const hasTracking = Boolean(trackingNumber.trim() && shippingPartner.trim());
-        setSlipReady(hasTracking);
+        setHasSaved(true);
+        const hasTracking = Boolean(trackingNumber.trim()) && Boolean(shippingPartner.trim());
         if (hasTracking) {
-          toast.success("Slip ready to download");
+          toast.success("Slip ready to download — scroll up to see the button");
+          // Scroll to top so the admin sees the newly-appeared Download Slip button
+          setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 100);
         } else {
           toast.info("Add tracking number & shipping partner to enable slip download");
         }
@@ -168,10 +175,9 @@ export function OrderDetailClient({ order }: { order: Order }) {
               <Download className="h-4 w-4 mr-2" /> Download Slip
             </Button>
           ) : (
-            <Button variant="outline" disabled title="Enter tracking number & shipping partner, then Save Changes to enable slip download">
-              <Download className="h-4 w-4 mr-2 opacity-40" /> Download Slip
-              <span className="ml-2 text-xs font-normal text-muted-foreground">(locked)</span>
-            </Button>
+            <span className="text-xs text-muted-foreground italic">
+              Enter tracking info &amp; save to enable slip download
+            </span>
           )}
         </div>
       </div>
