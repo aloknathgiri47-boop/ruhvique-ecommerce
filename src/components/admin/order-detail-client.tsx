@@ -88,6 +88,12 @@ export function OrderDetailClient({ order }: { order: Order }) {
   const [trackingNumber, setTrackingNumber] = useState(order.trackingNumber || "");
   const [shippingPartner, setShippingPartner] = useState(order.shippingPartner || "");
   const [saving, setSaving] = useState(false);
+  // Slip download is unlocked only after admin has entered tracking info
+  // AND saved the order. On initial load, if tracking info already exists
+  // (e.g. admin saved earlier and re-opened the order), keep it unlocked.
+  const [slipReady, setSlipReady] = useState(
+    Boolean(order.trackingNumber && order.shippingPartner)
+  );
 
   const handleSave = async () => {
     setSaving(true);
@@ -99,6 +105,14 @@ export function OrderDetailClient({ order }: { order: Order }) {
       });
       if (res.ok) {
         toast.success("Order updated");
+        // Unlock slip download only if tracking info is present
+        const hasTracking = Boolean(trackingNumber.trim() && shippingPartner.trim());
+        setSlipReady(hasTracking);
+        if (hasTracking) {
+          toast.success("Slip ready to download");
+        } else {
+          toast.info("Add tracking number & shipping partner to enable slip download");
+        }
         router.refresh();
       } else {
         toast.error("Update failed");
@@ -111,8 +125,10 @@ export function OrderDetailClient({ order }: { order: Order }) {
   // ---- Order Slip Download ----
   // Uses the browser's native print-to-PDF: opens a clean popup with
   // a slip layout, triggers print, then closes the popup.
+  // Uses the LATEST tracking info from state (so freshly-saved values appear).
   const handleDownloadSlip = () => {
-    const slipHtml = buildSlipHtml(order);
+    const mergedOrder = { ...order, trackingNumber, shippingPartner };
+    const slipHtml = buildSlipHtml(mergedOrder);
     const printWin = window.open("", "_blank", "width=820,height=900");
     if (!printWin) {
       toast.error("Popup blocked. Please allow popups for this site.");
@@ -147,9 +163,16 @@ export function OrderDetailClient({ order }: { order: Order }) {
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="outline" onClick={handleDownloadSlip}>
-            <Download className="h-4 w-4 mr-2" /> Download Slip
-          </Button>
+          {slipReady ? (
+            <Button variant="outline" onClick={handleDownloadSlip}>
+              <Download className="h-4 w-4 mr-2" /> Download Slip
+            </Button>
+          ) : (
+            <Button variant="outline" disabled title="Enter tracking number & shipping partner, then Save Changes to enable slip download">
+              <Download className="h-4 w-4 mr-2 opacity-40" /> Download Slip
+              <span className="ml-2 text-xs font-normal text-muted-foreground">(locked)</span>
+            </Button>
+          )}
         </div>
       </div>
 
