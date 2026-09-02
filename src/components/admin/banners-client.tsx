@@ -214,9 +214,9 @@ export function BannersClient({ banners, sampleImage }: { banners: Banner[]; sam
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch">
         {banners.map((b, idx) => (
           <Card key={b.id} className="overflow-hidden p-0 gap-0 flex flex-col">
-            <div className="aspect-[16/7] relative bg-muted flex-shrink-0">
+            <div className="relative bg-muted w-full" style={{ aspectRatio: "16 / 7" }}>
               { }
-              <img src={b.image} alt={b.title} className="h-full w-full object-cover" />
+              <img src={b.image} alt={b.title} className="absolute inset-0 h-full w-full object-cover" />
               <div className="absolute top-2 left-2 flex gap-1">
                 <Badge variant={b.active ? "default" : "secondary"}>{b.active ? "Active" : "Disabled"}</Badge>
                 <Badge variant="outline" className="bg-background/80">#{b.displayOrder + 1}</Badge>
