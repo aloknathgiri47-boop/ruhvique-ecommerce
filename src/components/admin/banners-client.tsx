@@ -211,9 +211,9 @@ export function BannersClient({ banners, sampleImage }: { banners: Banner[]; sam
         </div>
       </Card>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch">
         {banners.map((b, idx) => (
-          <Card key={b.id} className="overflow-hidden flex flex-col">
+          <Card key={b.id} className="overflow-hidden p-0 gap-0 flex flex-col">
             <div className="aspect-[16/7] relative bg-muted flex-shrink-0">
               { }
               <img src={b.image} alt={b.title} className="h-full w-full object-cover" />
