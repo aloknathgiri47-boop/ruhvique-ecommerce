@@ -213,8 +213,8 @@ export function BannersClient({ banners, sampleImage }: { banners: Banner[]; sam
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {banners.map((b, idx) => (
-          <Card key={b.id} className="overflow-hidden">
-            <div className="aspect-[16/7] relative bg-muted">
+          <Card key={b.id} className="overflow-hidden flex flex-col">
+            <div className="aspect-[16/7] relative bg-muted flex-shrink-0">
               { }
               <img src={b.image} alt={b.title} className="h-full w-full object-cover" />
               <div className="absolute top-2 left-2 flex gap-1">
@@ -230,18 +230,24 @@ export function BannersClient({ banners, sampleImage }: { banners: Banner[]; sam
                 </Button>
               </div>
             </div>
-            <div className="p-4">
-              {b.title?.trim() ? (
-                <h3 className="font-bold line-clamp-1">{b.title}</h3>
-              ) : (
-                <h3 className="font-bold line-clamp-1 text-muted-foreground italic">No title</h3>
-              )}
-              {b.subtitle?.trim() && <p className="text-xs text-muted-foreground line-clamp-1">{b.subtitle}</p>}
-              {b.ctaText && (
-                <p className="text-xs mt-1 text-muted-foreground">
-                  CTA: <span className="font-medium text-foreground">{b.ctaText}</span> → {b.ctaLink || "/"}
-                </p>
-              )}
+            <div className="p-4 flex-1 flex flex-col">
+              <div className="flex-1">
+                {b.title?.trim() ? (
+                  <h3 className="font-bold line-clamp-1">{b.title}</h3>
+                ) : (
+                  <h3 className="font-bold line-clamp-1 text-muted-foreground italic">No title</h3>
+                )}
+                <div className="min-h-[18px]">
+                  {b.subtitle?.trim() && <p className="text-xs text-muted-foreground line-clamp-1">{b.subtitle}</p>}
+                </div>
+                <div className="min-h-[20px] mt-1">
+                  {b.ctaText && (
+                    <p className="text-xs text-muted-foreground">
+                      CTA: <span className="font-medium text-foreground">{b.ctaText}</span> → {b.ctaLink || "/"}
+                    </p>
+                  )}
+                </div>
+              </div>
               <div className="mt-3 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Switch checked={b.active} onCheckedChange={() => toggleActive(b)} />

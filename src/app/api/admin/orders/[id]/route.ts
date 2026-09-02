@@ -22,6 +22,7 @@ export async function GET(
 }
 
 // PUT — update order status, tracking, shipping partner, payment status
+// Auto-syncs payment status when order is cancelled or delivered.
 export async function PUT(
   req: Request,
   { params }: { params: Promise<{ id: string }> }
@@ -37,6 +38,13 @@ export async function PUT(
   if (trackingNumber !== undefined) update.trackingNumber = trackingNumber || null;
   if (shippingPartner !== undefined) update.shippingPartner = shippingPartner || null;
   if (paymentStatus) update.paymentStatus = paymentStatus;
+
+  // Auto-sync payment status with order status for consistency
+  if (status === "CANCELLED" && (!paymentStatus || paymentStatus === "PENDING" || paymentStatus === "PAID")) {
+    update.paymentStatus = "REFUNDED";
+  } else if (status === "DELIVERED" && (!paymentStatus || paymentStatus === "PENDING")) {
+    update.paymentStatus = "PAID";
+  }
 
   const order = await db.order.update({ where: { id }, data: update });
   return NextResponse.json({ order });

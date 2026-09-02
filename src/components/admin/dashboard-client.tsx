@@ -403,7 +403,13 @@ export function DashboardClient({ data }: { data: DashboardData }) {
           </div>
           <div className="h-56">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={weeklyChartData} margin={{ top: 5, right: 10, left: 0, bottom: 0 }}>
+              <BarChart data={weeklyChartData} margin={{ top: 5, right: 10, left: 0, bottom: 0 }} barCategoryGap="25%" maxBarSize={36}>
+                <defs>
+                  <linearGradient id="weeklyBarGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#171717" stopOpacity={1} />
+                    <stop offset="100%" stopColor="#525252" stopOpacity={0.85} />
+                  </linearGradient>
+                </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" vertical={false} />
                 <XAxis dataKey="week" tick={{ fontSize: 10 }} stroke="#9ca3af" />
                 <YAxis tick={{ fontSize: 10 }} stroke="#9ca3af" tickFormatter={(v) => `₹${v >= 1000 ? `${(v / 1000).toFixed(0)}k` : v}`} />
@@ -412,7 +418,7 @@ export function DashboardClient({ data }: { data: DashboardData }) {
                   formatter={(v: any) => [formatCurrency(v), "Sales"]}
                   cursor={{ fill: "#f3f4f6" }}
                 />
-                <Bar dataKey="Sales" fill="#0a0a0a" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="Sales" fill="url(#weeklyBarGradient)" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>

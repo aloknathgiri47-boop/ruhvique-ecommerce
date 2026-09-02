@@ -54,3 +54,6 @@ server.log
 /skills/.env.local
 /db/
 /public/uploads/
+
+scripts/*.png
+scripts/*.env

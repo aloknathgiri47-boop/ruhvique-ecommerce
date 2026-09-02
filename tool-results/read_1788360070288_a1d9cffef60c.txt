@@ -1,0 +1,750 @@
+     1→"use client";
+     2→
+     3→import { formatCurrency, formatDate, formatNumber } from "@/lib/format";
+     4→import { Card } from "@/components/ui/card";
+     5→import { Badge } from "@/components/ui/badge";
+     6→import Link from "next/link";
+     7→import {
+     8→  TrendingUp,
+     9→  TrendingDown,
+    10→  ShoppingBag,
+    11→  Package,
+    12→  Users,
+    13→  Clock,
+    14→  CheckCircle2,
+    15→  AlertTriangle,
+    16→  IndianRupee,
+    17→  ArrowRight,
+    18→  ArrowUpRight,
+    19→  ArrowDownRight,
+    20→  XCircle,
+    21→  Boxes,
+    22→  UserPlus,
+    23→  Eye,
+    24→  Star,
+    25→  Zap,
+    26→  BarChart3,
+    27→} from "lucide-react";
+    28→import {
+    29→  ResponsiveContainer,
+    30→  AreaChart,
+    31→  Area,
+    32→  XAxis,
+    33→  YAxis,
+    34→  CartesianGrid,
+    35→  Tooltip,
+    36→  BarChart,
+    37→  Bar,
+    38→  PieChart,
+    39→  Pie,
+    40→  Cell,
+    41→  Legend,
+    42→  LineChart,
+    43→  Line,
+    44→} from "recharts";
+    45→
+    46→interface DashboardData {
+    47→  stats: {
+    48→    totalSales: number;
+    49→    todaySales: number;
+    50→    todayGrowth: number;
+    51→    thisMonthSales: number;
+    52→    monthGrowth: number;
+    53→    totalOrders: number;
+    54→    todayOrders: number;
+    55→    totalProducts: number;
+    56→    activeProducts: number;
+    57→    totalCustomers: number;
+    58→    newCustomersThisMonth: number;
+    59→    pendingOrders: number;
+    60→    deliveredOrders: number;
+    61→    cancelledOrders: number;
+    62→    lowStockProducts: number;
+    63→    outOfStockProducts: number;
+    64→  };
+    65→  charts: {
+    66→    daily: Array<{ date: string; total: number }>;
+    67→    weekly: Array<{ week: string; total: number }>;
+    68→    monthly: Array<{ month: string; total: number }>;
+    69→  };
+    70→  statusBreakdown: Array<{ status: string; count: number }>;
+    71→  recentOrders: Array<{
+    72→    id: string;
+    73→    orderNumber: string;
+    74→    customerName: string;
+    75→    customerEmail: string;
+    76→    total: number;
+    77→    paymentStatus: string;
+    78→    status: string;
+    79→    createdAt: string;
+    80→    itemCount: number;
+    81→  }>;
+    82→  topProducts: Array<{
+    83→    id: string;
+    84→    name: string;
+    85→    slug: string;
+    86→    price: number;
+    87→    image: string;
+    88→    categoryName: string;
+    89→    unitsSold: number;
+    90→    revenue: number;
+    91→  }>;
+    92→  lowStockAlerts: Array<{
+    93→    id: string;
+    94→    stock: number;
+    95→    size: string;
+    96→    color: string;
+    97→    productId: string;
+    98→    productName: string;
+    99→    productSlug: string;
+   100→    productSku: string;
+   101→  }>;
+   102→  recentCustomers: Array<{
+   103→    id: string;
+   104→    name: string | null;
+   105→    email: string;
+   106→    createdAt: string;
+   107→    orderCount: number;
+   108→  }>;
+   109→}
+   110→
+   111→const STATUS_COLORS: Record<string, string> = {
+   112→  ORDER_PLACED: "bg-blue-100 text-blue-800",
+   113→  CONFIRMED: "bg-blue-100 text-blue-800",
+   114→  PACKED: "bg-amber-100 text-amber-800",
+   115→  SHIPPED: "bg-purple-100 text-purple-800",
+   116→  OUT_FOR_DELIVERY: "bg-orange-100 text-orange-800",
+   117→  DELIVERED: "bg-emerald-100 text-emerald-800",
+   118→  CANCELLED: "bg-red-100 text-red-800",
+   119→};
+   120→
+   121→const PAYMENT_COLORS: Record<string, string> = {
+   122→  PAID: "bg-emerald-100 text-emerald-800",
+   123→  PENDING: "bg-amber-100 text-amber-800",
+   124→  FAILED: "bg-red-100 text-red-800",
+   125→  REFUNDED: "bg-blue-100 text-blue-800",
+   126→};
+   127→
+   128→// Pie chart colors for order status breakdown
+   129→const PIE_COLORS = ["#3b82f6", "#3b82f6", "#f59e0b", "#a855f7", "#f97316", "#10b981", "#ef4444"];
+   130→
+   131→export function DashboardClient({ data }: { data: DashboardData }) {
+   132→  const { stats, charts, statusBreakdown, recentOrders, topProducts, lowStockAlerts, recentCustomers } = data;
+   133→
+   134→  const dailyChartData = charts.daily.map((d) => ({
+   135→    date: new Date(d.date).toLocaleDateString("en-IN", { day: "2-digit", month: "short" }),
+   136→    Sales: d.total,
+   137→  }));
+   138→  const weeklyChartData = charts.weekly.map((w) => ({
+   139→    week: new Date(w.week).toLocaleDateString("en-IN", { day: "2-digit", month: "short" }),
+   140→    Sales: w.total,
+   141→  }));
+   142→  const monthlyChartData = charts.monthly.map((m) => ({
+   143→    month: new Date(m.month + "-01").toLocaleDateString("en-IN", { month: "short", year: "2-digit" }),
+   144→    Sales: m.total,
+   145→  }));
+   146→
+   147→  // Pie chart data
+   148→  const pieData = statusBreakdown.map((s) => ({
+   149→    name: s.status.replace(/_/g, " "),
+   150→    value: s.count,
+   151→  }));
+   152→
+   153→  // Quick action cards
+   154→  const quickActions = [
+   155→    { label: "Add Product", href: "/admin/products/new", icon: Package, color: "bg-black text-white" },
+   156→    { label: "View Orders", href: "/admin/orders", icon: ShoppingBag, color: "bg-blue-50 text-blue-600" },
+   157→    { label: "Manage Inventory", href: "/admin/inventory", icon: Boxes, color: "bg-amber-50 text-amber-600" },
+   158→    { label: "Customers", href: "/admin/customers", icon: Users, color: "bg-emerald-50 text-emerald-600" },
+   159→  ];
+   160→
+   161→  return (
+   162→    <div className="space-y-6">
+   163→      {/* Header */}
+   164→      <div className="flex flex-wrap items-center justify-between gap-3">
+   165→        <div>
+   166→          <h1 className="text-2xl sm:text-3xl font-black tracking-tight">Dashboard</h1>
+   167→          <p className="text-sm text-muted-foreground">
+   168→            Welcome back — here&apos;s what&apos;s happening with your store today.
+   169→          </p>
+   170→        </div>
+   171→        <div className="flex items-center gap-2">
+   172→          {quickActions.map((a) => (
+   173→            <Link
+   174→              key={a.href}
+   175→              href={a.href}
+   176→              className="hidden sm:inline-flex items-center gap-2 rounded-md border border-border bg-background px-3 py-2 text-xs font-semibold hover:bg-accent transition-colors"
+   177→            >
+   178→              <a.icon className="h-3.5 w-3.5" />
+   179→              {a.label}
+   180→            </Link>
+   181→          ))}
+   182→        </div>
+   183→      </div>
+   184→
+   185→      {/* Hero stat cards - 4 primary metrics */}
+   186→      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+   187→        {/* Total Sales */}
+   188→        <Card className="p-5 relative overflow-hidden">
+   189→          <div className="absolute top-0 right-0 h-20 w-20 rounded-full bg-black/5 -translate-y-6 translate-x-6" />
+   190→          <div className="relative">
+   191→            <div className="flex items-start justify-between">
+   192→              <div className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+   193→                <IndianRupee className="h-5 w-5" />
+   194→              </div>
+   195→              <div className={`inline-flex items-center gap-0.5 text-xs font-bold ${stats.todayGrowth >= 0 ? "text-emerald-600" : "text-red-600"}`}>
+   196→                {stats.todayGrowth >= 0 ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
+   197→                {Math.abs(stats.todayGrowth).toFixed(1)}%
+   198→              </div>
+   199→            </div>
+   200→            <p className="mt-3 text-xs uppercase tracking-wider text-muted-foreground">Total Sales</p>
+   201→            <p className="mt-1 text-2xl font-black">{formatCurrency(stats.totalSales)}</p>
+   202→            <div className="mt-2 flex items-center gap-1 text-xs">
+   203→              <span className="text-muted-foreground">Today:</span>
+   204→              <span className="font-bold">{formatCurrency(stats.todaySales)}</span>
+   205→            </div>
+   206→          </div>
+   207→        </Card>
+   208→
+   209→        {/* Total Orders */}
+   210→        <Card className="p-5 relative overflow-hidden">
+   211→          <div className="absolute top-0 right-0 h-20 w-20 rounded-full bg-blue-50 -translate-y-6 translate-x-6" />
+   212→          <div className="relative">
+   213→            <div className="flex items-start justify-between">
+   214→              <div className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600 text-white">
+   215→                <ShoppingBag className="h-5 w-5" />
+   216→              </div>
+   217→              <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-0.5 text-xs font-bold text-blue-700">
+   218→                {stats.todayOrders} today
+   219→              </span>
+   220→            </div>
+   221→            <p className="mt-3 text-xs uppercase tracking-wider text-muted-foreground">Total Orders</p>
+   222→            <p className="mt-1 text-2xl font-black">{formatNumber(stats.totalOrders)}</p>
+   223→            <div className="mt-2 flex items-center gap-1 text-xs">
+   224→              <span className="text-muted-foreground">Pending:</span>
+   225→              <span className="font-bold text-amber-600">{stats.pendingOrders}</span>
+   226→            </div>
+   227→          </div>
+   228→        </Card>
+   229→
+   230→        {/* Total Customers */}
+   231→        <Card className="p-5 relative overflow-hidden">
+   232→          <div className="absolute top-0 right-0 h-20 w-20 rounded-full bg-emerald-50 -translate-y-6 translate-x-6" />
+   233→          <div className="relative">
+   234→            <div className="flex items-start justify-between">
+   235→              <div className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-600 text-white">
+   236→                <Users className="h-5 w-5" />
+   237→              </div>
+   238→              <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-bold text-emerald-700">
+   239→                +{stats.newCustomersThisMonth} this month
+   240→              </span>
+   241→            </div>
+   242→            <p className="mt-3 text-xs uppercase tracking-wider text-muted-foreground">Total Customers</p>
+   243→            <p className="mt-1 text-2xl font-black">{formatNumber(stats.totalCustomers)}</p>
+   244→            <div className="mt-2 flex items-center gap-1 text-xs">
+   245→              <span className="text-muted-foreground">Avg order value:</span>
+   246→              <span className="font-bold">
+   247→                {stats.totalOrders > 0 ? formatCurrency(stats.totalSales / stats.totalOrders) : "—"}
+   248→              </span>
+   249→            </div>
+   250→          </div>
+   251→        </Card>
+   252→
+   253→        {/* Products */}
+   254→        <Card className="p-5 relative overflow-hidden">
+   255→          <div className="absolute top-0 right-0 h-20 w-20 rounded-full bg-purple-50 -translate-y-6 translate-x-6" />
+   256→          <div className="relative">
+   257→            <div className="flex items-start justify-between">
+   258→              <div className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-purple-600 text-white">
+   259→                <Package className="h-5 w-5" />
+   260→              </div>
+   261→              <span className="inline-flex items-center gap-1 rounded-full bg-purple-50 px-2 py-0.5 text-xs font-bold text-purple-700">
+   262→                {stats.activeProducts} active
+   263→              </span>
+   264→            </div>
+   265→            <p className="mt-3 text-xs uppercase tracking-wider text-muted-foreground">Total Products</p>
+   266→            <p className="mt-1 text-2xl font-black">{formatNumber(stats.totalProducts)}</p>
+   267→            <div className="mt-2 flex items-center gap-3 text-xs">
+   268→              <span className="inline-flex items-center gap-1">
+   269→                <AlertTriangle className="h-3 w-3 text-amber-500" />
+   270→                <span className="font-bold text-amber-600">{stats.lowStockProducts}</span>
+   271→                <span className="text-muted-foreground">low</span>
+   272→              </span>
+   273→              <span className="inline-flex items-center gap-1">
+   274→                <XCircle className="h-3 w-3 text-red-500" />
+   275→                <span className="font-bold text-red-600">{stats.outOfStockProducts}</span>
+   276→                <span className="text-muted-foreground">out</span>
+   277→              </span>
+   278→            </div>
+   279→          </div>
+   280→        </Card>
+   281→      </div>
+   282→
+   283→      {/* Secondary stat cards */}
+   284→      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+   285→        <SecondaryStat
+   286→          label="This Month"
+   287→          value={formatCurrency(stats.thisMonthSales)}
+   288→          growth={stats.monthGrowth}
+   289→          icon={TrendingUp}
+   290→          color="bg-black text-white"
+   291→        />
+   292→        <SecondaryStat
+   293→          label="Delivered"
+   294→          value={formatNumber(stats.deliveredOrders)}
+   295→          icon={CheckCircle2}
+   296→          color="bg-emerald-50 text-emerald-600"
+   297→        />
+   298→        <SecondaryStat
+   299→          label="Cancelled"
+   300→          value={formatNumber(stats.cancelledOrders)}
+   301→          icon={XCircle}
+   302→          color="bg-red-50 text-red-600"
+   303→        />
+   304→        <SecondaryStat
+   305→          label="Low Stock"
+   306→          value={formatNumber(stats.lowStockProducts)}
+   307→          icon={AlertTriangle}
+   308→          color="bg-amber-50 text-amber-600"
+   309→          href="/admin/inventory?lowStock=true"
+   310→        />
+   311→      </div>
+   312→
+   313→      {/* Charts row 1: Daily + Monthly */}
+   314→      <div className="grid lg:grid-cols-3 gap-4">
+   315→        {/* Daily Sales - takes 2 cols */}
+   316→        <Card className="p-5 lg:col-span-2">
+   317→          <div className="flex items-center justify-between mb-4">
+   318→            <div>
+   319→              <h3 className="font-bold text-base">Sales Trend</h3>
+   320→              <p className="text-xs text-muted-foreground">Daily revenue · last 30 days</p>
+   321→            </div>
+   322→            <div className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-bold text-emerald-700">
+   323→              <TrendingUp className="h-3 w-3" /> Live
+   324→            </div>
+   325→          </div>
+   326→          <div className="h-72">
+   327→            <ResponsiveContainer width="100%" height="100%">
+   328→              <AreaChart data={dailyChartData} margin={{ top: 5, right: 10, left: 0, bottom: 0 }}>
+   329→                <defs>
+   330→                  <linearGradient id="dailyGradient" x1="0" y1="0" x2="0" y2="1">
+   331→                    <stop offset="0%" stopColor="#0a0a0a" stopOpacity={0.25} />
+   332→                    <stop offset="100%" stopColor="#0a0a0a" stopOpacity={0} />
+   333→                  </linearGradient>
+   334→                </defs>
+   335→                <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" vertical={false} />
+   336→                <XAxis dataKey="date" tick={{ fontSize: 10 }} interval={4} stroke="#9ca3af" />
+   337→                <YAxis tick={{ fontSize: 10 }} stroke="#9ca3af" tickFormatter={(v) => `₹${v >= 1000 ? `${(v / 1000).toFixed(0)}k` : v}`} />
+   338→                <Tooltip
+   339→                  contentStyle={{ fontSize: 12, borderRadius: 8, border: "1px solid #e5e7eb", boxShadow: "0 4px 12px rgba(0,0,0,0.08)" }}
+   340→                  formatter={(v: any) => [formatCurrency(v), "Sales"]}
+   341→                />
+   342→                <Area type="monotone" dataKey="Sales" stroke="#0a0a0a" strokeWidth={2.5} fill="url(#dailyGradient)" />
+   343→              </AreaChart>
+   344→            </ResponsiveContainer>
+   345→          </div>
+   346→        </Card>
+   347→
+   348→        {/* Order Status Breakdown - Pie chart */}
+   349→        <Card className="p-5">
+   350→          <div className="flex items-center justify-between mb-4">
+   351→            <div>
+   352→              <h3 className="font-bold text-base">Order Status</h3>
+   353→              <p className="text-xs text-muted-foreground">All orders breakdown</p>
+   354→            </div>
+   355→          </div>
+   356→          {pieData.length === 0 ? (
+   357→            <div className="h-72 flex items-center justify-center text-sm text-muted-foreground">
+   358→              No orders yet
+   359→            </div>
+   360→          ) : (
+   361→            <div className="h-72">
+   362→              <ResponsiveContainer width="100%" height="100%">
+   363→                <PieChart>
+   364→                  <Pie
+   365→                    data={pieData}
+   366→                    cx="50%"
+   367→                    cy="45%"
+   368→                    innerRadius={45}
+   369→                    outerRadius={75}
+   370→                    paddingAngle={2}
+   371→                    dataKey="value"
+   372→                  >
+   373→                    {pieData.map((_, idx) => (
+   374→                      <Cell key={idx} fill={PIE_COLORS[idx % PIE_COLORS.length]} />
+   375→                    ))}
+   376→                  </Pie>
+   377→                  <Tooltip
+   378→                    contentStyle={{ fontSize: 12, borderRadius: 8, border: "1px solid #e5e7eb" }}
+   379→                    formatter={(v: any, n: any) => [`${v} orders`, n]}
+   380→                  />
+   381→                  <Legend
+   382→                    verticalAlign="bottom"
+   383→                    iconType="circle"
+   384→                    iconSize={8}
+   385→                    wrapperStyle={{ fontSize: 10 }}
+   386→                  />
+   387→                </PieChart>
+   388→              </ResponsiveContainer>
+   389→            </div>
+   390→          )}
+   391→        </Card>
+   392→      </div>
+   393→
+   394→      {/* Charts row 2: Weekly + Monthly */}
+   395→      <div className="grid lg:grid-cols-2 gap-4">
+   396→        <Card className="p-5">
+   397→          <div className="flex items-center justify-between mb-4">
+   398→            <div>
+   399→              <h3 className="font-bold text-base">Weekly Sales</h3>
+   400→              <p className="text-xs text-muted-foreground">Last 12 weeks</p>
+   401→            </div>
+   402→            <BarChart3 className="h-4 w-4 text-muted-foreground" />
+   403→          </div>
+   404→          <div className="h-56">
+   405→            <ResponsiveContainer width="100%" height="100%">
+   406→              <BarChart data={weeklyChartData} margin={{ top: 5, right: 10, left: 0, bottom: 0 }}>
+   407→                <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" vertical={false} />
+   408→                <XAxis dataKey="week" tick={{ fontSize: 10 }} stroke="#9ca3af" />
+   409→                <YAxis tick={{ fontSize: 10 }} stroke="#9ca3af" tickFormatter={(v) => `₹${v >= 1000 ? `${(v / 1000).toFixed(0)}k` : v}`} />
+   410→                <Tooltip
+   411→                  contentStyle={{ fontSize: 12, borderRadius: 8, border: "1px solid #e5e7eb" }}
+   412→                  formatter={(v: any) => [formatCurrency(v), "Sales"]}
+   413→                  cursor={{ fill: "#f3f4f6" }}
+   414→                />
+   415→                <Bar dataKey="Sales" fill="#0a0a0a" radius={[4, 4, 0, 0]} />
+   416→              </BarChart>
+   417→            </ResponsiveContainer>
+   418→          </div>
+   419→        </Card>
+   420→
+   421→        <Card className="p-5">
+   422→          <div className="flex items-center justify-between mb-4">
+   423→            <div>
+   424→              <h3 className="font-bold text-base">Monthly Revenue</h3>
+   425→              <p className="text-xs text-muted-foreground">Last 12 months</p>
+   426→            </div>
+   427→            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+   428→          </div>
+   429→          <div className="h-56">
+   430→            <ResponsiveContainer width="100%" height="100%">
+   431→              <LineChart data={monthlyChartData} margin={{ top: 5, right: 10, left: 0, bottom: 0 }}>
+   432→                <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" vertical={false} />
+   433→                <XAxis dataKey="month" tick={{ fontSize: 10 }} stroke="#9ca3af" />
+   434→                <YAxis tick={{ fontSize: 10 }} stroke="#9ca3af" tickFormatter={(v) => `₹${v >= 1000 ? `${(v / 1000).toFixed(0)}k` : v}`} />
+   435→                <Tooltip
+   436→                  contentStyle={{ fontSize: 12, borderRadius: 8, border: "1px solid #e5e7eb" }}
+   437→                  formatter={(v: any) => [formatCurrency(v), "Revenue"]}
+   438→                />
+   439→                <Line
+   440→                  type="monotone"
+   441→                  dataKey="Sales"
+   442→                  stroke="#0a0a0a"
+   443→                  strokeWidth={2.5}
+   444→                  dot={{ r: 3, fill: "#0a0a0a" }}
+   445→                  activeDot={{ r: 5 }}
+   446→                />
+   447→              </LineChart>
+   448→            </ResponsiveContainer>
+   449→          </div>
+   450→        </Card>
+   451→      </div>
+   452→
+   453→      {/* Top Products + Low Stock Alerts */}
+   454→      <div className="grid lg:grid-cols-2 gap-4">
+   455→        {/* Top Selling Products */}
+   456→        <Card className="p-5">
+   457→          <div className="flex items-center justify-between mb-4">
+   458→            <div className="flex items-center gap-2">
+   459→              <div className="inline-flex h-8 w-8 items-center justify-center rounded-md bg-amber-50 text-amber-600">
+   460→                <Star className="h-4 w-4" />
+   461→              </div>
+   462→              <div>
+   463→                <h3 className="font-bold text-base">Top Selling Products</h3>
+   464→                <p className="text-xs text-muted-foreground">By units sold</p>
+   465→              </div>
+   466→            </div>
+   467→            <Link href="/admin/products" className="text-xs font-medium text-primary hover:underline">
+   468→              View all
+   469→            </Link>
+   470→          </div>
+   471→          {topProducts.length === 0 ? (
+   472→            <div className="py-10 text-center text-sm text-muted-foreground">
+   473→              No sales data yet. Top products will appear here once orders come in.
+   474→            </div>
+   475→          ) : (
+   476→            <div className="space-y-3">
+   477→              {topProducts.map((p, idx) => (
+   478→                <Link
+   479→                  key={p.id}
+   480→                  href={`/admin/products/${p.id}`}
+   481→                  className="flex items-center gap-3 rounded-lg p-2 hover:bg-muted/40 transition-colors"
+   482→                >
+   483→                  <div className="flex-shrink-0 h-6 w-6 rounded-full bg-primary text-primary-foreground inline-flex items-center justify-center text-xs font-bold">
+   484→                    {idx + 1}
+   485→                  </div>
+   486→                  { }
+   487→                  <img src={p.image} alt={p.name} className="h-12 w-10 rounded-md object-cover bg-muted" />
+   488→                  <div className="flex-1 min-w-0">
+   489→                    <p className="text-sm font-semibold line-clamp-1">{p.name}</p>
+   490→                    <p className="text-xs text-muted-foreground">{p.categoryName} · {formatCurrency(p.price)}</p>
+   491→                  </div>
+   492→                  <div className="text-right">
+   493→                    <p className="text-sm font-bold">{p.unitsSold} <span className="text-xs font-normal text-muted-foreground">sold</span></p>
+   494→                    <p className="text-xs text-emerald-600 font-medium">{formatCurrency(p.revenue)}</p>
+   495→                  </div>
+   496→                </Link>
+   497→              ))}
+   498→            </div>
+   499→          )}
+   500→        </Card>
+   501→
+   502→        {/* Low Stock Alerts */}
+   503→        <Card className="p-5">
+   504→          <div className="flex items-center justify-between mb-4">
+   505→            <div className="flex items-center gap-2">
+   506→              <div className="inline-flex h-8 w-8 items-center justify-center rounded-md bg-red-50 text-red-600">
+   507→                <AlertTriangle className="h-4 w-4" />
+   508→              </div>
+   509→              <div>
+   510→                <h3 className="font-bold text-base">Low Stock Alerts</h3>
+   511→                <p className="text-xs text-muted-foreground">Variants running low (≤ 5 units)</p>
+   512→              </div>
+   513→            </div>
+   514→            <Link href="/admin/inventory?lowStock=true" className="text-xs font-medium text-primary hover:underline">
+   515→              Manage
+   516→            </Link>
+   517→          </div>
+   518→          {lowStockAlerts.length === 0 ? (
+   519→            <div className="py-10 text-center text-sm text-muted-foreground">
+   520→              <CheckCircle2 className="mx-auto h-8 w-8 text-emerald-500 mb-2" />
+   521→              All stock levels are healthy.
+   522→            </div>
+   523→          ) : (
+   524→            <div className="space-y-2">
+   525→              {lowStockAlerts.map((v) => (
+   526→                <Link
+   527→                  key={v.id}
+   528→                  href={`/admin/inventory`}
+   529→                  className="flex items-center gap-3 rounded-lg p-2 hover:bg-muted/40 transition-colors"
+   530→                >
+   531→                  <div className={`flex-shrink-0 inline-flex h-9 w-9 items-center justify-center rounded-md text-xs font-bold ${
+   532→                    v.stock === 0 ? "bg-red-100 text-red-700" : "bg-amber-100 text-amber-700"
+   533→                  }`}>
+   534→                    {v.stock}
+   535→                  </div>
+   536→                  <div className="flex-1 min-w-0">
+   537→                    <p className="text-sm font-semibold line-clamp-1">{v.productName}</p>
+   538→                    <p className="text-xs text-muted-foreground">
+   539→                      {v.size} · {v.color} · {v.productSku}
+   540→                    </p>
+   541→                  </div>
+   542→                  <Badge variant={v.stock === 0 ? "destructive" : "outline"} className="text-[10px]">
+   543→                    {v.stock === 0 ? "Out of stock" : "Low"}
+   544→                  </Badge>
+   545→                </Link>
+   546→              ))}
+   547→            </div>
+   548→          )}
+   549→        </Card>
+   550→      </div>
+   551→
+   552→      {/* Recent Orders */}
+   553→      <Card className="p-5">
+   554→        <div className="flex items-center justify-between mb-4">
+   555→          <div className="flex items-center gap-2">
+   556→            <div className="inline-flex h-8 w-8 items-center justify-center rounded-md bg-blue-50 text-blue-600">
+   557→              <ShoppingBag className="h-4 w-4" />
+   558→            </div>
+   559→            <div>
+   560→              <h3 className="font-bold text-base">Recent Orders</h3>
+   561→              <p className="text-xs text-muted-foreground">Latest 6 orders</p>
+   562→            </div>
+   563→          </div>
+   564→          <Link href="/admin/orders" className="text-xs font-medium text-primary hover:underline inline-flex items-center gap-1">
+   565→            View all <ArrowRight className="h-3 w-3" />
+   566→          </Link>
+   567→        </div>
+   568→        <div className="overflow-x-auto ru-scrollbar -mx-5">
+   569→          <table className="w-full text-sm">
+   570→            <thead>
+   571→              <tr className="border-b text-left text-xs uppercase tracking-wider text-muted-foreground">
+   572→                <th className="py-2 px-5 font-medium">Order ID</th>
+   573→                <th className="py-2 px-3 font-medium">Customer</th>
+   574→                <th className="py-2 px-3 font-medium">Items</th>
+   575→                <th className="py-2 px-3 font-medium">Amount</th>
+   576→                <th className="py-2 px-3 font-medium">Payment</th>
+   577→                <th className="py-2 px-3 font-medium">Status</th>
+   578→                <th className="py-2 px-3 font-medium">Date</th>
+   579→                <th className="py-2 px-5 font-medium"></th>
+   580→              </tr>
+   581→            </thead>
+   582→            <tbody>
+   583→              {recentOrders.length === 0 ? (
+   584→                <tr>
+   585→                  <td colSpan={8} className="py-10 text-center text-muted-foreground">
+   586→                    No orders yet. Orders will appear here once customers start purchasing.
+   587→                  </td>
+   588→                </tr>
+   589→              ) : (
+   590→                recentOrders.map((o) => (
+   591→                  <tr key={o.id} className="border-b last:border-0 hover:bg-muted/30">
+   592→                    <td className="py-3 px-5 font-mono text-xs">{o.orderNumber}</td>
+   593→                    <td className="py-3 px-3">
+   594→                      <p className="font-medium">{o.customerName}</p>
+   595→                      <p className="text-xs text-muted-foreground">{o.customerEmail}</p>
+   596→                    </td>
+   597→                    <td className="py-3 px-3 text-muted-foreground">{o.itemCount}</td>
+   598→                    <td className="py-3 px-3 font-bold">{formatCurrency(o.total)}</td>
+   599→                    <td className="py-3 px-3">
+   600→                      <Badge variant="outline" className={PAYMENT_COLORS[o.paymentStatus]}>
+   601→                        {o.paymentStatus}
+   602→                      </Badge>
+   603→                    </td>
+   604→                    <td className="py-3 px-3">
+   605→                      <Badge variant="outline" className={STATUS_COLORS[o.status]}>
+   606→                        {o.status.replace(/_/g, " ")}
+   607→                      </Badge>
+   608→                    </td>
+   609→                    <td className="py-3 px-3 text-xs text-muted-foreground">{formatDate(o.createdAt)}</td>
+   610→                    <td className="py-3 px-5">
+   611→                      <Link href={`/admin/orders/${o.id}`} className="inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline">
+   612→                        <Eye className="h-3 w-3" /> View
+   613→                      </Link>
+   614→                    </td>
+   615→                  </tr>
+   616→                ))
+   617→              )}
+   618→            </tbody>
+   619→          </table>
+   620→        </div>
+   621→      </Card>
+   622→
+   623→      {/* Recent Customers + Quick Actions (mobile) */}
+   624→      <div className="grid lg:grid-cols-2 gap-4">
+   625→        {/* Recent Customers */}
+   626→        <Card className="p-5">
+   627→          <div className="flex items-center justify-between mb-4">
+   628→            <div className="flex items-center gap-2">
+   629→              <div className="inline-flex h-8 w-8 items-center justify-center rounded-md bg-emerald-50 text-emerald-600">
+   630→                <UserPlus className="h-4 w-4" />
+   631→              </div>
+   632→              <div>
+   633→                <h3 className="font-bold text-base">New Customers</h3>
+   634→                <p className="text-xs text-muted-foreground">Recently registered</p>
+   635→              </div>
+   636→            </div>
+   637→            <Link href="/admin/customers" className="text-xs font-medium text-primary hover:underline">
+   638→              View all
+   639→            </Link>
+   640→          </div>
+   641→          {recentCustomers.length === 0 ? (
+   642→            <div className="py-10 text-center text-sm text-muted-foreground">
+   643→              No customers yet.
+   644→            </div>
+   645→          ) : (
+   646→            <div className="space-y-2">
+   647→              {recentCustomers.map((c) => (
+   648→                <Link
+   649→                  key={c.id}
+   650→                  href={`/admin/customers/${c.id}`}
+   651→                  className="flex items-center gap-3 rounded-lg p-2 hover:bg-muted/40 transition-colors"
+   652→                >
+   653→                  <div className="flex-shrink-0 h-9 w-9 rounded-full bg-primary text-primary-foreground inline-flex items-center justify-center text-xs font-bold">
+   654→                    {(c.name || c.email).slice(0, 1).toUpperCase()}
+   655→                  </div>
+   656→                  <div className="flex-1 min-w-0">
+   657→                    <p className="text-sm font-semibold line-clamp-1">{c.name || "—"}</p>
+   658→                    <p className="text-xs text-muted-foreground line-clamp-1">{c.email}</p>
+   659→                  </div>
+   660→                  <div className="text-right">
+   661→                    <p className="text-xs font-bold">{c.orderCount}</p>
+   662→                    <p className="text-[10px] text-muted-foreground">orders</p>
+   663→                  </div>
+   664→                </Link>
+   665→              ))}
+   666→            </div>
+   667→          )}
+   668→        </Card>
+   669→
+   670→        {/* Quick Actions */}
+   671→        <Card className="p-5">
+   672→          <div className="flex items-center gap-2 mb-4">
+   673→            <div className="inline-flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
+   674→              <Zap className="h-4 w-4" />
+   675→            </div>
+   676→            <div>
+   677→              <h3 className="font-bold text-base">Quick Actions</h3>
+   678→              <p className="text-xs text-muted-foreground">Jump to common tasks</p>
+   679→            </div>
+   680→          </div>
+   681→          <div className="grid grid-cols-2 gap-3">
+   682→            {[
+   683→              { label: "Add Product", desc: "Create new item", href: "/admin/products/new", icon: Package, color: "bg-black text-white" },
+   684→              { label: "View Orders", desc: `${stats.pendingOrders} pending`, href: "/admin/orders", icon: ShoppingBag, color: "bg-blue-600 text-white" },
+   685→              { label: "Inventory", desc: `${stats.lowStockProducts} low stock`, href: "/admin/inventory", icon: Boxes, color: "bg-amber-500 text-white" },
+   686→              { label: "Banners", desc: "Manage home slider", href: "/admin/banners", icon: Eye, color: "bg-purple-600 text-white" },
+   687→              { label: "Coupons", desc: "Create discount code", href: "/admin/coupons", icon: Star, color: "bg-emerald-600 text-white" },
+   688→              { label: "Messages", desc: "Customer queries", href: "/admin/contact", icon: Clock, color: "bg-red-500 text-white" },
+   689→            ].map((a) => (
+   690→              <Link
+   691→                key={a.href}
+   692→                href={a.href}
+   693→                className="group flex flex-col gap-2 rounded-lg border border-border p-3 hover:border-foreground/30 hover:shadow-sm transition-all"
+   694→              >
+   695→                <div className={`inline-flex h-9 w-9 items-center justify-center rounded-md ${a.color}`}>
+   696→                  <a.icon className="h-4 w-4" />
+   697→                </div>
+   698→                <div>
+   699→                  <p className="text-sm font-semibold">{a.label}</p>
+   700→                  <p className="text-xs text-muted-foreground">{a.desc}</p>
+   701→                </div>
+   702→              </Link>
+   703→            ))}
+   704→          </div>
+   705→        </Card>
+   706→      </div>
+   707→    </div>
+   708→  );
+   709→}
+   710→
+   711→function SecondaryStat({
+   712→  label,
+   713→  value,
+   714→  growth,
+   715→  icon: Icon,
+   716→  color,
+   717→  href,
+   718→}: {
+   719→  label: string;
+   720→  value: string;
+   721→  growth?: number;
+   722→  icon: any;
+   723→  color: string;
+   724→  href?: string;
+   725→}) {
+   726→  const content = (
+   727→    <Card className="p-4 hover:shadow-sm transition-shadow">
+   728→      <div className="flex items-center gap-3">
+   729→        <div className={`inline-flex h-9 w-9 items-center justify-center rounded-md ${color}`}>
+   730→          <Icon className="h-4 w-4" />
+   731→        </div>
+   732→        <div className="flex-1 min-w-0">
+   733→          <p className="text-xs uppercase tracking-wider text-muted-foreground">{label}</p>
+   734→          <p className="text-lg font-black">{value}</p>
+   735→        </div>
+   736→        {growth !== undefined && (
+   737→          <div className={`inline-flex items-center gap-0.5 text-xs font-bold ${growth >= 0 ? "text-emerald-600" : "text-red-600"}`}>
+   738→            {growth >= 0 ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
+   739→            {Math.abs(growth).toFixed(0)}%
+   740→          </div>
+   741→        )}
+   742→      </div>
+   743→    </Card>
+   744→  );
+   745→  if (href) {
+   746→    return <Link href={href}>{content}</Link>;
+   747→  }
+   748→  return content;
+   749→}
+   750→
